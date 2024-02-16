@@ -1,0 +1,51 @@
+/* @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,700;1,100;1,200;1,300;1,400;1,700&display=swap"); */
+
+html,
+body,
+#root,
+h1,
+h2,
+h3,
+h4,
+h4,
+h6 .app,
+.content {
+  height: 100%;
+  width: 100%;
+  font-family: "Montserrat", sans-serif;
+}
+
+.app {
+  display: flex;
+  width: 100%;
+  position: relative;
+}
+
+/* @media (max-width: 600px) {
+  .app {
+    flex-direction: column-reverse;
+  }
+
+  .content {
+    margin-left: 0 !important;
+  }
+} */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #e0e0e0;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on Hover */
+::-webkit-scrollbar-thumb:hover {
+  background: 555;
+}
