@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Card,
@@ -9,9 +9,25 @@ import {
   Grid,
   useTheme,
 } from "@mui/material";
+import axios from "axios";
+import { BASE_URL } from "../utils/config";
 
 const DashboardBottom = () => {
   const theme = useTheme();
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${BASE_URL}peers/connected`)
+      .then((res) => {
+        const nodes = res.data.peers;
+        setData(nodes);
+      })
+      .catch((error) => {
+        console.error("Errors fetching the node data", error);
+      });
+  }, []);
 
   return (
     <Grid container spacing={1}>

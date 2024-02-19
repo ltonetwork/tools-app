@@ -6,7 +6,7 @@ import {
   Balances,
   Transactions,
   NodeMaps,
-  Faqs,
+  Blocks,
 } from "../pages/index.js";
 
 export const routes = [
@@ -39,8 +39,8 @@ export const routes = [
         element: <NodeMaps />,
       },
       {
-        path: "faqs",
-        element: <Faqs />,
+        path: "blocks",
+        element: <Blocks />,
       },
     ],
   },

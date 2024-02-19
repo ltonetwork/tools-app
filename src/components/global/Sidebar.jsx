@@ -159,6 +159,13 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
             <Item
+              title="Blocks"
+              to="/blocks"
+              icon={<HelpOutlineOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
               title="Balances"
               to="/balances"
               icon={<AccountBalanceWalletOutlinedIcon />}
@@ -177,13 +184,6 @@ const Sidebar = () => {
               title="Node Maps"
               to="/node-maps"
               icon={<MapOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="FAQ"
-              to="/faqs"
-              icon={<HelpOutlineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />

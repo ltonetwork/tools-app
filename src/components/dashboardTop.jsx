@@ -1,4 +1,5 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Card,
@@ -9,9 +10,54 @@ import {
   Grid,
   useTheme,
 } from "@mui/material";
+import axios from "axios";
+import { BASE_URL } from "../utils/config";
 
 const DashboardTop = () => {
   const theme = useTheme();
+  const Navigate = useNavigate();
+  const [coinPrice, setCoinPrice] = useState(null);
+  const [nodes, setNodes] = useState(null);
+  // const [loading, setLoading] = useState(true);
+  const [marketCap, setMarketCap] = useState(null);
+
+  axios
+    .get("https://api.coingecko.com/api/v3/simple/price", {
+      params: {
+        ids: "lto-network",
+        vs_currencies: "usd",
+        include_market_cap: true,
+      },
+    })
+    .then((response) => {
+      const data = response.data;
+      setCoinPrice(data["lto-network"].usd);
+      setMarketCap(data["lto-network"].usd_market_cap);
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
+
+  useEffect(() => {
+    axios
+      .get(`${BASE_URL}peers/connected`)
+      .then((res) => {
+        const data = res.data.peers;
+        const numberOfNodes = data.reduce((count, item) => {
+          return count + 1;
+        }, 0);
+        setNodes(numberOfNodes);
+      })
+      .catch((error) => {
+        console.error("Errors fetching the node data", error);
+      });
+  }, []);
+
+  const handleClick = (action) => {
+    if (action === "nodes") {
+      Navigate("/nodes");
+    }
+  };
 
   return (
     <Grid container spacing={1}>
@@ -43,7 +89,7 @@ const DashboardTop = () => {
               color="primary.sec"
               component="div"
             >
-              $0.82
+              ${coinPrice ? coinPrice : "---"}
             </Typography>
             <Typography sx={{ mb: 1.5, mt: 2 }} color="primary.sec">
               (Coingecko)
@@ -83,7 +129,7 @@ const DashboardTop = () => {
               color="primary.sec"
               component="div"
             >
-              $0.82
+              ${marketCap ? Math.floor(marketCap).toLocaleString() : "---"}
             </Typography>
             <Typography sx={{ mb: 1.5, mt: 2 }} color="primary.sec">
               (Coingecko)
@@ -203,14 +249,16 @@ const DashboardTop = () => {
               color="primary.sec"
               component="div"
             >
-              94
+              {nodes ? nodes : "---"}
             </Typography>
             {/* <Typography sx={{ mb: 1.5, mt: 2 }} color="primary.sec">
               (Coingecko)
             </Typography> */}
           </CardContent>
           <CardActions>
-            <Button size="small">Learn More</Button>
+            <Button onClick={() => handleClick("nodes")} size="small">
+              Learn More
+            </Button>
           </CardActions>
         </Card>
       </Grid>
