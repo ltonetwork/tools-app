@@ -1,6 +1,6 @@
 import App from "../App.jsx";
 import {
-  Dashboard,
+  Overview,
   Generators,
   Nodes,
   Balances,
@@ -15,8 +15,8 @@ export const routes = [
     element: <App />,
     children: [
       {
-        path: "dashboard",
-        element: <Dashboard />,
+        path: "overview",
+        element: <Overview />,
       },
       {
         path: "generators",

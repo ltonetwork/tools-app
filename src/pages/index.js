@@ -1,13 +1,13 @@
 import Balances from "./Balances";
-import Dashboard from "./Dashboard";
+import Overview from "./overview/Overview";
 import Generators from "./Generators";
 import Nodes from "./Nodes";
-import Transactions from "./Transactions";
+import Transactions from "./transactions/Transactions";
 import NodeMaps from "./NodeMaps";
 import Blocks from "./Blocks";
 
 export {
-  Dashboard,
+  Overview,
   Balances,
   Generators,
   Nodes,

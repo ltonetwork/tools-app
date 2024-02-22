@@ -11,16 +11,15 @@ import {
   useTheme,
 } from "@mui/material";
 import axios from "axios";
-import { BASE_URL } from "../utils/config";
+import { BASE_URL } from "../../utils/config";
 
-const DashboardTop = () => {
+const OverviewTop = () => {
   const theme = useTheme();
   const Navigate = useNavigate();
   const [coinPrice, setCoinPrice] = useState(null);
   const [nodes, setNodes] = useState(null);
   // const [loading, setLoading] = useState(true);
   const [marketCap, setMarketCap] = useState(null);
-
   axios
     .get("https://api.coingecko.com/api/v3/simple/price", {
       params: {
@@ -305,4 +304,4 @@ const DashboardTop = () => {
     </Grid>
   );
 };
-export default DashboardTop;
+export default OverviewTop;

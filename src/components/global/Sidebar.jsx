@@ -44,11 +44,8 @@ const Sidebar = () => {
         setIsCollapsed(false);
       }
     };
-
     handleResize();
-
     window.addEventListener("resize", handleResize);
-
     return () => {
       window.removeEventListener("resize", handleResize);
     };
@@ -112,7 +109,7 @@ const Sidebar = () => {
                   }}
                 />
                 <Typography variant="h6" color="#17054b">
-                  LTO TOOLS
+                  DASHBOARD
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
@@ -137,8 +134,8 @@ const Sidebar = () => {
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
-              title="Dashboard"
-              to="/dashboard"
+              title="Overview"
+              to="/overview"
               icon={<DashboardCustomizeOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
