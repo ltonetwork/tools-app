@@ -27,12 +27,19 @@ const OverviewTop = () => {
   const [marketCap, setMarketCap] = useState(null);
 
   useEffect(() => {
-    axios.get(`${BASE_URL}supply`).then((res) => {
-      setBlockHeight(res.data.height);
-      setBurned(res.data.burned / 100000000);
-      setSupply(res.data.total / 100000000);
-    });
-  });
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`${BASE_URL}supply`);
+        setBlockHeight(res.data.height);
+        setBurned(res.data.burned / 100000000);
+        setSupply(res.data.total / 100000000);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
