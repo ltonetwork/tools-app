@@ -10,7 +10,7 @@ export async function getStats(type) {
     const interval = 50; // Interval of 50 days
 
     let txBodies = [];
-    let currentDateCursor = new Date(from); // Initialize currentDateCursor
+    let currentDateCursor = new Date(from);
 
     while (currentDateCursor < to) {
       const nextIntervalDate = new Date(currentDateCursor);
@@ -33,5 +33,6 @@ export async function getStats(type) {
     return output;
   } catch (error) {
     console.error("Error:", error);
+    throw error;
   }
 }
