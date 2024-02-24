@@ -6,7 +6,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import allAddresses from "../utils/data/allAddresses.json";
 import axios from "axios";
 import { BASE_URL } from "../utils/config";
 
