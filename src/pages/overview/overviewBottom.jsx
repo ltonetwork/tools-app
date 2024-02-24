@@ -12,12 +12,16 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { BASE_URL } from "../../utils/config";
+import { EXT_URL } from "../../utils/config";
+import Loader from "../../components/global/Loader";
 
 const OverviewBottom = () => {
   const theme = useTheme();
   const Navigate = useNavigate();
 
+  const [loading, setLoading] = useState(true);
   const [nodes, setNodes] = useState([]);
+  const [generators, setGenerators] = useState([]);
 
   useEffect(() => {
     axios
@@ -25,6 +29,17 @@ const OverviewBottom = () => {
       .then((res) => {
         const nodes = res.data.peers;
         setNodes(nodes);
+      })
+      .catch((error) => {
+        console.error("Errors fetching the node data", error);
+      });
+
+    axios
+      .get(`${EXT_URL}/generators`)
+      .then((res) => {
+        const gen = res.data;
+        setGenerators(gen);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Errors fetching the node data", error);
@@ -74,26 +89,51 @@ const OverviewBottom = () => {
                 Generators
               </span>
             </Typography>
-            <Typography
-              style={{
-                fontWeight: "bold",
-              }}
-              color="primary.sec"
-              component="div"
-            >
-              $0.82
-            </Typography>
-            <Typography sx={{ mb: 1.5, mt: 2 }} color="primary.sec">
-              (Coingecko)
-            </Typography>
+
+            {generators.slice(0, 4).map((gen) => {
+              return (
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr 1fr",
+                  }}
+                >
+                  <div>
+                    <Typography
+                      style={{
+                        fontWeight: "bold",
+                      }}
+                      color="primary.sec"
+                    >
+                      {loading ? (
+                        <Loader />
+                      ) : (gen.name?.length ?? 0) <= 15 ? (
+                        gen.name
+                      ) : (
+                        `${gen.name.slice(0, 18)}...`
+                      )}
+                    </Typography>
+                  </div>
+
+                  <Typography color="primary.sec">
+                    {loading ? (
+                      <Loader />
+                    ) : gen.address.length <= 15 ? (
+                      gen.address
+                    ) : (
+                      `${gen.address.slice(0, 18)}...`
+                    )}
+                  </Typography>
+
+                  <Typography color="primary.sec">
+                    {gen.effectiveBalance} LTO
+                  </Typography>
+                </div>
+              );
+            })}
           </CardContent>
           <CardActions>
-            <Button
-              onClick={() => {
-                handleClick("generators");
-              }}
-              size="small"
-            >
+            <Button onClick={() => handleClick("nodes")} size="small">
               See all
             </Button>
           </CardActions>
@@ -171,7 +211,7 @@ const OverviewBottom = () => {
         </Card>
       </Grid>
 
-      <Grid item xs={12} sm={6} md={6}>
+      {/* <Grid item xs={12} sm={6} md={6}>
         <Card
           sx={{
             minWidth: { xs: 150, sm: 300, md: 500 },
@@ -219,7 +259,7 @@ const OverviewBottom = () => {
             <Button size="small">Learn More</Button>
           </CardActions>
         </Card>
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 };

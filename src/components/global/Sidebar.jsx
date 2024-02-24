@@ -12,6 +12,8 @@ import LibraryBooksOutlinedIcon from "@mui/icons-material/LibraryBooksOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import QueryStatsOutlinedIcon from "@mui/icons-material/QueryStatsOutlined";
+import CalculateOutlinedIcon from "@mui/icons-material/CalculateOutlined";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -155,32 +157,40 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
+            {/* <Item
               title="Blocks"
               to="/blocks"
               icon={<HelpOutlineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
-            <Item
+            /> */}
+            {/* <Item
               title="Balances"
               to="/balances"
               icon={<AccountBalanceWalletOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
 
             <Item
-              title="Transactions"
-              to="/transactions"
-              icon={<LibraryBooksOutlinedIcon />}
+              title="Stats"
+              to="/stats"
+              icon={<QueryStatsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
+            {/* <Item
               title="Node Maps"
               to="/node-maps"
               icon={<MapOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            /> */}
+
+            <Item
+              title="Rewards Calc"
+              to="/rewards-calc"
+              icon={<CalculateOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />

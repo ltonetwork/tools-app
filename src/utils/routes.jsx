@@ -1,12 +1,14 @@
 import App from "../App.jsx";
+import { Navigate } from "react-router-dom";
 import {
   Overview,
   Generators,
   Nodes,
   Balances,
-  Transactions,
+  Stats,
   NodeMaps,
   Blocks,
+  RewardCalculator,
 } from "../pages/index.js";
 
 export const routes = [
@@ -14,6 +16,10 @@ export const routes = [
     path: "/",
     element: <App />,
     children: [
+      {
+        path: "/",
+        element: <Navigate to="/overview" replace />,
+      },
       {
         path: "overview",
         element: <Overview />,
@@ -27,8 +33,8 @@ export const routes = [
         element: <Nodes />,
       },
       {
-        path: "transactions",
-        element: <Transactions />,
+        path: "stats",
+        element: <Stats />,
       },
       {
         path: "balances",
@@ -41,6 +47,10 @@ export const routes = [
       {
         path: "blocks",
         element: <Blocks />,
+      },
+      {
+        path: "rewards-calc",
+        element: <RewardCalculator />,
       },
     ],
   },

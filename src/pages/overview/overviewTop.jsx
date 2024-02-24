@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import {
   Box,
   Card,
@@ -12,55 +12,77 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { BASE_URL } from "../../utils/config";
+import { EXT_URL } from "../../utils/config";
 
 const OverviewTop = () => {
   const theme = useTheme();
   const Navigate = useNavigate();
   const [coinPrice, setCoinPrice] = useState(null);
   const [nodes, setNodes] = useState(null);
+  const [generators, setGenerators] = useState([]);
+  const [burned, setBurned] = useState(0);
+  const [supply, setSupply] = useState(0);
+  const [blockHeight, setBlockHeight] = useState();
   // const [loading, setLoading] = useState(true);
   const [marketCap, setMarketCap] = useState(null);
-  axios
-    .get("https://api.coingecko.com/api/v3/simple/price", {
-      params: {
-        ids: "lto-network",
-        vs_currencies: "usd",
-        include_market_cap: true,
-      },
-    })
-    .then((response) => {
-      const data = response.data;
-      setCoinPrice(data["lto-network"].usd);
-      setMarketCap(data["lto-network"].usd_market_cap);
-    })
-    .catch((error) => {
-      console.error("Error fetching data:", error);
-    });
 
   useEffect(() => {
-    axios
-      .get(`${BASE_URL}peers/connected`)
-      .then((res) => {
-        const data = res.data.peers;
-        const numberOfNodes = data.reduce((count, item) => {
-          return count + 1;
-        }, 0);
+    axios.get(`${BASE_URL}supply`).then((res) => {
+      setBlockHeight(res.data.height);
+      setBurned(res.data.burned / 100000000);
+      setSupply(res.data.total / 100000000);
+    });
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch coin price and market cap
+        const priceResponse = await axios.get(
+          "https://api.coingecko.com/api/v3/simple/price",
+          {
+            params: {
+              ids: "lto-network",
+              vs_currencies: "usd",
+              include_market_cap: true,
+            },
+          }
+        );
+        const priceData = priceResponse.data;
+        setCoinPrice(priceData["lto-network"].usd);
+        setMarketCap(priceData["lto-network"].usd_market_cap);
+
+        // Fetch peer data
+        const peersResponse = await axios.get(`${EXT_URL}/peers`);
+        const peersData = peersResponse.data;
+        const numberOfNodes = peersData.length;
         setNodes(numberOfNodes);
-      })
-      .catch((error) => {
-        console.error("Errors fetching the node data", error);
-      });
+
+        // Fetch generator data
+        const generatorsResponse = await axios.get(`${EXT_URL}/generators`);
+        const generatorsData = generatorsResponse.data;
+        setGenerators(generatorsData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const handleClick = (action) => {
     if (action === "nodes") {
       Navigate("/nodes");
+    } else if (action === "generators") {
+      Navigate("/generators");
+    } else if (action == "stats") {
+      Navigate("/stats");
     }
   };
 
   return (
     <Grid container spacing={1}>
-      <Grid item xs={12} sm={6} md={4}>
+      <Grid item xs={12} sm={6} md={3}>
         <Card
           sx={{
             minWidth: { xs: 150, sm: 250, md: 300 },
@@ -100,7 +122,7 @@ const OverviewTop = () => {
         </Card>
       </Grid>
 
-      <Grid item xs={12} sm={6} md={4}>
+      <Grid item xs={12} sm={6} md={3}>
         <Card
           sx={{
             minWidth: { xs: 150, sm: 250, md: 300 },
@@ -140,7 +162,7 @@ const OverviewTop = () => {
         </Card>
       </Grid>
 
-      <Grid item xs={12} sm={6} md={4}>
+      <Grid item xs={12} sm={6} md={3}>
         <Card
           sx={{
             minWidth: { xs: 150, sm: 250, md: 300 },
@@ -158,7 +180,7 @@ const OverviewTop = () => {
               color="primary.sec"
               gutterBottom
             >
-              Current APR
+              APY
             </Typography>
             <Typography
               style={{
@@ -168,19 +190,71 @@ const OverviewTop = () => {
               color="primary.sec"
               component="div"
             >
-              14%
+              8%
             </Typography>
-            <Typography sx={{ mb: 1.5, mt: 2 }} color="primary.sec">
-              (Chain)
-            </Typography>
+            {/* <Typography sx={{ mb: 1.5, mt: 2 }} color="primary.sec">
+              (More Stats)
+            </Typography> */}
           </CardContent>
-          {/* <CardActions>
-            <Button size="small">Learn More</Button>
-          </CardActions> */}
+          <CardActions>
+            <Link
+              to="https://blog.ltonetwork.com/tokenomics-update/"
+              target="_blank"
+            >
+              <Button size="small">Learn More</Button>
+            </Link>
+          </CardActions>
         </Card>
       </Grid>
 
-      <Grid item xs={12} sm={6} md={4}>
+      <Grid item xs={12} sm={6} md={3}>
+        <Card
+          sx={{
+            minWidth: { xs: 150, sm: 250, md: 300 },
+            margin: 2,
+            background: "linear-gradient(to right, #c2c5f0, #d3e9f6)",
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          <CardContent>
+            <Typography
+              variant="h6"
+              sx={{
+                fontSize: 18,
+              }}
+              color="primary.sec"
+              gutterBottom
+            >
+              Total Supply
+            </Typography>
+            <Typography
+              style={{
+                fontSize: "28px",
+                fontWeight: 500,
+              }}
+              color="primary.sec"
+              component="div"
+            >
+              {Math.floor(supply)} LTO
+            </Typography>
+            {/* <Typography sx={{ mb: 1.5, mt: 2 }} color="primary.sec">
+              (Coingecko)
+            </Typography> */}
+          </CardContent>
+          <CardActions>
+            <Button
+              size="small"
+              onClick={() => {
+                handleClick("stats");
+              }}
+            >
+              More Stats
+            </Button>
+          </CardActions>
+        </Card>
+      </Grid>
+
+      <Grid item xs={12} sm={6} md={3}>
         <Card
           sx={{
             minWidth: { xs: 150, sm: 250, md: 300 },
@@ -208,19 +282,26 @@ const OverviewTop = () => {
               color="primary.sec"
               component="div"
             >
-              2,400,222M LTO
+              {Math.floor(burned)} LTO
             </Typography>
             {/* <Typography sx={{ mb: 1.5, mt: 2 }} color="primary.sec">
               (Coingecko)
             </Typography> */}
           </CardContent>
           <CardActions>
-            <Button size="small">Learn More</Button>
+            <Button
+              size="small"
+              onClick={() => {
+                handleClick("stats");
+              }}
+            >
+              More Stats
+            </Button>
           </CardActions>
         </Card>
       </Grid>
 
-      <Grid item xs={12} sm={6} md={4}>
+      <Grid item xs={12} sm={6} md={3}>
         <Card
           sx={{
             minWidth: { xs: 150, sm: 250, md: 300 },
@@ -256,13 +337,13 @@ const OverviewTop = () => {
           </CardContent>
           <CardActions>
             <Button onClick={() => handleClick("nodes")} size="small">
-              Learn More
+              View All
             </Button>
           </CardActions>
         </Card>
       </Grid>
 
-      <Grid item xs={12} sm={6} md={4}>
+      <Grid item xs={12} sm={6} md={3}>
         <Card
           sx={{
             minWidth: { xs: 150, sm: 250, md: 300 },
@@ -280,7 +361,7 @@ const OverviewTop = () => {
               color="primary.sec"
               gutterBottom
             >
-              Addresses
+              Generators
             </Typography>
             <Typography
               style={{
@@ -290,14 +371,58 @@ const OverviewTop = () => {
               color="primary.sec"
               component="div"
             >
-              17000
+              71
             </Typography>
             {/* <Typography sx={{ mb: 1.5, mt: 2 }} color="primary.sec">
               
             </Typography> */}
           </CardContent>
           <CardActions>
-            <Button size="small">Learn More</Button>
+            <Button size="small" onClick={() => handleClick("generators")}>
+              View All
+            </Button>
+          </CardActions>
+        </Card>
+      </Grid>
+
+      <Grid item xs={12} sm={6} md={3}>
+        <Card
+          sx={{
+            minWidth: { xs: 150, sm: 250, md: 300 },
+            margin: 2,
+            background: "linear-gradient(to right, #c2c5f0, #d3e9f6)",
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          <CardContent>
+            <Typography
+              variant="h6"
+              sx={{
+                fontSize: 18,
+              }}
+              color="primary.sec"
+              gutterBottom
+            >
+              Current Block Height
+            </Typography>
+            <Typography
+              style={{
+                fontSize: "28px",
+                fontWeight: 500,
+              }}
+              color="primary.sec"
+              component="div"
+            >
+              {blockHeight}
+            </Typography>
+            {/* <Typography sx={{ mb: 1.5, mt: 2 }} color="primary.sec">
+              
+            </Typography> */}
+          </CardContent>
+          <CardActions>
+            <Button size="small" onClick={() => handleClick("generators")}>
+              View All
+            </Button>
           </CardActions>
         </Card>
       </Grid>

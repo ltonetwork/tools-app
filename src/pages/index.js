@@ -2,9 +2,10 @@ import Balances from "./Balances";
 import Overview from "./overview/Overview";
 import Generators from "./Generators";
 import Nodes from "./Nodes";
-import Transactions from "./transactions/Transactions";
+import Stats from "./Stats";
 import NodeMaps from "./NodeMaps";
 import Blocks from "./Blocks";
+import RewardCalculator from "./RewardCalculator";
 
 export {
   Overview,
@@ -12,6 +13,7 @@ export {
   Generators,
   Nodes,
   Blocks,
-  Transactions,
+  Stats,
   NodeMaps,
+  RewardCalculator,
 };

@@ -16,12 +16,13 @@ const Topbar = () => {
         alignItems="center"
         p={2}
       >
-        <Box display="flex" backgroundColor="white" borderRadius="3px">
+        {/* <Box display="flex" backgroundColor="white" borderRadius="3px">
           <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" />
           <IconButton type="button" sx={{ p: 1 }}>
             <SearchIcon />
           </IconButton>
-        </Box>
+        </Box> */}
+        <div></div>
 
         <div style={{ display: "flex", alignItems: "center" }}>
           <Link
