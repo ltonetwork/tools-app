@@ -1,17 +1,8 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Card,
-  CardActions,
-  CardContent,
-  Button,
-  Typography,
-  Grid,
-  useTheme,
-} from "@mui/material";
+import { Card, CardContent, Typography } from "@mui/material";
 import { LineChart, Line, CartesianGrid, XAxis, YAxis } from "recharts";
-import { getStats } from "./getStats";
 import Loader from "../../components/global/Loader";
+import { getStats } from "./getStats";
 
 const AssociationsChart = () => {
   const [associations, setAssociations] = useState([]);
@@ -19,9 +10,14 @@ const AssociationsChart = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getStats("association");
-      setAssociations(data);
-      setLoading(false);
+      try {
+        const data = await getStats("association");
+        setAssociations(data);
+      } catch (error) {
+        console.error("Error fetching associations data:", error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchData();
@@ -58,17 +54,21 @@ const AssociationsChart = () => {
             >
               Associations
             </Typography>
-            <LineChart
-              width={700}
-              height={300}
-              data={chartData}
-              style={{ margin: "auto" }}
-            >
-              <CartesianGrid stroke="#ccc" />
-              <XAxis dataKey="period" />
-              <YAxis domain={[0, maxCount]} />
-              <Line type="linear" dataKey="count" stroke="#18a86a" />
-            </LineChart>
+            {chartData.length > 0 ? (
+              <LineChart
+                width={700}
+                height={300}
+                data={chartData}
+                style={{ margin: "auto" }}
+              >
+                <CartesianGrid stroke="#ccc" />
+                <XAxis dataKey="period" />
+                <YAxis domain={[0, maxCount]} />
+                <Line type="linear" dataKey="count" stroke="#18a86a" />
+              </LineChart>
+            ) : (
+              <Typography>No data available</Typography>
+            )}
           </CardContent>
         )}
       </Card>

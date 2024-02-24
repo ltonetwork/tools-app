@@ -1,14 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Card,
-  CardActions,
-  CardContent,
-  Button,
-  Typography,
-  Grid,
-  useTheme,
-} from "@mui/material";
+import { Card, CardContent, Typography } from "@mui/material";
 import { LineChart, Line, CartesianGrid, XAxis, YAxis } from "recharts";
 import { getStats } from "./getStats";
 import Loader from "../../components/global/Loader";
@@ -19,16 +10,21 @@ const LeaseChart = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getStats("lease");
-      setLease(data);
-      setLoading(false);
+      try {
+        const data = await getStats("lease");
+        setLease(data);
+      } catch (error) {
+        console.error("Error fetching lease data:", error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchData();
   }, []);
 
   const chartData = lease.map(({ period, count }) => ({
-    period: period.split(" ")[0],
+    period: period ? period.split(" ")[0] : "",
     count,
   }));
 

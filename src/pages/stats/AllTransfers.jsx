@@ -19,9 +19,14 @@ const AllTransfers = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const allTransfersData = await getStats("all_transfers");
-      setAllTransfers(allTransfersData);
-      setLoading(false);
+      try {
+        const allTransfersData = await getStats("all_transfers");
+        setAllTransfers(allTransfersData);
+      } catch (error) {
+        console.error("Error fetching all transfers data:", error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchData();
@@ -58,17 +63,21 @@ const AllTransfers = () => {
             >
               All Transfer
             </Typography>
-            <LineChart
-              width={700}
-              height={300}
-              data={chartData}
-              style={{ margin: "auto" }}
-            >
-              <CartesianGrid stroke="#ccc" />
-              <XAxis dataKey="period" />
-              <YAxis domain={[0, maxCount]} />
-              <Line type="linear" dataKey="count" stroke="#ffc658" />
-            </LineChart>
+            {chartData.length > 0 ? (
+              <LineChart
+                width={700}
+                height={300}
+                data={chartData}
+                style={{ margin: "auto" }}
+              >
+                <CartesianGrid stroke="#ccc" />
+                <XAxis dataKey="period" />
+                <YAxis domain={[0, maxCount]} />
+                <Line type="linear" dataKey="count" stroke="#ffc658" />
+              </LineChart>
+            ) : (
+              <Typography>No data available</Typography>
+            )}
           </CardContent>
         )}
       </Card>

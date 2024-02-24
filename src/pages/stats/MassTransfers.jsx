@@ -1,14 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Card,
-  CardActions,
-  CardContent,
-  Button,
-  Typography,
-  Grid,
-  useTheme,
-} from "@mui/material";
+import { Card, CardContent, Typography } from "@mui/material";
 import { LineChart, Line, CartesianGrid, XAxis, YAxis } from "recharts";
 import { getStats } from "./getStats";
 import Loader from "../../components/global/Loader";
@@ -19,9 +10,14 @@ const MassTransfers = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const massTransferData = await getStats("mass_transfer");
-      setMassTransfer(massTransferData);
-      setLoading(false);
+      try {
+        const massTransferData = await getStats("mass_transfer");
+        setMassTransfer(massTransferData);
+      } catch (error) {
+        console.error("Error fetching mass transfer data:", error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchData();
@@ -29,7 +25,7 @@ const MassTransfers = () => {
 
   // Extracting dates and counts from massTransfer data and formatting the date
   const chartData = massTransfer.map(({ period, count }) => ({
-    period: period.split(" ")[0], // Splitting the period string and taking only the date part
+    period: period ? period.split(" ")[0] : "",
     count,
   }));
 

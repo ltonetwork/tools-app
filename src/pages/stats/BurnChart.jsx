@@ -1,36 +1,30 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Card,
-  CardActions,
-  CardContent,
-  Button,
-  Typography,
-  Grid,
-  useTheme,
-} from "@mui/material";
+import { Card, CardContent, Typography } from "@mui/material";
 import { LineChart, Line, CartesianGrid, XAxis, YAxis } from "recharts";
 import { getStats } from "./getStats";
 import Loader from "../../components/global/Loader";
 
 const BurnChart = () => {
-  let period = "2024-01-13 00:00:00";
-  let count = 0;
   const [burn, setBurn] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getStats("burn");
-      setBurn(data);
-      setLoading(false);
+      try {
+        const data = await getStats("burn");
+        setBurn(data);
+      } catch (error) {
+        console.error("Error fetching burn data:", error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchData();
   }, []);
 
   const chartData = burn.map(({ period, count }) => ({
-    period: period.split(" ")[0],
+    period: period ? period.split(" ")[0] : "",
     count,
   }));
 
