@@ -65,7 +65,7 @@ const AllTransfers = () => {
             </Typography>
             {chartData.length > 0 ? (
               <LineChart
-                width={700}
+                width={600}
                 height={300}
                 data={chartData}
                 style={{ margin: "auto" }}

@@ -57,7 +57,7 @@ const MassTransfers = () => {
               Mass Transfer
             </Typography>
             <LineChart
-              width={700} // Setting the width to 700px
+              width={600} // Setting the width to 700px
               height={300}
               data={chartData}
               style={{ margin: "auto" }}

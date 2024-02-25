@@ -131,7 +131,6 @@ const OperationsChart = () => {
   );
 };
 
-// Function to get color based on type
 const getColor = (type) => {
   switch (type) {
     case "transfer":
