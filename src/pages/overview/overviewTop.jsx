@@ -68,7 +68,8 @@ const OverviewTop = () => {
         // Fetch generator data
         const generatorsResponse = await axios.get(`${EXT_URL}/generators`);
         const generatorsData = generatorsResponse.data;
-        setGenerators(generatorsData);
+        let value = generatorsData.length;
+        setGenerators(value);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -378,7 +379,7 @@ const OverviewTop = () => {
               color="primary.sec"
               component="div"
             >
-              71
+              {generators}
             </Typography>
             {/* <Typography sx={{ mb: 1.5, mt: 2 }} color="primary.sec">
               
