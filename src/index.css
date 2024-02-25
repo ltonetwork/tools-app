@@ -31,6 +31,24 @@ h6 .app,
   }
 } */
 
+a {
+  color: #e3d7f3;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  color: #e3d7f3;
+}
+
+a:active {
+  color: #e3d7f3;
+}
+
+a:visited {
+  color: #e3d7f3;
+}
+
 ::-webkit-scrollbar {
   width: 10px;
 }

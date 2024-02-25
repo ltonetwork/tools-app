@@ -25,7 +25,7 @@ const Topbar = () => {
         <div></div>
 
         <div style={{ display: "flex", alignItems: "center" }}>
-          <Link
+          <a
             href="https://docs.ltonetwork.com/"
             target="_blank"
             rel="noopener noreferrer"
@@ -41,8 +41,8 @@ const Topbar = () => {
               <Typography sx={{ fontSize: "14px", mr: 1 }}>Docs</Typography>
               <ArrowOutwardOutlinedIcon sx={{ fontSize: "16px" }} />
             </IconButton>
-          </Link>
-          <Link
+          </a>
+          <a
             href="https://wallet.lto.network/"
             target="_blank"
             rel="noopener noreferrer"
@@ -55,7 +55,7 @@ const Topbar = () => {
               </Typography>
               <ArrowOutwardOutlinedIcon sx={{ fontSize: "16px" }} />
             </IconButton>
-          </Link>
+          </a>
         </div>
       </Box>
     </div>
