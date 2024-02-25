@@ -38,7 +38,8 @@ const OverviewBottom = () => {
       .get(`${EXT_URL}/generators`)
       .then((res) => {
         const gen = res.data;
-        setGenerators(gen);
+        const value = gen.filter((val) => val.name && val.name.length > 1);
+        setGenerators(value);
         setLoading(false);
       })
       .catch((error) => {
@@ -121,7 +122,7 @@ const OverviewBottom = () => {
                     ) : gen.address.length <= 15 ? (
                       gen.address
                     ) : (
-                      `${gen.address.slice(0, 18)}...`
+                      `${gen.address.slice(0, 12)}...`
                     )}
                   </Typography>
 
