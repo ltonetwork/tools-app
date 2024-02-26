@@ -56,7 +56,7 @@ const Generators = () => {
 
   const columns = [
     { field: "id", headerName: "#", width: 50 },
-    { field: "address", headerName: "Address", width: 250 },
+    { field: "address", headerName: "Address", width: 350 },
     { field: "name", headerName: "Name", width: 150 },
     { field: "blocksMined", headerName: "Blocks Mined", width: 150 },
     { field: "effectiveBalance", headerName: "Effective Balance", width: 150 },
