@@ -1,11 +1,24 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Box, TextField, InputAdornment, IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import DateComponent from "../components/global/DateComponent";
+import SearchIcon from "@mui/icons-material/Search";
 import { EXT_URL } from "../utils/config";
 
 const Nodes = () => {
   const [nodes, setNodes] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredNodes = nodes.filter(
+    (node) =>
+      node.peerName &&
+      node.peerName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   useEffect(() => {
     axios.get(`${EXT_URL}/peers`).then((res) => {
@@ -29,7 +42,7 @@ const Nodes = () => {
     },
   ];
 
-  const rows = nodes.map((node, index) => ({
+  const rows = filteredNodes.map((node, index) => ({
     id: index + 1,
     peerName: node.peerName,
     ip: node.ip,
@@ -44,6 +57,24 @@ const Nodes = () => {
   return (
     <div>
       <DateComponent />
+      <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
+        <TextField
+          size="small"
+          label="Search by Name"
+          variant="outlined"
+          value={searchTerm}
+          onChange={handleSearch}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton>
+                  <SearchIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Box>
       <div style={{ height: 400, width: "100%" }}>
         <DataGrid
           rows={rows}

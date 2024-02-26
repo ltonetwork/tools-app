@@ -17,6 +17,23 @@ const Generators = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedPeriod, setSelectedPeriod] = useState("24");
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 700) {
+        setIsMobile(true);
+      } else {
+        setIsMobile(false);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   useEffect(() => {
     axios.get(`${EXT_URL}/generators`).then((res) => {
       setGenerators(res.data);
@@ -39,7 +56,7 @@ const Generators = () => {
 
   const columns = [
     { field: "id", headerName: "#", width: 50 },
-    { field: "address", headerName: "Address", width: 300 },
+    { field: "address", headerName: "Address", width: 250 },
     { field: "name", headerName: "Name", width: 150 },
     { field: "blocksMined", headerName: "Blocks Mined", width: 150 },
     { field: "effectiveBalance", headerName: "Effective Balance", width: 150 },
@@ -70,23 +87,45 @@ const Generators = () => {
   return (
     <div>
       <DateComponent />
+      {isMobile && (
+        <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
+          <TextField
+            size="small"
+            label="Search by Name"
+            variant="outlined"
+            value={searchTerm}
+            onChange={handleSearch}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton>
+                    <SearchIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Box>
+      )}
       <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
-        <TextField
-          size="small"
-          label="Search by Name"
-          variant="outlined"
-          value={searchTerm}
-          onChange={handleSearch}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton>
-                  <SearchIcon />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
+        {!isMobile && (
+          <TextField
+            size="small"
+            label="Search by Name"
+            variant="outlined"
+            value={searchTerm}
+            onChange={handleSearch}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton>
+                    <SearchIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+        )}
         <Button
           sx={{ margin: 1 }}
           onClick={() => handlePeriodClick("24")}

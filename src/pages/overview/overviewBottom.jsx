@@ -22,6 +22,22 @@ const OverviewBottom = () => {
   const [loading, setLoading] = useState(true);
   const [nodes, setNodes] = useState([]);
   const [generators, setGenerators] = useState([]);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 700) {
+        setIsMobile(true);
+      } else {
+        setIsMobile(false);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     axios
@@ -91,11 +107,11 @@ const OverviewBottom = () => {
               </span>
             </Typography>
 
-            {generators.slice(0, 4).map((gen) => {
+            {generators.slice(0, 3).map((gen) => {
               return (
                 <div
                   style={{
-                    display: "grid",
+                    display: isMobile ? "inline" : "grid",
                     gridTemplateColumns: "1fr 1fr 1fr",
                   }}
                 >
@@ -173,11 +189,11 @@ const OverviewBottom = () => {
               </span>
             </Typography>
 
-            {nodes.slice(0, 4).map((node) => {
+            {nodes.slice(0, 3).map((node) => {
               return (
                 <div
                   style={{
-                    display: "grid",
+                    display: isMobile ? "inline" : "grid",
                     gridTemplateColumns: "1fr 1fr 1fr",
                   }}
                 >
@@ -193,7 +209,6 @@ const OverviewBottom = () => {
                         : `${node.peerName.slice(0, 15)}...`}
                     </Typography>
                   </div>
-
                   <Typography color="primary.sec">
                     {node.declaredAddress.split(":")[0]}
                   </Typography>
