@@ -173,7 +173,7 @@ const Sidebar = () => {
             <Box mt="70px" mb="25px">
               <Box display="flex" justifyContent="center" alignItems="center">
                 <img
-                  alt="profile-user"
+                  alt="lto-network"
                   width="150px"
                   src={LOGO}
                   style={{ cursor: "pointer" }}
