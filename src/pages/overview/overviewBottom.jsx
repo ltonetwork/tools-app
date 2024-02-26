@@ -122,24 +122,21 @@ const OverviewBottom = () => {
                       }}
                       color="primary.sec"
                     >
-                      {loading ? (
-                        <Loader />
-                      ) : (gen.name?.length ?? 0) <= 15 ? (
-                        gen.name
-                      ) : (
-                        `${gen.name.slice(0, 18)}...`
-                      )}
+                      {isMobile && (gen.name?.length ?? 0) <= 15
+                        ? gen.name
+                        : `${gen.name.slice(0, 20)}...` ||
+                          (!isMobile && (gen.name?.length ?? 0) <= 15)
+                        ? gen.name
+                        : `${gen.name.slice(0, 16)}...`}
                     </Typography>
                   </div>
 
                   <Typography color="primary.sec">
-                    {loading ? (
-                      <Loader />
-                    ) : gen.address.length <= 15 ? (
-                      gen.address
-                    ) : (
-                      `${gen.address.slice(0, 12)}...`
-                    )}
+                    {isMobile && gen.address.length >= 10
+                      ? `addr: ${gen.address.slice(0, 19)}...`
+                      : gen.address || (!isMobile && gen.address.length >= 15)
+                      ? `addr: ${gen.address.slice(0, 12)}...`
+                      : gen.address}
                   </Typography>
 
                   <Typography color="primary.sec">
@@ -204,16 +201,19 @@ const OverviewBottom = () => {
                       }}
                       color="primary.sec"
                     >
-                      {node.peerName.length <= 14
-                        ? node.peerName
-                        : `${node.peerName.slice(0, 15)}...`}
+                      {isMobile && node.peerName.length >= 14
+                        ? `${node.peerName.slice(0, 22)}...`
+                        : node.peerName ||
+                          (!isMobile && node.peerName.length >= 14)
+                        ? `${node.peerName.slice(0, 15)}...`
+                        : node.peerName}
                     </Typography>
                   </div>
                   <Typography color="primary.sec">
                     {node.declaredAddress.split(":")[0]}
                   </Typography>
                   <Typography color="primary.sec">
-                    {node.applicationVersion}
+                    {`v${node.applicationVersion}`}
                   </Typography>
                 </div>
               );
