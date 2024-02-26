@@ -49,8 +49,8 @@ const Nodes = () => {
     location: node.location.country,
     isp: node.isp,
     applicationVersion: node.applicationVersion,
-    p2pport:
-      node.p2pport === ":6868" || node.p2pport === ":6863" ? "open" : "-",
+    p2pport: node.p2pport,
+    // node.p2pport === ":6868" || node.p2pport === ":6863" ? "open" : "-",
     lastSeen: node.lastSeen,
   }));
 
@@ -75,7 +75,7 @@ const Nodes = () => {
           }}
         />
       </Box>
-      <div style={{ height: 400, width: "100%" }}>
+      <div style={{ height: 500, width: "100%" }}>
         <DataGrid
           rows={rows}
           columns={columns}

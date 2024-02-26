@@ -151,7 +151,7 @@ const Generators = () => {
           Last 30days
         </Button>
       </Box>
-      <div style={{ height: 400, width: "100%" }}>
+      <div style={{ height: 500, width: "100%" }}>
         <DataGrid
           rows={rows}
           columns={columns}
