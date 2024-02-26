@@ -122,12 +122,12 @@ const OverviewBottom = () => {
                       }}
                       color="primary.sec"
                     >
-                      {isMobile && (gen.name?.length ?? 0) <= 15
-                        ? gen.name
-                        : `${gen.name.slice(0, 20)}...` ||
-                          (!isMobile && (gen.name?.length ?? 0) <= 15)
-                        ? gen.name
-                        : `${gen.name.slice(0, 16)}...`}
+                      {isMobile && (gen.name?.length ?? 0) >= 15
+                        ? `${gen.name.slice(0, 20)}...`
+                        : gen.name ||
+                          (!isMobile && (gen.name?.length ?? 0) >= 15)
+                        ? `${gen.name.slice(0, 16)}...`
+                        : gen.name}
                     </Typography>
                   </div>
 

@@ -23,7 +23,7 @@ const App = () => {
                 padding: "10px",
                 backgroundColor: "#f0f3fa",
                 backgroundImage: `url(${BG_Wave})`,
-                height: "100vh",
+                height: "100%",
               }}
             >
               <Outlet />
