@@ -59,7 +59,7 @@ const MassTransfers = () => {
             {chartData.length > 0 ? (
               <LineChart
                 width={600} // Setting the width to 700px
-                height={350}
+                height={300}
                 data={chartData}
                 style={{ margin: "auto" }}
               >

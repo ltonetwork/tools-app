@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { Button, Typography, Grid, useTheme } from "@mui/material";
+import React from "react";
+import { Typography, Grid } from "@mui/material";
 import DateComponent from "../components/global/DateComponent";
-// import OperationsChart from "./stats/OperationsChart";
 import MassTransfers from "./stats/MassTransfers";
 import AllTransfers from "./stats/AllTransfers";
 import BurnChart from "./stats/BurnChart";
@@ -17,26 +16,61 @@ const Stats = () => {
       <Typography style={{ textAlign: "center", paddingBottom: "15px" }}>
         Chain stats for the last 3 months to the current date
       </Typography>
-      <Grid container spacing={1}>
-        <Grid item sm={12} md={6}>
+      <Grid
+        container
+        spacing={1}
+        sx={{
+          maxWidth: "100%",
+          margin: "0 auto",
+          "@media (min-width: 600px)": {
+            maxWidth: 600,
+          },
+          "@media (min-width: 960px)": {
+            maxWidth: 960,
+          },
+          "@media (min-width: 1280px)": {
+            maxWidth: 1280,
+          },
+        }}
+      >
+        <Grid item xs={12} md={6} lg={6}>
           <GeneratorShare />
         </Grid>
-        <Grid item sm={12} md={6}>
+        <Grid item xs={12} md={6} lg={6}></Grid>
+      </Grid>
+      <Grid
+        container
+        spacing={1}
+        sx={{
+          maxWidth: "100%",
+          margin: "0 auto",
+          "@media (min-width: 600px)": {
+            maxWidth: 600,
+          },
+          "@media (min-width: 960px)": {
+            maxWidth: 960,
+          },
+          "@media (min-width: 1280px)": {
+            maxWidth: 1280,
+          },
+        }}
+      >
+        <Grid item xs={12} md={6} lg={6}>
           <MassTransfers />
         </Grid>
-        <Grid item sm={12} md={6}>
+        <Grid item xs={12} md={6} lg={6}>
           <AllTransfers />
         </Grid>
-        <Grid item sm={12} md={6}>
+        <Grid item xs={12} md={6} lg={6}>
           <BurnChart />
         </Grid>
-        <Grid item sm={12} md={6}>
+        <Grid item xs={12} md={6} lg={6}>
           <LeaseChart />
         </Grid>
-        <Grid item sm={12} md={6}>
+        <Grid item xs={12} md={6} lg={6}>
           <AnchorChart />
         </Grid>
-        <Grid item sm={12} md={6}>
+        <Grid item xs={12} md={6} lg={6}>
           <AssociationsChart />
         </Grid>
       </Grid>

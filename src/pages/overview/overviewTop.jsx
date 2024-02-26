@@ -265,7 +265,7 @@ const OverviewTop = () => {
       <Grid item xs={12} sm={6} md={3}>
         <Card
           sx={{
-            minWidth: { xs: 150, sm: 250, md: 300 },
+            minWidth: { xs: 110, sm: 250, md: 300 },
             margin: 2,
             background: "linear-gradient(to right, #c2c5f0, #d3e9f6)",
             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",

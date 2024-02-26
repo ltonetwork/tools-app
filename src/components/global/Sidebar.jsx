@@ -37,13 +37,15 @@ const Sidebar = () => {
   const theme = useTheme();
   const [selected, setSelected] = useState("Dashboard");
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 600) {
+        setIsMobile(true);
         setIsCollapsed(true);
       } else {
-        setIsCollapsed(false);
+        setIsMobile(false);
       }
     };
     handleResize();
@@ -53,6 +55,10 @@ const Sidebar = () => {
     };
   }, []);
 
+  const handleCollapsed = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
   return (
     <Box
       sx={{
@@ -60,10 +66,13 @@ const Sidebar = () => {
           height: "100vh",
         },
         "& .pro-sidebar": {
+          display: isMobile ? (isCollapsed ? "none" : "block") : "block",
           height: "100vh",
           position: "sticky",
           top: 0,
           left: 0,
+          width: isCollapsed ? "80px" : "250px", // Adjusted width based on collapsed state
+          transition: "width 0.3s ease",
         },
         "& .pro-sidebar-inner": {
           backgroundColor: "#e9e9e9",
@@ -82,7 +91,7 @@ const Sidebar = () => {
         },
       }}
     >
-      <ProSidebar collapsed={isCollapsed}>
+      <ProSidebar collapsed={isCollapsed} collapsedWidth="80px">
         <Menu iconShape="square">
           {/* LOGO AND MENU ICON */}
           <MenuItem
@@ -101,7 +110,7 @@ const Sidebar = () => {
                 ml="15px"
               >
                 <img
-                  alt="profile-user"
+                  alt="lto-icon"
                   width="40px"
                   src={ltoIcon}
                   style={{
@@ -113,26 +122,12 @@ const Sidebar = () => {
                 <Typography variant="h6" color="#17054b">
                   DASHBOARD
                 </Typography>
-                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
+                <IconButton onClick={() => setIsCollapsed(true)}>
                   <MenuOutlinedIcon />
                 </IconButton>
               </Box>
             )}
           </MenuItem>
-
-          {/* {!isCollapsed && (
-            <Box mb="25px">
-              <Box display="flex" justifyContent="center" alignItems="center">
-                <img
-                  alt="profile-user"
-                  width="100px"
-                  height="20px"
-                  src={Logo}
-                  style={{ cursor: "pointer", borderRadius: "50%" }}
-                />
-              </Box>
-            </Box>
-          )} */}
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
@@ -157,21 +152,6 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            {/* <Item
-              title="Blocks"
-              to="/blocks"
-              icon={<HelpOutlineOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            /> */}
-            {/* <Item
-              title="Balances"
-              to="/balances"
-              icon={<AccountBalanceWalletOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            /> */}
-
             <Item
               title="Stats"
               to="/stats"
@@ -179,13 +159,6 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            {/* <Item
-              title="Node Maps"
-              to="/node-maps"
-              icon={<MapOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            /> */}
 
             <Item
               title="Rewards Calc"
@@ -194,22 +167,6 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-
-            {/* <Typography
-              variant="h6"
-              color="#17054b"
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              Charts
-            </Typography>
-            
-            <Item
-              title="Gen Locations"
-              to="/geography"
-              icon={<MapOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            /> */}
           </Box>
 
           {!isCollapsed && (
@@ -226,6 +183,25 @@ const Sidebar = () => {
           )}
         </Menu>
       </ProSidebar>
+
+      {/* Icon for mobile */}
+      {isMobile && (
+        <Box
+          sx={{
+            position: "fixed",
+            bottom: "20px",
+            right: "20px",
+            zIndex: "999",
+          }}
+        >
+          <IconButton
+            style={{ color: "white", backgroundColor: "#17054B" }}
+            onClick={() => handleCollapsed()}
+          >
+            <MenuOutlinedIcon />
+          </IconButton>
+        </Box>
+      )}
     </Box>
   );
 };

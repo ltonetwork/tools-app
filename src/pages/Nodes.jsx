@@ -1,23 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import {
-  Box,
-  Card,
-  CardActions,
-  CardContent,
-  Button,
-  Typography,
-  Grid,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Menu,
-  MenuItem,
-} from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
 import DateComponent from "../components/global/DateComponent";
 import { EXT_URL } from "../utils/config";
 
@@ -28,51 +11,49 @@ const Nodes = () => {
     axios.get(`${EXT_URL}/peers`).then((res) => {
       setNodes(res.data);
     });
-  });
+  }, []);
+
+  const columns = [
+    { field: "id", headerName: "#", width: 90 },
+    { field: "peerName", headerName: "Node Name", width: 200 },
+    { field: "ip", headerName: "IP Address", width: 150 },
+    { field: "location", headerName: "Country", width: 150 },
+    { field: "isp", headerName: "Network", width: 150 },
+    { field: "applicationVersion", headerName: "Version", width: 150 },
+    { field: "p2pport", headerName: "P2P", width: 150 },
+    {
+      field: "lastSeen",
+      headerName: "Last Seen",
+      width: 200,
+      valueGetter: (params) => new Date(params.row.lastSeen).toLocaleString(),
+    },
+  ];
+
+  const rows = nodes.map((node, index) => ({
+    id: index + 1,
+    peerName: node.peerName,
+    ip: node.ip,
+    location: node.location.country,
+    isp: node.isp,
+    applicationVersion: node.applicationVersion,
+    p2pport:
+      node.p2pport === ":6868" || node.p2pport === ":6863" ? "open" : "-",
+    lastSeen: node.lastSeen,
+  }));
 
   return (
     <div>
       <DateComponent />
-
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-          <TableHead>
-            <TableRow>
-              <TableCell>#</TableCell>
-              <TableCell>Node Name</TableCell>
-              <TableCell align="left">IP Address</TableCell>
-              <TableCell align="left">Country</TableCell>
-              <TableCell align="left">Network</TableCell>
-              <TableCell align="left">Version</TableCell>
-              <TableCell align="left">P2P</TableCell>
-              <TableCell align="left">Last Seen</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {nodes.map((node, index) => (
-              <TableRow
-                key={index + 1}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {index + 1}
-                </TableCell>
-                <TableCell align="left">{node.peerName}</TableCell>
-                <TableCell align="left">{node.ip}</TableCell>
-                <TableCell align="left">{node.location.country}</TableCell>
-                <TableCell align="left">{node.isp}</TableCell>
-                <TableCell align="left">{node.applicationVersion}</TableCell>
-                <TableCell align="left">
-                  {node.p2pport == ":6868" || ":6863" ? "open" : "-"}
-                </TableCell>
-                <TableCell align="left">
-                  {new Date(node.lastSeen).toLocaleString()}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <div style={{ height: 400, width: "100%" }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          pageSize={5}
+          rowsPerPageOptions={[5]}
+          checkboxSelection={false}
+          disableSelectionOnClick
+        />
+      </div>
     </div>
   );
 };

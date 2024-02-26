@@ -67,3 +67,11 @@ a:visited {
 ::-webkit-scrollbar-thumb:hover {
   background: 555;
 }
+
+@media (max-width: 600px) {
+  & .pro-sidebar {
+    position: sticky;
+    top: 0;
+    left: 0;
+  }
+}
