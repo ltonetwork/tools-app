@@ -29,7 +29,7 @@ const MassTransfers = () => {
     count,
   }));
 
-  // Find the maximum count value
+  // the maximum count value
   const maxCount = Math.max(...chartData.map((item) => item.count));
 
   return (
@@ -56,17 +56,21 @@ const MassTransfers = () => {
             >
               Mass Transfer
             </Typography>
-            <LineChart
-              width={600} // Setting the width to 700px
-              height={300}
-              data={chartData}
-              style={{ margin: "auto" }}
-            >
-              <CartesianGrid stroke="#ccc" />
-              <XAxis dataKey="period" />
-              <YAxis domain={[0, maxCount]} />
-              <Line type="linear" dataKey="count" stroke="#ffc658" />
-            </LineChart>
+            {chartData.length > 0 ? (
+              <LineChart
+                width={600} // Setting the width to 700px
+                height={350}
+                data={chartData}
+                style={{ margin: "auto" }}
+              >
+                <CartesianGrid stroke="#ccc" />
+                <XAxis dataKey="period" />
+                <YAxis domain={[0, maxCount]} />
+                <Line type="linear" dataKey="count" stroke="#ffc658" />
+              </LineChart>
+            ) : (
+              <Typography>No data available</Typography>
+            )}
           </CardContent>
         )}
       </Card>

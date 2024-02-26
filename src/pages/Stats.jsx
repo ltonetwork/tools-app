@@ -8,6 +8,7 @@ import BurnChart from "./stats/BurnChart";
 import LeaseChart from "./stats/LeaseChart";
 import AnchorChart from "./stats/AnchorChart";
 import AssociationsChart from "./stats/AssociationsChart";
+import GeneratorShare from "./stats/GeneratorShare";
 
 const Stats = () => {
   return (
@@ -17,6 +18,9 @@ const Stats = () => {
         Chain stats for the last 3 months to the current date
       </Typography>
       <Grid container spacing={1}>
+        <Grid item sm={12} md={6}>
+          <GeneratorShare />
+        </Grid>
         <Grid item sm={12} md={6}>
           <MassTransfers />
         </Grid>

@@ -54,17 +54,21 @@ const BurnChart = () => {
             >
               Burn
             </Typography>
-            <LineChart
-              width={600}
-              height={300}
-              data={chartData}
-              style={{ margin: "auto" }}
-            >
-              <CartesianGrid stroke="#ccc" />
-              <XAxis dataKey="period" />
-              <YAxis domain={[0, maxCount]} />
-              <Line type="linear" dataKey="count" stroke="#cf1504" />
-            </LineChart>
+            {chartData.length > 0 ? (
+              <LineChart
+                width={600}
+                height={300}
+                data={chartData}
+                style={{ margin: "auto" }}
+              >
+                <CartesianGrid stroke="#ccc" />
+                <XAxis dataKey="period" />
+                <YAxis domain={[0, maxCount]} />
+                <Line type="linear" dataKey="count" stroke="#cf1504" />
+              </LineChart>
+            ) : (
+              <Typography>No data available</Typography>
+            )}
           </CardContent>
         )}
       </Card>

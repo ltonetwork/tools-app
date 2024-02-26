@@ -56,7 +56,7 @@ const Generators = () => {
         <Button
           sx={{ margin: 1 }}
           onClick={() => handleClick("24")}
-          variant="outlined"
+          variant={twenty4 ? "contained" : "outlined"}
           size="small"
         >
           Last 24hrs
@@ -64,7 +64,7 @@ const Generators = () => {
         <Button
           sx={{ margin: 1 }}
           onClick={() => handleClick("seven")}
-          variant="outlined"
+          variant={seven ? "contained" : "outlined"}
           size="small"
         >
           Last 7days
@@ -72,7 +72,7 @@ const Generators = () => {
         <Button
           sx={{ margin: 1 }}
           onClick={() => handleClick("thirty")}
-          variant="outlined"
+          variant={thirty ? "contained" : "outlined"}
           size="small"
         >
           Last 30days

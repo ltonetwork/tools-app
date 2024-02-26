@@ -54,17 +54,21 @@ const LeaseChart = () => {
             >
               Lease
             </Typography>
-            <LineChart
-              width={600}
-              height={300}
-              data={chartData}
-              style={{ margin: "auto" }}
-            >
-              <CartesianGrid stroke="#ccc" />
-              <XAxis dataKey="period" />
-              <YAxis domain={[0, maxCount]} />
-              <Line type="linear" dataKey="count" stroke="#18a86a" />
-            </LineChart>
+            {chartData.length > 0 ? (
+              <LineChart
+                width={600}
+                height={300}
+                data={chartData}
+                style={{ margin: "auto" }}
+              >
+                <CartesianGrid stroke="#ccc" />
+                <XAxis dataKey="period" />
+                <YAxis domain={[0, maxCount]} />
+                <Line type="linear" dataKey="count" stroke="#18a86a" />
+              </LineChart>
+            ) : (
+              <Typography>No data available</Typography>
+            )}
           </CardContent>
         )}
       </Card>
