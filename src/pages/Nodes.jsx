@@ -4,7 +4,7 @@ import { Box, TextField, InputAdornment, IconButton } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import DateComponent from "../components/global/DateComponent";
 import SearchIcon from "@mui/icons-material/Search";
-import { EXT_URL } from "../utils/config";
+import { EXT_URL2 } from "../utils/config";
 
 const Nodes = () => {
   const [nodes, setNodes] = useState([]);
@@ -16,12 +16,11 @@ const Nodes = () => {
 
   const filteredNodes = nodes.filter(
     (node) =>
-      node.peerName &&
-      node.peerName.toLowerCase().includes(searchTerm.toLowerCase())
+      node.name && node.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   useEffect(() => {
-    axios.get(`${EXT_URL}/peers`).then((res) => {
+    axios.get(`${EXT_URL2}nodes/json`).then((res) => {
       setNodes(res.data);
     });
   }, []);
@@ -31,27 +30,29 @@ const Nodes = () => {
     { field: "peerName", headerName: "Node Name", width: 200 },
     { field: "ip", headerName: "IP Address", width: 150 },
     { field: "location", headerName: "Country", width: 150 },
-    { field: "isp", headerName: "Network", width: 150 },
+    { field: "network", headerName: "Network", width: 150 },
+    { field: "networkDes", headerName: "Network Desc.", width: 150 },
     { field: "applicationVersion", headerName: "Version", width: 150 },
     { field: "p2pport", headerName: "P2P", width: 150 },
-    {
-      field: "lastSeen",
-      headerName: "Last Seen",
-      width: 200,
-      valueGetter: (params) => new Date(params.row.lastSeen).toLocaleString(),
-    },
+    // {
+    //   field: "lastSeen",
+    //   headerName: "Last Seen",
+    //   width: 200,
+    //   valueGetter: (params) => new Date(params.row.lastSeen).toLocaleString(),
+    // },
   ];
 
   const rows = filteredNodes.map((node, index) => ({
     id: index + 1,
-    peerName: node.peerName,
+    peerName: node.name,
     ip: node.ip,
-    location: node.location.country,
-    isp: node.isp,
-    applicationVersion: node.applicationVersion,
-    p2pport: node.p2pport,
+    location: node.country,
+    network: node.network,
+    networkDes: node.netDescription,
+    applicationVersion: node.version,
+    p2pport: node.port6868,
     // node.p2pport === ":6868" || node.p2pport === ":6863" ? "open" : "-",
-    lastSeen: node.lastSeen,
+    // lastSeen: node.lastSeen,
   }));
 
   return (

@@ -13,6 +13,7 @@ import {
 import axios from "axios";
 import { BASE_URL } from "../../utils/config";
 import { EXT_URL } from "../../utils/config";
+import { EXT_URL2 } from "../../utils/config";
 
 const OverviewTop = () => {
   const theme = useTheme();
@@ -60,7 +61,7 @@ const OverviewTop = () => {
         setMarketCap(priceData["lto-network"].usd_market_cap);
 
         // Fetch peer data
-        const peersResponse = await axios.get(`${EXT_URL}/peers`);
+        const peersResponse = await axios.get(`${EXT_URL2}/nodes/json`);
         const peersData = peersResponse.data;
         const numberOfNodes = peersData.length;
         setNodes(numberOfNodes);
