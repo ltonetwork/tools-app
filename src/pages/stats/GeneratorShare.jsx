@@ -98,6 +98,9 @@ const GeneratorShare = () => {
             paddingTop: "15px",
             paddingBottom: "15px",
             textAlign: "center",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
             width: "100%",
           }}
         >
