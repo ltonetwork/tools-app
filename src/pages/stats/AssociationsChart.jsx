@@ -13,9 +13,9 @@ const AssociationsChart = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 400) {
-        setW(300);
-        setH(200);
+      if (window.innerWidth > 250 && window.innerWidth <= 400) {
+        setW(250);
+        setH(180);
       } else if (window.innerWidth > 400 && window.innerWidth <= 800) {
         setW(400);
         setH(300);
