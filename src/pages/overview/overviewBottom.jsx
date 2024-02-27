@@ -75,7 +75,7 @@ const OverviewBottom = () => {
 
   return (
     <Grid container spacing={1}>
-      <Grid item xs={12} sm={6} md={6}>
+      <Grid item xs={12} sm={12} md={6}>
         <Card
           sx={{
             minWidth: { xs: 150, sm: 300, md: 500 },
@@ -154,7 +154,7 @@ const OverviewBottom = () => {
         </Card>
       </Grid>
 
-      <Grid item xs={12} sm={6} md={6}>
+      <Grid item xs={12} sm={12} md={6}>
         <Card
           sx={{
             minWidth: { xs: 150, sm: 300, md: 500 },
