@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardContent, Typography } from "@mui/material";
-import { LineChart, Line, CartesianGrid, XAxis, YAxis } from "recharts";
+import {
+  LineChart,
+  Line,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  ResponsiveContainer,
+} from "recharts";
 import { getStats } from "./getStats";
 import Loader from "../../components/global/Loader";
 
@@ -77,18 +84,14 @@ const MassTransfers = () => {
               Mass Transfer
             </Typography>
             {chartData.length > 0 ? (
-              <LineChart
-                width={w}
-                height={h}
-                fontSize={12}
-                data={chartData}
-                style={{ margin: "auto" }}
-              >
-                <CartesianGrid stroke="#ccc" />
-                <XAxis dataKey="period" />
-                <YAxis domain={[0, maxCount]} />
-                <Line type="linear" dataKey="count" stroke="#ffc658" />
-              </LineChart>
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={chartData} fontSize={12}>
+                  <CartesianGrid stroke="#ccc" />
+                  <XAxis dataKey="period" />
+                  <YAxis domain={[0, maxCount]} />
+                  <Line type="linear" dataKey="count" stroke="#ffc658" />
+                </LineChart>
+              </ResponsiveContainer>
             ) : (
               <Typography>No data available</Typography>
             )}

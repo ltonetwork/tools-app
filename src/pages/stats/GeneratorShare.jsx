@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Card, CardContent, Button, Typography } from "@mui/material";
-import { PieChart, Pie, Tooltip, Legend } from "recharts";
+import { PieChart, Pie, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import Loader from "../../components/global/Loader";
 import { EXT_URL } from "../../utils/config";
 
@@ -141,20 +141,22 @@ const GeneratorShare = () => {
             </Button>
           </div>
           {generators.length > 0 ? (
-            <PieChart width={w} height={h} style={{ textAlign: "center" }}>
-              <Pie
-                data={data}
-                dataKey="blocks"
-                nameKey="name"
-                cx="50%"
-                cy="50%"
-                outerRadius={r}
-                fill="#8884d8"
-                label
-              />
-              <Tooltip />
-              {/* <Legend /> */}
-            </PieChart>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart style={{ textAlign: "center" }}>
+                <Pie
+                  data={data}
+                  dataKey="blocks"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={r}
+                  fill="#8884d8"
+                  label
+                />
+                <Tooltip />
+                {/* <Legend /> */}
+              </PieChart>
+            </ResponsiveContainer>
           ) : (
             <Typography>No data available</Typography>
           )}

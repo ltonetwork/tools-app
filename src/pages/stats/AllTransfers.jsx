@@ -9,33 +9,20 @@ import {
   Grid,
   useTheme,
 } from "@mui/material";
-import { LineChart, Line, CartesianGrid, XAxis, YAxis } from "recharts";
+import {
+  LineChart,
+  Line,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  ResponsiveContainer,
+} from "recharts";
 import Loader from "../../components/global/Loader";
 import { getStats } from "./getStats";
 
 const AllTransfers = () => {
   const [allTransfers, setAllTransfers] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  const [w, setW] = useState(600);
-  const [h, setH] = useState(300);
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 250 && window.innerWidth <= 400) {
-        setW(250);
-        setH(180);
-      } else if (window.innerWidth > 400 && window.innerWidth <= 800) {
-        setW(400);
-        setH(300);
-      }
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -84,18 +71,14 @@ const AllTransfers = () => {
               All Transfer
             </Typography>
             {chartData.length > 0 ? (
-              <LineChart
-                width={w}
-                height={h}
-                data={chartData}
-                fontSize={12}
-                style={{ margin: "auto" }}
-              >
-                <CartesianGrid stroke="#ccc" />
-                <XAxis dataKey="period" />
-                <YAxis domain={[0, maxCount]} />
-                <Line type="linear" dataKey="count" stroke="#ffc658" />
-              </LineChart>
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={chartData} fontSize={12}>
+                  <CartesianGrid stroke="#ccc" />
+                  <XAxis dataKey="period" />
+                  <YAxis domain={[0, maxCount]} />
+                  <Line type="linear" dataKey="count" stroke="#ffc658" />
+                </LineChart>
+              </ResponsiveContainer>
             ) : (
               <Typography>No data available</Typography>
             )}
