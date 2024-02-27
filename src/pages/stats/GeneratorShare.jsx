@@ -13,6 +13,29 @@ const GeneratorShare = () => {
   const [seven, setSeven] = useState(false);
   const [thirty, setThirty] = useState(false);
 
+  const [w, setW] = useState(500);
+  const [h, setH] = useState(300);
+  const [r, setR] = useState(120);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 400) {
+        setW(300);
+        setH(200);
+        setR(70);
+      } else if (window.innerWidth > 400 && window.innerWidth <= 800) {
+        setW(500);
+        setH(300);
+        setR(100);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -115,14 +138,14 @@ const GeneratorShare = () => {
             </Button>
           </div>
           {generators.length > 0 ? (
-            <PieChart width={600} height={300}>
+            <PieChart width={w} height={h} style={{ textAlign: "center" }}>
               <Pie
                 data={data}
                 dataKey="blocks"
                 nameKey="name"
                 cx="50%"
                 cy="50%"
-                outerRadius={120}
+                outerRadius={r}
                 fill="#8884d8"
                 label
               />

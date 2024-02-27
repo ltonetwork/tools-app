@@ -8,6 +8,7 @@ import LeaseChart from "./stats/LeaseChart";
 import AnchorChart from "./stats/AnchorChart";
 import AssociationsChart from "./stats/AssociationsChart";
 import GeneratorShare from "./stats/GeneratorShare";
+import AllTransactions from "./stats/AllTransactions";
 
 const Stats = () => {
   return (
@@ -37,6 +38,27 @@ const Stats = () => {
           <GeneratorShare />
         </Grid>
         <Grid item xs={12} md={6} lg={6}></Grid>
+      </Grid>
+      <Grid
+        container
+        spacing={1}
+        sx={{
+          maxWidth: "100%",
+          margin: "0 auto",
+          "@media (min-width: 600px)": {
+            maxWidth: 600,
+          },
+          "@media (min-width: 960px)": {
+            maxWidth: 960,
+          },
+          "@media (min-width: 1280px)": {
+            maxWidth: 1280,
+          },
+        }}
+      >
+        <Grid item xs={12} md={12} lg={12}>
+          <AllTransactions />
+        </Grid>
       </Grid>
       <Grid
         container

@@ -8,6 +8,26 @@ const MassTransfers = () => {
   const [massTransfer, setMassTransfer] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [w, setW] = useState(600);
+  const [h, setH] = useState(300);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 400) {
+        setW(300);
+        setH(200);
+      } else if (window.innerWidth > 400 && window.innerWidth <= 800) {
+        setW(400);
+        setH(300);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -58,8 +78,9 @@ const MassTransfers = () => {
             </Typography>
             {chartData.length > 0 ? (
               <LineChart
-                width={600} // Setting the width to 700px
-                height={300}
+                width={w}
+                height={h}
+                fontSize={12}
                 data={chartData}
                 style={{ margin: "auto" }}
               >

@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardContent, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardActions,
+  CardContent,
+  Button,
+  Typography,
+  Grid,
+  useTheme,
+} from "@mui/material";
 import { LineChart, Line, CartesianGrid, XAxis, YAxis } from "recharts";
-import { getStats } from "./getStats";
 import Loader from "../../components/global/Loader";
+import { getStats } from "./getStats";
 
-const AnchorChart = () => {
-  const [anchor, setAnchor] = useState([]);
+const AllTransactions = () => {
+  const [allTxs, setAllTxs] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  const [w, setW] = useState(600);
+  const [w, setW] = useState(1000);
   const [h, setH] = useState(300);
 
   useEffect(() => {
@@ -31,19 +39,18 @@ const AnchorChart = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getStats("anchor");
-        setAnchor(data);
+        const allTx = await getStats("all");
+        setAllTxs(allTx);
       } catch (error) {
-        console.error("Error fetching anchor data:", error);
+        console.error("Error fetching all tx data:", error);
       } finally {
         setLoading(false);
       }
     };
-
     fetchData();
   }, []);
 
-  const chartData = anchor.map(({ period, count }) => ({
+  const chartData = allTxs.map(({ period, count }) => ({
     period: period.split(" ")[0],
     count,
   }));
@@ -72,7 +79,7 @@ const AnchorChart = () => {
               color="primary.sec"
               gutterBottom
             >
-              Anchor
+              All Transactions
             </Typography>
             {chartData.length > 0 ? (
               <LineChart
@@ -85,7 +92,7 @@ const AnchorChart = () => {
                 <CartesianGrid stroke="#ccc" />
                 <XAxis dataKey="period" />
                 <YAxis domain={[0, maxCount]} />
-                <Line type="linear" dataKey="count" stroke="#18a86a" />
+                <Line type="linear" dataKey="count" stroke="#9225B2" />
               </LineChart>
             ) : (
               <Typography>No data available</Typography>
@@ -97,4 +104,4 @@ const AnchorChart = () => {
   );
 };
 
-export default AnchorChart;
+export default AllTransactions;
