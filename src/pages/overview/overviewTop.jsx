@@ -199,7 +199,7 @@ const OverviewTop = () => {
               color="primary.sec"
               component="div"
             >
-              8%
+              8.99%
             </Typography>
             {/* <Typography sx={{ mb: 1.5, mt: 2 }} color="primary.sec">
               (More Stats)
