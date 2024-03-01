@@ -53,7 +53,7 @@ const MassTransfers = () => {
 
   // Extracting dates and counts from massTransfer data and formatting the date
   const chartData = massTransfer.map(({ period, count }) => ({
-    period: period ? period.split(" ")[0] : "",
+    period: period ? period : "",
     count,
   }));
 

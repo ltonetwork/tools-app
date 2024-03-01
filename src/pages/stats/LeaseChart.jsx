@@ -32,7 +32,7 @@ const LeaseChart = () => {
   }, []);
 
   const chartData = lease.map(({ period, count }) => ({
-    period: period ? period.split(" ")[0] : "",
+    period: period ? period : "",
     count,
   }));
 

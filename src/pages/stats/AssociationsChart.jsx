@@ -32,7 +32,7 @@ const AssociationsChart = () => {
   }, []);
 
   const chartData = associations.map(({ period, count }) => ({
-    period: period.split(" ")[0],
+    period: period,
     count,
   }));
 

@@ -41,7 +41,7 @@ const AllTransfers = () => {
   }, []);
 
   const chartData = allTransfers.map(({ period, count }) => ({
-    period: period.split(" ")[0],
+    period: period,
     count,
   }));
 

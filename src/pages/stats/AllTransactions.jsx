@@ -40,7 +40,7 @@ const AllTransactions = () => {
   }, []);
 
   const chartData = allTxs.map(({ period, count }) => ({
-    period: period.split(" ")[0],
+    period: period,
     count,
   }));
 

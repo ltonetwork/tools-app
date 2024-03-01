@@ -32,7 +32,7 @@ const BurnChart = () => {
   }, []);
 
   const chartData = burn.map(({ period, count }) => ({
-    period: period ? period.split(" ")[0] : "",
+    period: period ? period : "",
     count,
   }));
 
