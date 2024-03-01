@@ -70,7 +70,7 @@ const AllTransactions = () => {
               color="primary.sec"
               gutterBottom
             >
-              All Transactions
+              Transactions
             </Typography>
             {chartData.length > 0 ? (
               <ResponsiveContainer width="100%" height={300}>

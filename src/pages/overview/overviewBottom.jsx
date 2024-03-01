@@ -78,7 +78,7 @@ const OverviewBottom = () => {
       <Grid item xs={12} sm={12} md={6}>
         <Card
           sx={{
-            minWidth: { xs: 150, sm: 300, md: 500 },
+            minWidth: { xs: 150, sm: 250, md: 300 },
             margin: 2,
             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
             backgroundColor: "#fefeff",
@@ -126,16 +126,16 @@ const OverviewBottom = () => {
                         ? `${gen.name.slice(0, 20)}...`
                         : gen.name ||
                           (!isMobile && (gen.name?.length ?? 0) >= 15)
-                        ? `${gen.name.slice(0, 16)}...`
+                        ? `${gen.name.slice(0, 12)}...`
                         : gen.name}
                     </Typography>
                   </div>
 
                   <Typography color="primary.sec">
                     {isMobile && gen.address.length >= 10
-                      ? `addr: ${gen.address.slice(0, 19)}...`
+                      ? `addr: ${gen.address.slice(0, 16)}...`
                       : gen.address || (!isMobile && gen.address.length >= 15)
-                      ? `addr: ${gen.address.slice(0, 12)}...`
+                      ? `addr: ${gen.address.slice(0, 9)}...`
                       : gen.address}
                   </Typography>
 
@@ -157,7 +157,7 @@ const OverviewBottom = () => {
       <Grid item xs={12} sm={12} md={6}>
         <Card
           sx={{
-            minWidth: { xs: 150, sm: 300, md: 500 },
+            minWidth: { xs: 150, sm: 250, md: 300 },
             margin: 2,
             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
             backgroundColor: "#fefeff",
@@ -202,7 +202,7 @@ const OverviewBottom = () => {
                       color="primary.sec"
                     >
                       {isMobile && node.peerName.length >= 14
-                        ? `${node.peerName.slice(0, 22)}...`
+                        ? `${node.peerName.slice(0, 10)}...`
                         : node.peerName ||
                           (!isMobile && node.peerName.length >= 14)
                         ? `${node.peerName.slice(0, 15)}...`

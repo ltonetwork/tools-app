@@ -9,6 +9,7 @@ import AnchorChart from "./stats/AnchorChart";
 import AssociationsChart from "./stats/AssociationsChart";
 import GeneratorShare from "./stats/GeneratorShare";
 import AllTransactions from "./stats/AllTransactions";
+import OperationsChart from "./stats/OperationsChart";
 
 const Stats = () => {
   return (
@@ -56,6 +57,9 @@ const Stats = () => {
           },
         }}
       >
+        <Grid item xs={12} md={12} lg={12}>
+          <OperationsChart />
+        </Grid>
         <Grid item xs={12} md={12} lg={12}>
           <AllTransactions />
         </Grid>
