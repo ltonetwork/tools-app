@@ -17,7 +17,7 @@ const RewardCalculator = () => {
   const [rewardsPerMonth, setRewardsPerMonth] = useState("");
   const [rewardsPerYear, setRewardsPerYear] = useState("");
   const [calc, setCalc] = useState(false);
-  const [apy, setApy] = useState(8.99);
+  const [apy, setApy] = useState(6);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -90,7 +90,8 @@ const RewardCalculator = () => {
             variant="body1"
             style={{ marginTop: 10, color: "#17054B", fontSize: 16 }}
           >
-            APY: {apy}%
+            APY:{" >"}
+            {apy}%
           </Typography>
           <TextField
             label="Amount Leased"
@@ -118,17 +119,39 @@ const RewardCalculator = () => {
           {calc && (
             <div>
               <Typography variant="body1" style={{ marginTop: 10 }}>
-                Rewards per Month:{" "}
-                <span style={{ color: "#17054B", fontWeight: 600 }}>
-                  {rewardsPerMonth} LTO ($
-                  {(rewardsPerMonth * ltoToUSDExchangeRate).toFixed(2)} USD)
+                Rewards per Month:
+              </Typography>
+              <Typography>
+                <span
+                  style={{ color: "#17054B", fontSize: 14, fontWeight: 600 }}
+                >
+                  {`${rewardsPerMonth} - ${(
+                    (ltoAmount * (8.99 / 100)) /
+                    12
+                  ).toFixed(2)}`}{" "}
+                  LTO{"  "}
+                  {`($ ${(rewardsPerMonth * ltoToUSDExchangeRate).toFixed(2)}
+                    - $
+                    ${(
+                      ((ltoAmount * 8.99) / 100 / 12) *
+                      ltoToUSDExchangeRate
+                    ).toFixed(2)}
+                  USD)`}
                 </span>
               </Typography>
               <Typography variant="body1" style={{ marginTop: 10 }}>
-                Rewards per Year:{" "}
-                <span style={{ color: "#17054B", fontWeight: 600 }}>
-                  {rewardsPerYear} LTO ($
-                  {(rewardsPerYear * ltoToUSDExchangeRate).toFixed(2)} USD)
+                Rewards per Year:
+              </Typography>
+              <Typography>
+                <span
+                  style={{ color: "#17054B", fontSize: 14, fontWeight: 600 }}
+                >
+                  {`${rewardsPerYear} - ${(ltoAmount / 100) * 8.99}`} LTO {"  "}
+                  {`($${(rewardsPerYear * ltoToUSDExchangeRate).toFixed(2)}  - $
+                    ${(
+                      ((ltoAmount * 8.99) / 100) *
+                      ltoToUSDExchangeRate
+                    ).toFixed(2)} USD)`}
                 </span>
               </Typography>
             </div>
