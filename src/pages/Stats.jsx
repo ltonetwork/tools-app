@@ -60,9 +60,9 @@ const Stats = () => {
         <Grid item xs={12} md={12} lg={12}>
           <OperationsChart />
         </Grid>
-        <Grid item xs={12} md={12} lg={12}>
+        {/* <Grid item xs={12} md={12} lg={12}>
           <AllTransactions />
-        </Grid>
+        </Grid> */}
       </Grid>
       <Grid
         container
