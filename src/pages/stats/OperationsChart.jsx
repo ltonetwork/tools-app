@@ -1,14 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Card,
-  CardActions,
-  CardContent,
-  Button,
-  Typography,
-  Grid,
-  useTheme,
-} from "@mui/material";
+import { Box, Card, CardContent, Button, Typography } from "@mui/material";
 import {
   LineChart,
   Line,
@@ -17,13 +8,20 @@ import {
   YAxis,
   ResponsiveContainer,
   Area,
+  Tooltip,
 } from "recharts";
 import Loader from "../../components/global/Loader";
 import { getOperations } from "./getStats";
+import OperationsWeek from "./OperationsWeek";
 
 const OperationsChart = () => {
   const [allTxs, setAllTxs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedPeriod, setSelectedPeriod] = useState("month");
+
+  const handlePeriodClick = (period) => {
+    setSelectedPeriod(period);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -73,12 +71,33 @@ const OperationsChart = () => {
             >
               Network Operations
             </Typography>
-            {chartData.length > 0 ? (
+            <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
+              <Button
+                sx={{ margin: 1 }}
+                onClick={() => handlePeriodClick("week")}
+                variant={selectedPeriod === "week" ? "contained" : "outlined"}
+                size="small"
+              >
+                Week
+              </Button>
+              <Button
+                sx={{ margin: 1 }}
+                onClick={() => handlePeriodClick("month")}
+                variant={selectedPeriod === "month" ? "contained" : "outlined"}
+                size="small"
+              >
+                Last 3 months
+              </Button>
+            </Box>
+            {selectedPeriod == "week" ? (
+              <OperationsWeek />
+            ) : selectedPeriod == "month" && chartData.length > 0 ? (
               <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={chartData} fontSize={12}>
                   <CartesianGrid stroke="#ccc" />
                   <XAxis dataKey="period" />
                   <YAxis domain={[0, maxCount]} />
+                  <Tooltip />
                   <Line
                     type="linear"
                     dataKey="count"
