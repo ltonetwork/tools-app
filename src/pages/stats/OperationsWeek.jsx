@@ -20,7 +20,7 @@ import {
   Tooltip,
 } from "recharts";
 import Loader from "../../components/global/Loader";
-import { getOperations } from "./getStats";
+import { getOperationsWeek } from "./getStats";
 
 const OperationsWeek = () => {
   const [allTxs, setAllTxs] = useState([]);
@@ -29,7 +29,7 @@ const OperationsWeek = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const allTx = await getOperations();
+        const allTx = await getOperationsWeek();
         setAllTxs(allTx);
       } catch (error) {
         console.error("Error fetching all tx data:", error);
@@ -40,16 +40,16 @@ const OperationsWeek = () => {
     fetchData();
   }, []);
 
-  const filteredData = allTxs?.filter(({ period }) => {
-    const currentDate = new Date();
-    const txDate = new Date(period);
-    const oneWeekAgo = new Date();
-    oneWeekAgo.setDate(currentDate.getDate() - 7);
-    return txDate >= oneWeekAgo;
-  });
+  //   const filteredData = allTxs?.filter(({ period }) => {
+  //     const currentDate = new Date();
+  //     const txDate = new Date(period);
+  //     const oneWeekAgo = new Date();
+  //     oneWeekAgo.setDate(currentDate.getDate() - 7);
+  //     return txDate >= oneWeekAgo;
+  //   });
 
-  const chartData = filteredData.map(({ period, count }) => ({
-    period: period.split(" ")[0],
+  const chartData = allTxs.map(({ period, count }) => ({
+    period: period,
     count,
   }));
 

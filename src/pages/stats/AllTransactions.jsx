@@ -16,6 +16,7 @@ import {
   XAxis,
   YAxis,
   ResponsiveContainer,
+  Tooltip,
 } from "recharts";
 import Loader from "../../components/global/Loader";
 import { getStats } from "./getStats";
@@ -78,6 +79,7 @@ const AllTransactions = () => {
                   <CartesianGrid stroke="#ccc" />
                   <XAxis dataKey="period" />
                   <YAxis domain={[0, maxCount]} />
+                  <Tooltip />
                   <Line type="linear" dataKey="count" stroke="#9225B2" />
                 </LineChart>
               </ResponsiveContainer>

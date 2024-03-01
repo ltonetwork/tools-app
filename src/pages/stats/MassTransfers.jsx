@@ -7,6 +7,7 @@ import {
   XAxis,
   YAxis,
   ResponsiveContainer,
+  Tooltip,
 } from "recharts";
 import { getStats } from "./getStats";
 import Loader from "../../components/global/Loader";
@@ -89,6 +90,7 @@ const MassTransfers = () => {
                   <CartesianGrid stroke="#ccc" />
                   <XAxis dataKey="period" />
                   <YAxis domain={[0, maxCount]} />
+                  <Tooltip />
                   <Line type="linear" dataKey="count" stroke="#ffc658" />
                 </LineChart>
               </ResponsiveContainer>

@@ -190,7 +190,7 @@ const OverviewTop = () => {
                 color="primary.sec"
                 gutterBottom
               >
-                APY
+                Estimated APY
               </Typography>
               <Typography
                 style={{

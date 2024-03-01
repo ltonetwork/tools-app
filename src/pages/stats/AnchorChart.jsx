@@ -7,6 +7,7 @@ import {
   XAxis,
   YAxis,
   ResponsiveContainer,
+  Tooltip,
 } from "recharts";
 import { getStats } from "./getStats";
 import Loader from "../../components/global/Loader";
@@ -67,6 +68,7 @@ const AnchorChart = () => {
                   <CartesianGrid stroke="#ccc" />
                   <XAxis dataKey="period" />
                   <YAxis domain={[0, maxCount]} />
+                  <Tooltip />
                   <Line type="linear" dataKey="count" stroke="#18a86a" />
                 </LineChart>
               </ResponsiveContainer>
