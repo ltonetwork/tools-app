@@ -17,8 +17,6 @@ h6 .app,
 
 .app {
   display: flex;
-  width: 100%;
-  position: relative;
 }
 
 /* @media (max-width: 600px) {
