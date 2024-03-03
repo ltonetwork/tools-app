@@ -222,7 +222,7 @@ const Generators = () => {
           Last 30days
         </Button>
       </Box>
-      <Card>
+      <Card sx={{ margin: 2 }}>
         <CardContent>
           <div style={{ height: 500, width: "100%" }}>
             <DataGrid
