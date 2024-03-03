@@ -127,7 +127,7 @@ const OverviewTop = () => {
               </Typography>
             </CardContent>
             {/* <CardActions>
-          <Button size="small">Learn More</Button>
+          <Button size="small">more</Button>
         </CardActions> */}
           </Card>
         </Grid>
@@ -167,7 +167,7 @@ const OverviewTop = () => {
               </Typography>
             </CardContent>
             {/* <CardActions>
-          <Button size="small">Learn More</Button>
+          <Button size="small">more</Button>
         </CardActions> */}
           </Card>
         </Grid>
@@ -200,7 +200,7 @@ const OverviewTop = () => {
                 color="primary.sec"
                 component="div"
               >
-                {"> 5%"}
+                {"8.66%"}
               </Typography>
               {/* <Typography sx={{ mb: 1.5, mt: 2 }} color="primary.sec">
             (More Stats)
@@ -211,7 +211,7 @@ const OverviewTop = () => {
                 to="https://blog.ltonetwork.com/tokenomics-update/"
                 target="_blank"
               >
-                <Button size="small">Learn More</Button>
+                <Button size="small">more</Button>
               </Link>
             </CardActions>
           </Card>
@@ -258,7 +258,7 @@ const OverviewTop = () => {
                   handleClick("stats");
                 }}
               >
-                More Stats
+                more
               </Button>
             </CardActions>
           </Card>
@@ -305,7 +305,7 @@ const OverviewTop = () => {
                   handleClick("stats");
                 }}
               >
-                More Stats
+                more
               </Button>
             </CardActions>
           </Card>
@@ -347,7 +347,7 @@ const OverviewTop = () => {
             </CardContent>
             <CardActions>
               <Button onClick={() => handleClick("nodes")} size="small">
-                View All
+                more
               </Button>
             </CardActions>
           </Card>
@@ -389,7 +389,7 @@ const OverviewTop = () => {
             </CardContent>
             <CardActions>
               <Button size="small" onClick={() => handleClick("generators")}>
-                View All
+                more
               </Button>
             </CardActions>
           </Card>
@@ -431,7 +431,7 @@ const OverviewTop = () => {
             </CardContent>
             <CardActions>
               <Button size="small" onClick={() => handleClick("generators")}>
-                View All
+                more
               </Button>
             </CardActions>
           </Card>

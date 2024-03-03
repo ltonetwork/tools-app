@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Box, TextField, InputAdornment, IconButton } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Box,
+  TextField,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import DateComponent from "../components/global/DateComponent";
 import SearchIcon from "@mui/icons-material/Search";
@@ -76,16 +83,20 @@ const Nodes = () => {
           }}
         />
       </Box>
-      <div style={{ height: 500, width: "100%" }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          pageSize={5}
-          rowsPerPageOptions={[5]}
-          checkboxSelection={false}
-          disableSelectionOnClick
-        />
-      </div>
+      <Card>
+        <CardContent>
+          <div style={{ height: 500, width: "100%" }}>
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              pageSize={5}
+              rowsPerPageOptions={[5]}
+              checkboxSelection={false}
+              disableSelectionOnClick
+            />
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };

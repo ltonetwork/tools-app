@@ -61,7 +61,12 @@ const MobileMenu = () => {
     <Stack
       direction="row"
       spacing={2}
-      sx={{ position: "fixed", top: "10px", left: "10px", zIndex: 999 }}
+      sx={{
+        position: "fixed",
+        bottom: "10px", // Adjust bottom position
+        right: "10px", // Adjust right position
+        zIndex: 999,
+      }}
     >
       <div>
         <Button
@@ -71,9 +76,17 @@ const MobileMenu = () => {
           aria-expanded={open ? "true" : undefined}
           aria-haspopup="true"
           onClick={handleToggle}
-          style={{ color: "white", backgroundColor: "#17054B" }}
+          style={{
+            borderRadius: "50%",
+            width: "40px",
+            height: "40px",
+            minWidth: "unset",
+            padding: 0,
+            color: "white",
+            backgroundColor: "#17054B",
+          }}
         >
-          <MoreVertOutlinedIcon />
+          <MenuOutlinedIcon />
         </Button>
         <Popper
           open={open}

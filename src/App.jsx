@@ -18,18 +18,25 @@ const App = () => {
           <ResponsiveMenu />
           {/* <Sidebar isSidebar={isSidebar} /> */}
 
-          <main className="content">
+          <main className="content" style={{ position: "relative" }}>
             <Topbar />
             <div
               style={{
                 padding: "10px",
                 backgroundColor: "#f0f3fa",
                 backgroundImage: `url(${BG_Wave})`,
-                height: "100%",
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                height: "100vh",
+                width: "100%",
+                position: "absolute",
+                top: 0,
+                left: 0,
+                zIndex: -1,
               }}
-            >
-              <Outlet />
-            </div>
+            />
+            <Outlet />
           </main>
         </div>
       </div>

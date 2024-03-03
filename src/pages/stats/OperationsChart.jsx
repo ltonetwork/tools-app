@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, Card, CardContent, Button, Typography } from "@mui/material";
 import {
-  LineChart,
-  Line,
+  AreaChart,
   CartesianGrid,
   XAxis,
   YAxis,
@@ -89,28 +88,30 @@ const OperationsChart = () => {
                 Last 3 months
               </Button>
             </Box>
-            {selectedPeriod == "week" ? (
+            {selectedPeriod === "week" ? (
               <OperationsWeek />
-            ) : selectedPeriod == "month" && chartData.length > 0 ? (
+            ) : selectedPeriod === "month" && chartData.length > 0 ? (
               <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={chartData} fontSize={12}>
+                <AreaChart data={chartData} fontSize={12}>
+                  <defs>
+                    <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#8F61D0" stopOpacity={0.8} />
+                      <stop offset="95%" stopColor="#8F61D0" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
                   <CartesianGrid stroke="#ccc" />
                   <XAxis dataKey="period" />
                   <YAxis domain={[0, maxCount]} />
                   <Tooltip />
-                  <Line
-                    type="linear"
-                    dataKey="count"
-                    stroke="#9225B2"
-                    // dot={false}
-                  />
                   <Area
                     type="monotone"
                     dataKey="count"
-                    fill="#9225B2"
-                    fillOpacity={0.3}
+                    stroke="#8F61D0"
+                    strokeWidth={2} // Thickness of line border
+                    fill="url(#colorUv)" // Fill with linear gradient
+                    fillOpacity={1}
                   />
-                </LineChart>
+                </AreaChart>
               </ResponsiveContainer>
             ) : (
               <Typography>No data available</Typography>

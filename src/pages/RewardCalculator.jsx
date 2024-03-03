@@ -146,7 +146,10 @@ const RewardCalculator = () => {
                 <span
                   style={{ color: "#17054B", fontSize: 14, fontWeight: 600 }}
                 >
-                  {`${rewardsPerYear} - ${(ltoAmount / 100) * 8.99}`} LTO {"  "}
+                  {`${rewardsPerYear} - ${((ltoAmount / 100) * 8.99).toFixed(
+                    2
+                  )}`}{" "}
+                  LTO {"  "}
                   {`($${(rewardsPerYear * ltoToUSDExchangeRate).toFixed(2)}  - $
                     ${(
                       ((ltoAmount * 8.99) / 100) *

@@ -1,22 +1,11 @@
 import React, { useEffect, useState } from "react";
 import {
-  Box,
-  Card,
-  CardActions,
-  CardContent,
-  Button,
-  Typography,
-  Grid,
-  useTheme,
-} from "@mui/material";
-import {
-  LineChart,
-  Line,
+  AreaChart,
+  Area,
   CartesianGrid,
   XAxis,
   YAxis,
   ResponsiveContainer,
-  Area,
   Tooltip,
 } from "recharts";
 import Loader from "../../components/global/Loader";
@@ -59,24 +48,26 @@ const OperationsWeek = () => {
     <div style={{ width: "100%", margin: 2 }}>
       {chartData.length > 0 && (
         <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={chartData} fontSize={12}>
+          <AreaChart data={chartData} fontSize={12}>
+            <defs>
+              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#8F61D0" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#8F61D0" stopOpacity={0} />
+              </linearGradient>
+            </defs>
             <CartesianGrid stroke="#ccc" />
             <XAxis dataKey="period" />
             <YAxis domain={[0, maxCount]} />
             <Tooltip />
-            <Line
-              type="linear"
-              dataKey="count"
-              stroke="#9225B2"
-              // dot={false}
-            />
             <Area
               type="monotone"
               dataKey="count"
-              fill="#9225B2"
-              fillOpacity={0.3}
+              stroke="#8F61D0"
+              strokeWidth={2} // border Thickness
+              fill="url(#colorUv)" // Fill with linear gradient
+              fillOpacity={1}
             />
-          </LineChart>
+          </AreaChart>
         </ResponsiveContainer>
       )}
     </div>
