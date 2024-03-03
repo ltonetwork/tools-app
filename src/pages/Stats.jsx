@@ -96,9 +96,9 @@ const Stats = () => {
           },
         }}
       >
-        <Grid item xs={12} md={6} lg={6}>
+        {/* <Grid item xs={12} md={6} lg={6}>
           <GeneratorShare />
-        </Grid>
+        </Grid> */}
         <Grid item xs={12} md={6} lg={6}></Grid>
       </Grid>
     </div>

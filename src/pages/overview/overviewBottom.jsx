@@ -21,6 +21,7 @@ const OverviewBottom = () => {
   const [loading, setLoading] = useState(true);
   const [nodes, setNodes] = useState([]);
   const [generators, setGenerators] = useState([]);
+  const [operations, setOperations] = useState([]);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -39,11 +40,25 @@ const OverviewBottom = () => {
   }, []);
 
   useEffect(() => {
+    const currentDate = new Date();
+    const past = new Date(currentDate);
+    past.setDate(past.getDate() - 3);
+
     axios
       .get(`${BASE_URL}peers/connected`)
       .then((res) => {
         const nodes = res.data.peers;
         setNodes(nodes);
+      })
+      .catch((error) => {
+        console.error("Errors fetching the node data", error);
+      });
+
+    axios
+      .get(`${BASE_URL}index/stats/operations/${past}/${currentDate}`)
+      .then((res) => {
+        const response = res.data;
+        setOperations(response);
       })
       .catch((error) => {
         console.error("Errors fetching the node data", error);
@@ -185,44 +200,36 @@ const OverviewBottom = () => {
               </span>
             </Typography>
 
-            {generators.slice(0, 3).map((gen) => {
-              return (
-                <div
-                  style={{
-                    display: isMobile ? "inline" : "grid",
-                    gridTemplateColumns: "1fr 1fr 1fr",
-                  }}
-                >
-                  <div>
-                    <Typography
-                      style={{
-                        fontWeight: "bold",
-                      }}
-                      color="primary.sec"
-                    >
-                      {isMobile && (gen.name?.length ?? 0) >= 15
-                        ? `${gen.name.slice(0, 20)}...`
-                        : gen.name ||
-                          (!isMobile && (gen.name?.length ?? 0) >= 15)
-                        ? `${gen.name.slice(0, 12)}...`
-                        : gen.name}
-                    </Typography>
-                  </div>
+            {operations
+              .slice(1, 4)
+              .reverse()
+              .map((op) => {
+                return (
+                  <div
+                    style={{
+                      display: isMobile ? "inline" : "grid",
+                      gridTemplateColumns: "1fr 1fr 1fr",
+                    }}
+                  >
+                    <div>
+                      <Typography
+                        style={{
+                          fontWeight: "bold",
+                        }}
+                        color="primary.sec"
+                      >
+                        {op.period}
+                      </Typography>
+                    </div>
 
-                  <Typography color="primary.sec">
-                    {isMobile && gen.address.length >= 10
-                      ? `addr: ${gen.address.slice(0, 16)}...`
-                      : gen.address || (!isMobile && gen.address.length >= 15)
-                      ? `addr: ${gen.address.slice(0, 9)}...`
-                      : gen.address}
-                  </Typography>
+                    <Typography color="primary.sec">{op.count}</Typography>
 
-                  <Typography color="primary.sec">
+                    {/* <Typography color="primary.sec">
                     {gen.effectiveBalance} LTO
-                  </Typography>
-                </div>
-              );
-            })}
+                  </Typography> */}
+                  </div>
+                );
+              })}
           </CardContent>
           <CardActions>
             <Button onClick={() => handleClick("nodes")} size="small">
