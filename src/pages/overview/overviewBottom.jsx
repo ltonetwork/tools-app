@@ -82,8 +82,8 @@ const OverviewBottom = () => {
       Navigate("/nodes");
     } else if (action === "generators") {
       Navigate("/generators");
-    } else if (action === "transactions") {
-      Navigate("/operations");
+    } else if (action === "operations") {
+      Navigate("/stats");
     }
   };
 
@@ -232,7 +232,7 @@ const OverviewBottom = () => {
               })}
           </CardContent>
           <CardActions>
-            <Button onClick={() => handleClick("nodes")} size="small">
+            <Button onClick={() => handleClick("operations")} size="small">
               more
             </Button>
           </CardActions>
