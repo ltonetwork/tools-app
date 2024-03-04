@@ -13,7 +13,7 @@ import OperationsChart from "./stats/OperationsChart";
 
 const Stats = () => {
   return (
-    <div>
+    <div style={{ height: "100%" }}>
       <DateComponent />
       <Typography style={{ textAlign: "center", paddingBottom: "15px" }}>
         Chain stats for the last 3 months to the current date

@@ -212,17 +212,19 @@ const OverviewBottom = () => {
                     }}
                   >
                     <div>
-                      <Typography
-                        style={{
-                          fontWeight: "bold",
-                        }}
-                        color="primary.sec"
-                      >
-                        {op.period}
+                      <Typography color="primary.sec">
+                        Date: {op.period.split(" ")[0]}
                       </Typography>
                     </div>
 
-                    <Typography color="primary.sec">{op.count}</Typography>
+                    <Typography
+                      style={{
+                        fontWeight: "bold",
+                      }}
+                      color="primary.sec"
+                    >
+                      Total: {op.count}
+                    </Typography>
 
                     {/* <Typography color="primary.sec">
                     {gen.effectiveBalance} LTO
