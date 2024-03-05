@@ -148,9 +148,7 @@ const Blocks = () => {
 
   return (
     <div style={{ paddingTop: "15px", paddingBottom: "10%" }}>
-      {loadingWeekly && <Loader />}{" "}
-      {/* Render Loader if loadingWeekly is true */}
-      <LastUpdate />
+      {loadingWeekly && <Loader />} <LastUpdate />
       <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
         <Button
           style={{
@@ -191,14 +189,12 @@ const Blocks = () => {
         </Button> */}
       </Box>
       <Card sx={{ margin: 2, width: "90vw" }}>
-        {/* Set width to 90% of the viewport width */}
         <CardContent>
           <Box
             display="flex"
             alignItems="center"
             style={{ marginBottom: "5px" }}
           >
-            {/* Search Text Field */}
             <TextField
               id="search"
               label="Search generator"
