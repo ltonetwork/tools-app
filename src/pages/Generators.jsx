@@ -166,7 +166,7 @@ const Generators = () => {
         />
       </Box> */}
 
-      <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
+      <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
         {/* {!isMobile && (
           <TextField
             size="small"

@@ -112,7 +112,7 @@ const Blocks = () => {
     <div>
       <DateComponent />
 
-      <Box sx={{ display: "flex", justifyContent: "flex", mb: 2 }}>
+      <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
         <Button
           style={{
             backgroundColor: selectedPeriod === "24" ? "#17054B" : "white",
