@@ -17,7 +17,7 @@ const RewardCalculator = () => {
   const [rewardsPerMonth, setRewardsPerMonth] = useState("");
   const [rewardsPerYear, setRewardsPerYear] = useState("");
   const [calc, setCalc] = useState(false);
-  const [apy, setApy] = useState(6);
+  const [apy, setApy] = useState(8.66);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -75,7 +75,7 @@ const RewardCalculator = () => {
           <Typography variant="h5" gutterBottom>
             Reward Calculator
           </Typography>
-          <Slider
+          {/* <Slider
             value={ltoAmount}
             onChange={handleSliderChange}
             min={0}
@@ -85,12 +85,12 @@ const RewardCalculator = () => {
           />
           <Typography variant="body1" style={{ marginTop: 10, fontSize: 16 }}>
             Value: {ltoAmount} LTO (${(ltoAmount * usd).toFixed(2)} USD)
-          </Typography>
+          </Typography> */}
           <Typography
             variant="body1"
             style={{ marginTop: 10, color: "#17054B", fontSize: 16 }}
           >
-            APY:{" >"}
+            APY:
             {apy}%
           </Typography>
           <TextField
@@ -125,7 +125,9 @@ const RewardCalculator = () => {
                 <span
                   style={{ color: "#17054B", fontSize: 14, fontWeight: 600 }}
                 >
-                  {`${rewardsPerMonth} - ${(
+                  {`${rewardsPerMonth}`} LTO{"  "}
+                  {`($ ${(rewardsPerMonth * ltoToUSDExchangeRate).toFixed(2)})`}
+                  {/* {`${rewardsPerMonth} - ${(
                     (ltoAmount * (8.99 / 100)) /
                     12
                   ).toFixed(2)}`}{" "}
@@ -136,7 +138,7 @@ const RewardCalculator = () => {
                       ((ltoAmount * 8.99) / 100 / 12) *
                       ltoToUSDExchangeRate
                     ).toFixed(2)}
-                  USD)`}
+                  USD)`} */}
                 </span>
               </Typography>
               <Typography variant="body1" style={{ marginTop: 10 }}>
@@ -146,7 +148,9 @@ const RewardCalculator = () => {
                 <span
                   style={{ color: "#17054B", fontSize: 14, fontWeight: 600 }}
                 >
-                  {`${rewardsPerYear} - ${((ltoAmount / 100) * 8.99).toFixed(
+                  {`${rewardsPerYear}`} LTO {"  "}
+                  {`($${(rewardsPerYear * ltoToUSDExchangeRate).toFixed(2)})`}
+                  {/* {`${rewardsPerYear} - ${((ltoAmount / 100) * 8.99).toFixed(
                     2
                   )}`}{" "}
                   LTO {"  "}
@@ -154,7 +158,7 @@ const RewardCalculator = () => {
                     ${(
                       ((ltoAmount * 8.99) / 100) *
                       ltoToUSDExchangeRate
-                    ).toFixed(2)} USD)`}
+                    ).toFixed(2)} USD)`} */}
                 </span>
               </Typography>
             </div>

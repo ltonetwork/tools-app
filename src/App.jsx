@@ -14,7 +14,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <div>
         <CssBaseline />
-        <div className="app">
+        <div className="app" style={{ width: "100vw" }}>
           <ResponsiveMenu />
           {/* <Sidebar isSidebar={isSidebar} /> */}
 
@@ -36,7 +36,7 @@ const App = () => {
                 zIndex: -1,
               }}
             />
-            <Outlet />
+            <Outlet maxWidth="lg" />
           </main>
         </div>
       </div>

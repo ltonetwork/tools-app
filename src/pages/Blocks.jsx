@@ -13,6 +13,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import LastUpdate from "../components/global/LastUpdate";
 import SearchIcon from "@mui/icons-material/Search";
 import { SCRIPT } from "../utils/config";
+import Loader from "../components/global/Loader";
 
 const Blocks = () => {
   const [blocksDaily, setBlocksDaily] = useState([]);
@@ -21,25 +22,53 @@ const Blocks = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedPeriod, setSelectedPeriod] = useState("24");
   const [loadingMonthly, setLoadingMonthly] = useState(false);
+  const [loadingWeekly, setLoadingWeekly] = useState(false);
+  const [dataLoaded, setDataLoaded] = useState(false);
 
   useEffect(() => {
-    axios.get(`${SCRIPT}/blocks-daily`).then((res) => {
-      setBlocksDaily(res.data);
-    });
+    const fetchData = async () => {
+      try {
+        const [dailyRes, weeklyRes, monthlyRes] = await Promise.all([
+          axios.get(`${SCRIPT}/blocks-daily`),
+          axios.get(`${SCRIPT}/blocks-weekly`),
+          axios.get(`${SCRIPT}/blocks-monthly`),
+        ]);
+        setBlocksDaily(dailyRes.data);
+        setBlocksWeekly(weeklyRes.data);
+        setBlocksMonthly(monthlyRes.data);
+        setDataLoaded(true);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-    axios.get(`${SCRIPT}/blocks-weekly`).then((res) => {
-      setBlocksWeekly(res.data);
-    });
-  }, []);
+    if (!dataLoaded) {
+      fetchData();
+    }
+  }, [dataLoaded]);
 
-  const handlePeriodClick = (period) => {
+  const handlePeriodClick = async (period) => {
     setSelectedPeriod(period);
-    if (period === "monthly" && blocksMonthly.length === 0) {
+    if (period === "weekly" && blocksWeekly.length === 0) {
+      setLoadingWeekly(true);
+      try {
+        const res = await axios.get(`${SCRIPT}/blocks-weekly`);
+        setBlocksWeekly(res.data);
+      } catch (error) {
+        console.error("Error fetching weekly data:", error);
+      } finally {
+        setLoadingWeekly(false);
+      }
+    } else if (period === "monthly" && blocksMonthly.length === 0) {
       setLoadingMonthly(true);
-      axios.get(`${SCRIPT}/blocks-monthly`).then((res) => {
+      try {
+        const res = await axios.get(`${SCRIPT}/blocks-monthly`);
         setBlocksMonthly(res.data);
+      } catch (error) {
+        console.error("Error fetching monthly data:", error);
+      } finally {
         setLoadingMonthly(false);
-      });
+      }
     }
   };
 
@@ -118,9 +147,10 @@ const Blocks = () => {
   );
 
   return (
-    <div>
+    <div style={{ paddingTop: "15px", paddingBottom: "10%" }}>
+      {loadingWeekly && <Loader />}{" "}
+      {/* Render Loader if loadingWeekly is true */}
       <LastUpdate />
-
       <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
         <Button
           style={{
@@ -147,7 +177,7 @@ const Blocks = () => {
         >
           Last 7days
         </Button>
-        <Button
+        {/* <Button
           style={{
             backgroundColor: selectedPeriod === "monthly" ? "#17054B" : "white",
             color: selectedPeriod === "monthly" ? "white" : "#17054B",
@@ -156,13 +186,12 @@ const Blocks = () => {
           onClick={() => handlePeriodClick("monthly")}
           variant={selectedPeriod === "monthly" ? "contained" : "outlined"}
           size="small"
-          disabled={loadingMonthly}
         >
-          {loadingMonthly ? "Loading..." : "Last 30days"}
-        </Button>
+          Last 30days
+        </Button> */}
       </Box>
-
-      <Card sx={{ margin: 2 }}>
+      <Card sx={{ margin: 2, width: "90vw" }}>
+        {/* Set width to 90% of the viewport width */}
         <CardContent>
           <Box
             display="flex"

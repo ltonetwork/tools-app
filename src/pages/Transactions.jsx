@@ -42,9 +42,9 @@ function Transactions() {
   const reversedRows = [...rows].reverse();
 
   return (
-    <div>
+    <div style={{ paddingTop: "15px", paddingBottom: "10%" }}>
       <LastUpdate />
-      <Card sx={{ margin: 2 }}>
+      <Card sx={{ margin: 2, width: "90vw" }}>
         <CardContent>
           <div style={{ height: 500, width: "100%", marginTop: 20 }}>
             <DataGrid rows={reversedRows} columns={columns} pageSize={5} />
