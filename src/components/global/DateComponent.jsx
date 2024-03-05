@@ -30,7 +30,7 @@ const DateComponent = () => {
         style={{ display: "block", textAlign: "center" }}
         color="primary.sec"
       >
-        last update: {formattedDate} UTC
+        current date: {formattedDate} UTC
       </Typography>
     </div>
   );

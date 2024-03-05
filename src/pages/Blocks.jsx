@@ -10,7 +10,7 @@ import {
   Button,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import DateComponent from "../components/global/DateComponent";
+import LastUpdate from "../components/global/LastUpdate";
 import SearchIcon from "@mui/icons-material/Search";
 import { SCRIPT } from "../utils/config";
 
@@ -20,6 +20,7 @@ const Blocks = () => {
   const [blocksMonthly, setBlocksMonthly] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedPeriod, setSelectedPeriod] = useState("24");
+  const [loadingMonthly, setLoadingMonthly] = useState(false);
 
   useEffect(() => {
     axios.get(`${SCRIPT}/blocks-daily`).then((res) => {
@@ -29,27 +30,31 @@ const Blocks = () => {
     axios.get(`${SCRIPT}/blocks-weekly`).then((res) => {
       setBlocksWeekly(res.data);
     });
-
-    axios.get(`${SCRIPT}/blocks-monthly`).then((res) => {
-      setBlocksMonthly(res.data);
-    });
   }, []);
 
   const handlePeriodClick = (period) => {
     setSelectedPeriod(period);
+    if (period === "monthly" && blocksMonthly.length === 0) {
+      setLoadingMonthly(true);
+      axios.get(`${SCRIPT}/blocks-monthly`).then((res) => {
+        setBlocksMonthly(res.data);
+        setLoadingMonthly(false);
+      });
+    }
   };
 
   const columns = [
     { field: "id", headerName: "#", width: 90 },
     { field: "height", headerName: "Block height", width: 150 },
     { field: "generator", headerName: "Generator", width: 350 },
+    { field: "date", headerName: "Date", width: 150 },
     { field: "time", headerName: "Time", width: 150 },
     { field: "blocksize", headerName: "Blocksize", width: 90 },
-    { field: "transactionCount", headerName: "Transactions", width: 90 },
-    { field: "fee", headerName: "Fees(LTO)", width: 90 },
+    { field: "transactionCount", headerName: "Transactions", width: 100 },
+    { field: "fee", headerName: "Fees(LTO)", width: 100 },
     { field: "burnedFees", headerName: "Burned fees", width: 120 },
-    { field: "miningReward", headerName: "Mining reward", width: 120 },
-    { field: "generatorReward", headerName: "Generator reward", width: 120 },
+    { field: "miningReward", headerName: "Mining reward", width: 150 },
+    { field: "generatorReward", headerName: "Generator reward", width: 150 },
   ];
 
   const today = new Date();
@@ -85,12 +90,16 @@ const Blocks = () => {
       id: index + 1,
       height: block.height,
       generator: block.generator,
+      date: new Date(block.timestamp).toLocaleDateString("en-US", {
+        month: "short",
+        day: "2-digit",
+      }),
       time: new Date(block.timestamp).toLocaleTimeString("en-US", {
         hour12: false,
         hour: "2-digit",
         minute: "2-digit",
         second: "2-digit",
-        timeZoneName: "short",
+        timeZone: "UTC",
       }),
       blocksize: block.blockSize,
       transactionCount: block.transactionCount,
@@ -110,7 +119,7 @@ const Blocks = () => {
 
   return (
     <div>
-      <DateComponent />
+      <LastUpdate />
 
       <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
         <Button
@@ -147,8 +156,9 @@ const Blocks = () => {
           onClick={() => handlePeriodClick("monthly")}
           variant={selectedPeriod === "monthly" ? "contained" : "outlined"}
           size="small"
+          disabled={loadingMonthly}
         >
-          Last 30days
+          {loadingMonthly ? "Loading..." : "Last 30days"}
         </Button>
       </Box>
 
@@ -180,7 +190,7 @@ const Blocks = () => {
           </Box>
           <div style={{ height: 500 }}>
             <DataGrid
-              rows={filteredRows}
+              rows={searchedRows}
               columns={columns}
               pageSize={5}
               rowsPerPageOptions={[5]}

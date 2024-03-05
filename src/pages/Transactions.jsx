@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Card, CardContent, Typography } from "@mui/material";
-import DateComponent from "../components/global/DateComponent";
+import LastUpdate from "../components/global/LastUpdate";
 import { SCRIPT } from "../utils/config";
 import axios from "axios";
 
@@ -43,7 +43,7 @@ function Transactions() {
 
   return (
     <div>
-      <DateComponent />
+      <LastUpdate />
       <Card sx={{ margin: 2 }}>
         <CardContent>
           <div style={{ height: 500, width: "100%", marginTop: 20 }}>
