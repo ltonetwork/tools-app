@@ -6,6 +6,7 @@ import Stats from "./Stats";
 import NodeMaps from "./NodeMaps";
 import Blocks from "./Blocks";
 import RewardCalculator from "./RewardCalculator";
+import Transactions from "./Transactions";
 
 export {
   Overview,
@@ -16,4 +17,5 @@ export {
   Stats,
   NodeMaps,
   RewardCalculator,
+  Transactions,
 };

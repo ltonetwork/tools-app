@@ -65,7 +65,14 @@ const Nodes = () => {
   return (
     <div>
       <DateComponent />
-      <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-end",
+          mb: 2,
+          marginRight: "10px",
+        }}
+      >
         <TextField
           size="small"
           label="Search by Name"
@@ -85,7 +92,7 @@ const Nodes = () => {
       </Box>
       <Card sx={{ margin: 2 }}>
         <CardContent>
-          <div style={{ height: 500, width: "100%" }}>
+          <div style={{ height: 500 }}>
             <DataGrid
               rows={rows}
               columns={columns}

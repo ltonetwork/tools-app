@@ -25,7 +25,7 @@ const DateComponent = () => {
   };
 
   return (
-    <div style={{ paddingTop: "10px", paddingBottom: "10px" }}>
+    <div style={{ paddingTop: "20px", paddingBottom: "10px" }}>
       <Typography
         style={{ display: "block", textAlign: "center" }}
         color="primary.sec"

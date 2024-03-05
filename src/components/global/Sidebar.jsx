@@ -14,6 +14,7 @@ import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import QueryStatsOutlinedIcon from "@mui/icons-material/QueryStatsOutlined";
 import CalculateOutlinedIcon from "@mui/icons-material/CalculateOutlined";
+import ViewInArOutlinedIcon from "@mui/icons-material/ViewInArOutlined";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -152,10 +153,27 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
+
             <Item
               title="Stats"
               to="/stats"
               icon={<QueryStatsOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
+            <Item
+              title="Transactions"
+              to="/transactions"
+              icon={<AccountBalanceWalletOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
+            <Item
+              title="Blocks"
+              to="/blocks"
+              icon={<ViewInArOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />

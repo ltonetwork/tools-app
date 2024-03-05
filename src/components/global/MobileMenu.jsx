@@ -9,12 +9,14 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import Stack from "@mui/material/Stack";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 import DashboardCustomizeOutlinedIcon from "@mui/icons-material/DashboardCustomizeOutlined";
 import ViewDayOutlinedIcon from "@mui/icons-material/ViewDayOutlined";
 import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
 import QueryStatsOutlinedIcon from "@mui/icons-material/QueryStatsOutlined";
 import CalculateOutlinedIcon from "@mui/icons-material/CalculateOutlined";
+import ViewInArOutlinedIcon from "@mui/icons-material/ViewInArOutlined";
 
 const MobileMenu = () => {
   const navigate = useNavigate();
@@ -139,6 +141,20 @@ const MobileMenu = () => {
                     >
                       <QueryStatsOutlinedIcon sx={{ mr: 1 }} />
                       Stats
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => navigateTo("/transactions")}
+                      sx={{ color: "#17054B" }}
+                    >
+                      <AccountBalanceWalletOutlinedIcon sx={{ mr: 1 }} />
+                      Transactions
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => navigateTo("/blocks")}
+                      sx={{ color: "#17054B" }}
+                    >
+                      <ViewInArOutlinedIcon sx={{ mr: 1 }} />
+                      Blocks
                     </MenuItem>
                     <MenuItem
                       onClick={() => navigateTo("/rewards-calc")}
