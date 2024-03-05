@@ -7,6 +7,7 @@ import {
   TextField,
   InputAdornment,
   IconButton,
+  Button,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import DateComponent from "../components/global/DateComponent";
@@ -15,13 +16,28 @@ import { SCRIPT } from "../utils/config";
 
 const Blocks = () => {
   const [blocksDaily, setBlocksDaily] = useState([]);
+  const [blocksWeekly, setBlocksWeekly] = useState([]);
+  const [blocksMonthly, setBlocksMonthly] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedPeriod, setSelectedPeriod] = useState("24");
 
   useEffect(() => {
     axios.get(`${SCRIPT}/blocks-daily`).then((res) => {
       setBlocksDaily(res.data);
     });
+
+    axios.get(`${SCRIPT}/blocks-weekly`).then((res) => {
+      setBlocksWeekly(res.data);
+    });
+
+    axios.get(`${SCRIPT}/blocks-monthly`).then((res) => {
+      setBlocksMonthly(res.data);
+    });
   }, []);
+
+  const handlePeriodClick = (period) => {
+    setSelectedPeriod(period);
+  };
 
   const columns = [
     { field: "id", headerName: "#", width: 90 },
@@ -36,17 +52,33 @@ const Blocks = () => {
     { field: "generatorReward", headerName: "Generator reward", width: 120 },
   ];
 
-  // Extract time and filter rows for today's date
   const today = new Date();
-  const todayRows = blocksDaily
+  const oneWeekAgo = new Date();
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+  const oneMonthAgo = new Date();
+  oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+  const selectedData =
+    selectedPeriod === "24"
+      ? blocksDaily
+      : selectedPeriod === "weekly"
+      ? blocksWeekly
+      : blocksMonthly;
+
+  const filteredRows = selectedData
     .slice()
     .reverse()
     .filter((block) => {
       const timestampDate = new Date(block.timestamp);
       return (
-        timestampDate.getDate() === today.getDate() &&
-        timestampDate.getMonth() === today.getMonth() &&
-        timestampDate.getFullYear() === today.getFullYear()
+        (selectedPeriod === "24" &&
+          timestampDate.getDate() === today.getDate() &&
+          timestampDate.getMonth() === today.getMonth() &&
+          timestampDate.getFullYear() === today.getFullYear()) ||
+        (selectedPeriod === "weekly" && timestampDate >= oneWeekAgo) ||
+        (selectedPeriod === "monthly" &&
+          timestampDate >= oneMonthAgo &&
+          timestampDate <= new Date())
       );
     })
     .map((block, index) => ({
@@ -68,18 +100,57 @@ const Blocks = () => {
       generatorReward: block.generatorReward / 10000000,
     }));
 
-  //search
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const filteredRows = todayRows.filter((row) =>
+  const searchedRows = filteredRows.filter((row) =>
     row.generator.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
     <div>
       <DateComponent />
+
+      <Box sx={{ display: "flex", justifyContent: "flex", mb: 2 }}>
+        <Button
+          style={{
+            backgroundColor: selectedPeriod === "24" ? "#17054B" : "white",
+            color: selectedPeriod === "24" ? "white" : "#17054B",
+          }}
+          sx={{ margin: 1 }}
+          onClick={() => handlePeriodClick("24")}
+          variant={selectedPeriod === "24" ? "outlined" : "contained"}
+          size="small"
+        >
+          Last 24hrs
+        </Button>
+
+        <Button
+          style={{
+            backgroundColor: selectedPeriod === "weekly" ? "#17054B" : "white",
+            color: selectedPeriod === "weekly" ? "white" : "#17054B",
+          }}
+          sx={{ margin: 1 }}
+          onClick={() => handlePeriodClick("weekly")}
+          variant={selectedPeriod === "weekly" ? "contained" : "outlined"}
+          size="small"
+        >
+          Last 7days
+        </Button>
+        <Button
+          style={{
+            backgroundColor: selectedPeriod === "monthly" ? "#17054B" : "white",
+            color: selectedPeriod === "monthly" ? "white" : "#17054B",
+          }}
+          sx={{ margin: 1 }}
+          onClick={() => handlePeriodClick("monthly")}
+          variant={selectedPeriod === "monthly" ? "contained" : "outlined"}
+          size="small"
+        >
+          Last 30days
+        </Button>
+      </Box>
 
       <Card sx={{ margin: 2 }}>
         <CardContent>
