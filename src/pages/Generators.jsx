@@ -145,7 +145,7 @@ const Generators = () => {
       : genMonth;
 
   return (
-    <div style={{ paddingTop: "15px", paddingBottom: "10%" }}>
+    <div style={{ paddingTop: "15px", paddingBottom: "15%" }}>
       <DateComponent />
       {/* <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
         <TextField

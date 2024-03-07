@@ -63,7 +63,7 @@ const Nodes = () => {
   }));
 
   return (
-    <div style={{ paddingTop: "15px", paddingBottom: "10%" }}>
+    <div style={{ paddingTop: "15px", paddingBottom: "15%" }}>
       <DateComponent />
       <Box
         sx={{

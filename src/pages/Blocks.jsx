@@ -73,16 +73,16 @@ const Blocks = () => {
   };
 
   const columns = [
-    { field: "id", headerName: "#", width: 90 },
+    { field: "id", headerName: "#", width: 30 },
     { field: "height", headerName: "Block height", width: 150 },
     { field: "generator", headerName: "Generator", width: 350 },
     { field: "date", headerName: "Date", width: 150 },
     { field: "time", headerName: "Time", width: 150 },
     { field: "blocksize", headerName: "Blocksize", width: 90 },
     { field: "transactionCount", headerName: "Transactions", width: 100 },
-    { field: "fee", headerName: "Fees(LTO)", width: 100 },
-    { field: "burnedFees", headerName: "Burned fees", width: 120 },
-    { field: "miningReward", headerName: "Mining reward", width: 150 },
+    // { field: "fee", headerName: "Fees(LTO)", width: 100 },
+    //{ field: "burnedFees", headerName: "Burned fees", width: 120 },
+    { field: "miningReward", headerName: "Mining reward", width: 120 },
     { field: "generatorReward", headerName: "Generator reward", width: 150 },
   ];
 
@@ -132,8 +132,8 @@ const Blocks = () => {
       }),
       blocksize: block.blockSize,
       transactionCount: block.transactionCount,
-      fee: block.fee / 10000000,
-      burnedFees: block.burnedFees / 10000000,
+      //fee: block.fee / 10000000,
+      //burnedFees: block.burnedFees / 10000000,
       miningReward: block.miningReward / 10000000,
       generatorReward: block.generatorReward / 10000000,
     }));
@@ -147,7 +147,7 @@ const Blocks = () => {
   );
 
   return (
-    <div style={{ paddingTop: "15px", paddingBottom: "10%" }}>
+    <div style={{ paddingTop: "15px", paddingBottom: "15%" }}>
       {loadingWeekly && <Loader />} <LastUpdate />
       <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
         <Button
@@ -188,7 +188,7 @@ const Blocks = () => {
           Last 30days
         </Button> */}
       </Box>
-      <Card sx={{ margin: 2, width: "90vw" }}>
+      <Card sx={{ margin: 2 }}>
         <CardContent>
           <Box
             display="flex"
