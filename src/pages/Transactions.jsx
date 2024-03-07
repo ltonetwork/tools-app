@@ -15,7 +15,7 @@ function Transactions() {
   }, []);
 
   const columns = [
-    { field: "date", headerName: "Date", width: 100 },
+    { field: "date", headerName: "Date", width: 120 },
     { field: "all", headerName: "All Tx", width: 100 },
     { field: "anchor", headerName: "Anchor", width: 100 },
     { field: "transfer", headerName: "Transfer", width: 100 },

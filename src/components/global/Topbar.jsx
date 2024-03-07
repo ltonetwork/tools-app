@@ -1,12 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Box, IconButton, useTheme, Typography } from "@mui/material";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowOutwardOutlinedIcon from "@mui/icons-material/ArrowOutwardOutlined";
+import { ltoIcon } from "../../assets";
 
 const Topbar = () => {
   const theme = useTheme();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 800) {
+        setIsMobile(true);
+      } else {
+        setIsMobile(false);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <div style={{ backgroundColor: theme.palette.primary.main }}>
@@ -16,13 +33,28 @@ const Topbar = () => {
         alignItems="center"
         p={2}
       >
-        {/* <Box display="flex" backgroundColor="white" borderRadius="3px">
-          <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" />
-          <IconButton type="button" sx={{ p: 1 }}>
-            <SearchIcon />
-          </IconButton>
-        </Box> */}
-        <div></div>
+        {/* {isMobile && (
+          <Box display="flex" backgroundColor="white" borderRadius="3px">
+            <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" />
+            <IconButton type="button" sx={{ p: 1 }}>
+              <SearchIcon />
+            </IconButton>
+          </Box>
+        )} */}
+        <div>
+          {isMobile && (
+            <img
+              alt="lto-icon"
+              width="50px"
+              src={ltoIcon}
+              style={{
+                cursor: "pointer",
+                marginRight: "2px",
+                borderRadius: "50%",
+              }}
+            />
+          )}
+        </div>
 
         <div style={{ display: "flex", alignItems: "center" }}>
           <a

@@ -79,7 +79,7 @@ const Blocks = () => {
     { field: "date", headerName: "Date", width: 150 },
     { field: "time", headerName: "Time", width: 150 },
     { field: "blocksize", headerName: "Blocksize", width: 90 },
-    { field: "transactionCount", headerName: "Transactions", width: 100 },
+    { field: "transactionCount", headerName: "Transactions", width: 120 },
     // { field: "fee", headerName: "Fees(LTO)", width: 100 },
     //{ field: "burnedFees", headerName: "Burned fees", width: 120 },
     { field: "miningReward", headerName: "Mining reward", width: 120 },
