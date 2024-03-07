@@ -42,8 +42,6 @@ const RewardCalculator = () => {
     fetchData();
   }, []);
 
-  const ltoToUSDExchangeRate = 0.1; // Adjust this with the actual exchange rate
-
   const handleCalculate = () => {
     const rewards = parseFloat(amount) * parseFloat(apy / 100);
     setRewardsPerMonth((rewards / parseFloat(12)).toFixed(2));
@@ -64,10 +62,10 @@ const RewardCalculator = () => {
   return (
     <div
       style={{
-        paddingTop: "5%",
+        paddingTop: "10%",
         paddingLeft: "10%",
         paddingRight: "10%",
-        paddingBottom: "20%",
+        paddingBottom: "30%",
       }}
     >
       <Card>
@@ -90,8 +88,7 @@ const RewardCalculator = () => {
             variant="body1"
             style={{ marginTop: 10, color: "#17054B", fontSize: 16 }}
           >
-            APY:
-            {apy}%
+            APY: {apy}%
           </Typography>
           <TextField
             label="Amount Leased"
@@ -126,17 +123,17 @@ const RewardCalculator = () => {
                   style={{ color: "#17054B", fontSize: 14, fontWeight: 600 }}
                 >
                   {`${rewardsPerMonth}`} LTO{"  "}
-                  {`($ ${(rewardsPerMonth * ltoToUSDExchangeRate).toFixed(2)})`}
+                  {`($ ${(rewardsPerMonth * usd).toFixed(2)})`}
                   {/* {`${rewardsPerMonth} - ${(
                     (ltoAmount * (8.99 / 100)) /
                     12
                   ).toFixed(2)}`}{" "}
                   LTO{"  "}
-                  {`($ ${(rewardsPerMonth * ltoToUSDExchangeRate).toFixed(2)}
+                  {`($ ${(rewardsPerMonth * usd).toFixed(2)}
                     - $
                     ${(
                       ((ltoAmount * 8.99) / 100 / 12) *
-                      ltoToUSDExchangeRate
+                      usd
                     ).toFixed(2)}
                   USD)`} */}
                 </span>
@@ -149,15 +146,15 @@ const RewardCalculator = () => {
                   style={{ color: "#17054B", fontSize: 14, fontWeight: 600 }}
                 >
                   {`${rewardsPerYear}`} LTO {"  "}
-                  {`($${(rewardsPerYear * ltoToUSDExchangeRate).toFixed(2)})`}
+                  {`($${(rewardsPerYear * usd).toFixed(2)})`}
                   {/* {`${rewardsPerYear} - ${((ltoAmount / 100) * 8.99).toFixed(
                     2
                   )}`}{" "}
                   LTO {"  "}
-                  {`($${(rewardsPerYear * ltoToUSDExchangeRate).toFixed(2)}  - $
+                  {`($${(rewardsPerYear * usd).toFixed(2)}  - $
                     ${(
                       ((ltoAmount * 8.99) / 100) *
-                      ltoToUSDExchangeRate
+                      usd
                     ).toFixed(2)} USD)`} */}
                 </span>
               </Typography>
