@@ -21,13 +21,13 @@ function Transactions() {
     { field: "transfer", headerName: "Transfer", width: 100 },
     { field: "mass_transfer", headerName: "Mass Transfer", width: 120 },
     { field: "all_transfers", headerName: "All Transfers", width: 120 },
-    { field: "burn", headerName: "Burn", width: 100 },
-    { field: "lease", headerName: "Lease", width: 100 },
+    { field: "burn", headerName: "Burn", width: 90 },
+    { field: "lease", headerName: "Lease", width: 90 },
     { field: "association", headerName: "Association", width: 120 },
-    { field: "script", headerName: "Script", width: 100 },
+    { field: "script", headerName: "Script", width: 90 },
     { field: "sponsor", headerName: "Sponsor", width: 120 },
-    { field: "data", headerName: "Data", width: 100 },
-    { field: "statement", headerName: "Statement", width: 120 },
+    { field: "data", headerName: "Data", width: 90 },
+    //{ field: "statement", headerName: "Statement", width: 120 },
   ];
 
   const rows = transactions.flatMap((transaction) => {

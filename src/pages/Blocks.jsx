@@ -74,10 +74,10 @@ const Blocks = () => {
 
   const columns = [
     { field: "id", headerName: "#", width: 30 },
-    { field: "height", headerName: "Block height", width: 150 },
+    { field: "height", headerName: "Block height", width: 120 },
     { field: "generator", headerName: "Generator", width: 350 },
-    { field: "date", headerName: "Date", width: 150 },
-    { field: "time", headerName: "Time", width: 150 },
+    { field: "date", headerName: "Date", width: 100 },
+    { field: "time", headerName: "Time", width: 120 },
     { field: "blocksize", headerName: "Blocksize", width: 90 },
     { field: "transactionCount", headerName: "Transactions", width: 120 },
     // { field: "fee", headerName: "Fees(LTO)", width: 100 },

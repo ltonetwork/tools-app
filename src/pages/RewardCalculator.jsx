@@ -11,6 +11,7 @@ import axios from "axios";
 
 const RewardCalculator = () => {
   const [amount, setAmount] = useState("");
+  const [isMobile, setIsMobile] = useState(false);
   const [timeframe, setTimeframe] = useState("");
   const [ltoAmount, setLtoAmount] = useState(0);
   const [usd, setUsd] = useState(0);
@@ -18,6 +19,21 @@ const RewardCalculator = () => {
   const [rewardsPerYear, setRewardsPerYear] = useState("");
   const [calc, setCalc] = useState(false);
   const [apy, setApy] = useState(8.66);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 800) {
+        setIsMobile(true);
+      } else {
+        setIsMobile(false);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,9 +79,9 @@ const RewardCalculator = () => {
     <div
       style={{
         paddingTop: "10%",
-        paddingLeft: "10%",
-        paddingRight: "10%",
-        paddingBottom: "30%",
+        paddingLeft: "8%",
+        paddingRight: "8%",
+        paddingBottom: isMobile ? "70%" : "25%",
       }}
     >
       <Card>
