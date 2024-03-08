@@ -6,6 +6,7 @@ import {
   Box,
   TextField,
   InputAdornment,
+  Typography,
   IconButton,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
@@ -64,6 +65,9 @@ const Nodes = () => {
 
   return (
     <div style={{ paddingTop: "15px", paddingBottom: "15%" }}>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Typography sx={{ fontSize: "20px" }}>{"[Nodes]"}</Typography>
+      </Box>
       <DateComponent />
       <Box
         sx={{

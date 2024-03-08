@@ -4,6 +4,7 @@ import {
   Card,
   CardContent,
   Box,
+  Typography,
   TextField,
   InputAdornment,
   IconButton,
@@ -146,6 +147,9 @@ const Generators = () => {
 
   return (
     <div style={{ paddingTop: "15px", paddingBottom: "15%" }}>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Typography sx={{ fontSize: "20px" }}>{"[Generators]"}</Typography>
+      </Box>
       <DateComponent />
       {/* <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
         <TextField

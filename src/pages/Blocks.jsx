@@ -4,6 +4,7 @@ import {
   Card,
   CardContent,
   Box,
+  Typography,
   TextField,
   InputAdornment,
   IconButton,
@@ -148,6 +149,9 @@ const Blocks = () => {
 
   return (
     <div style={{ paddingTop: "15px", paddingBottom: "15%" }}>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Typography sx={{ fontSize: "20px" }}>{"[Blocks]"}</Typography>
+      </Box>
       {loadingWeekly && <Loader />} <LastUpdate />
       <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
         <Button

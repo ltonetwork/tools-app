@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Card, CardContent, Typography } from "@mui/material";
+import { Card, CardContent, Box, Typography } from "@mui/material";
 import LastUpdate from "../components/global/LastUpdate";
 import { SCRIPT } from "../utils/config";
 import axios from "axios";
@@ -43,6 +43,9 @@ function Transactions() {
 
   return (
     <div style={{ paddingTop: "15px", paddingBottom: "10%" }}>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Typography sx={{ fontSize: "20px" }}>{"[Transactions]"}</Typography>
+      </Box>
       <LastUpdate />
       <Card sx={{ margin: 2 }}>
         <CardContent>

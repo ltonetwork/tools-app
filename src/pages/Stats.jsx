@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Grid } from "@mui/material";
+import { Box, Typography, Grid } from "@mui/material";
 import DateComponent from "../components/global/DateComponent";
 import MassTransfers from "./stats/MassTransfers";
 import AllTransfers from "./stats/AllTransfers";
@@ -13,7 +13,10 @@ import OperationsChart from "./stats/OperationsChart";
 
 const Stats = () => {
   return (
-    <div style={{ height: "100%" }}>
+    <div style={{ paddingTop: "15px", height: "100%" }}>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Typography sx={{ fontSize: "20px" }}>{"[Stats]"}</Typography>
+      </Box>
       <DateComponent />
       <Typography style={{ textAlign: "center", paddingBottom: "15px" }}>
         Chain stats for the last 3 months to the current date
@@ -48,7 +51,7 @@ const Stats = () => {
         spacing={1}
         sx={{
           maxWidth: "100%",
-          margin: "0 auto",
+          margin: "0",
           "@media (min-width: 600px)": {
             maxWidth: 600,
           },

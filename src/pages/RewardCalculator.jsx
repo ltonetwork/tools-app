@@ -4,6 +4,7 @@ import {
   CardContent,
   TextField,
   Button,
+  Box,
   Typography,
   Slider,
 } from "@mui/material";
@@ -78,12 +79,23 @@ const RewardCalculator = () => {
   return (
     <div
       style={{
-        paddingTop: "10%",
+        paddingTop: "5%",
         paddingLeft: "8%",
         paddingRight: "8%",
-        paddingBottom: isMobile ? "70%" : "25%",
+        paddingBottom: isMobile ? "75%" : "30%",
       }}
     >
+      {/* <Box
+        sx={{
+          display: "flex",
+          paddingBottom: "15px",
+          justifyContent: "center",
+        }}
+      >
+        <Typography sx={{ fontSize: "20px" }}>
+          {"[Reward Calculator]"}
+        </Typography>
+      </Box> */}
       <Card>
         <CardContent>
           <Typography variant="h5" gutterBottom>
