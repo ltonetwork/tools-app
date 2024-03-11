@@ -22,7 +22,7 @@ const Stats = () => {
         Chain stats for the last 3 months to the current date
       </Typography>
 
-      <Grid container spacing={1} sx={{ minWidth: 500, padding: 2 }}>
+      <Grid container spacing={1} sx={{ minWidth: 300, padding: 2 }}>
         <Grid item xs={12} md={12} lg={12}>
           <OperationsChart />
         </Grid>
