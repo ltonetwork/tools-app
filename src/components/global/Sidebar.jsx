@@ -37,7 +37,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 const Sidebar = () => {
   const theme = useTheme();
   const [selected, setSelected] = useState("Dashboard");
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
