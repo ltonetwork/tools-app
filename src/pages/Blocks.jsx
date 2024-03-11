@@ -21,7 +21,7 @@ const Blocks = () => {
   const [blocksWeekly, setBlocksWeekly] = useState([]);
   const [blocksMonthly, setBlocksMonthly] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedPeriod, setSelectedPeriod] = useState("24");
+  const [selectedPeriod, setSelectedPeriod] = useState("daily");
   const [loadingMonthly, setLoadingMonthly] = useState(false);
   const [loadingWeekly, setLoadingWeekly] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -87,14 +87,15 @@ const Blocks = () => {
     { field: "generatorReward", headerName: "Generator reward", width: 150 },
   ];
 
-  const today = new Date();
+  const dayAgo = new Date();
+  dayAgo.setDate(dayAgo.getDate() - 1);
   const oneWeekAgo = new Date();
   oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
   const oneMonthAgo = new Date();
   oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
   const selectedData =
-    selectedPeriod === "24"
+    selectedPeriod === "daily"
       ? blocksDaily
       : selectedPeriod === "weekly"
       ? blocksWeekly
@@ -106,10 +107,7 @@ const Blocks = () => {
     .filter((block) => {
       const timestampDate = new Date(block.timestamp);
       return (
-        (selectedPeriod === "24" &&
-          timestampDate.getDate() === today.getDate() &&
-          timestampDate.getMonth() === today.getMonth() &&
-          timestampDate.getFullYear() === today.getFullYear()) ||
+        (selectedPeriod === "daily" && dayAgo) ||
         (selectedPeriod === "weekly" && timestampDate >= oneWeekAgo) ||
         (selectedPeriod === "monthly" &&
           timestampDate >= oneMonthAgo &&
@@ -156,12 +154,12 @@ const Blocks = () => {
       <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
         <Button
           style={{
-            backgroundColor: selectedPeriod === "24" ? "#17054B" : "white",
-            color: selectedPeriod === "24" ? "white" : "#17054B",
+            backgroundColor: selectedPeriod === "daily" ? "#17054B" : "white",
+            color: selectedPeriod === "daily" ? "white" : "#17054B",
           }}
           sx={{ margin: 1 }}
-          onClick={() => handlePeriodClick("24")}
-          variant={selectedPeriod === "24" ? "outlined" : "contained"}
+          onClick={() => handlePeriodClick("daily")}
+          variant={selectedPeriod === "daily" ? "outlined" : "contained"}
           size="small"
         >
           Last 24hrs

@@ -22,47 +22,10 @@ const Stats = () => {
         Chain stats for the last 3 months to the current date
       </Typography>
 
-      <Grid
-        container
-        spacing={1}
-        sx={{
-          maxWidth: "100%",
-          margin: "0 auto",
-          "@media (min-width: 600px)": {
-            maxWidth: 600,
-          },
-          "@media (min-width: 960px)": {
-            maxWidth: 960,
-          },
-          "@media (min-width: 1280px)": {
-            maxWidth: 1280,
-          },
-        }}
-      >
+      <Grid container spacing={1} sx={{ minWidth: 500, padding: 2 }}>
         <Grid item xs={12} md={12} lg={12}>
           <OperationsChart />
         </Grid>
-        {/* <Grid item xs={12} md={12} lg={12}>
-          <AllTransactions />
-        </Grid> */}
-      </Grid>
-      <Grid
-        container
-        spacing={1}
-        sx={{
-          maxWidth: "100%",
-          margin: "0",
-          "@media (min-width: 600px)": {
-            maxWidth: 600,
-          },
-          "@media (min-width: 960px)": {
-            maxWidth: 960,
-          },
-          "@media (min-width: 1280px)": {
-            maxWidth: 1280,
-          },
-        }}
-      >
         <Grid item xs={12} md={6} lg={6}>
           <MassTransfers />
         </Grid>
@@ -82,7 +45,7 @@ const Stats = () => {
           <AssociationsChart />
         </Grid>
       </Grid>
-      <Grid
+      {/* <Grid
         container
         spacing={1}
         sx={{
@@ -99,11 +62,11 @@ const Stats = () => {
           },
         }}
       >
-        {/* <Grid item xs={12} md={6} lg={6}>
+        <Grid item xs={12} md={6} lg={6}>
           <GeneratorShare />
-        </Grid> */}
+        </Grid>
         <Grid item xs={12} md={6} lg={6}></Grid>
-      </Grid>
+      </Grid> */}
     </div>
   );
 };
