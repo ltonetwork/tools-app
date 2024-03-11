@@ -39,6 +39,7 @@ const Sidebar = () => {
   const [selected, setSelected] = useState("Dashboard");
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -56,23 +57,20 @@ const Sidebar = () => {
     };
   }, []);
 
-  const handleCollapsed = () => {
+  const handleToggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
   };
 
   return (
     <Box
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       sx={{
         "& .sidebar-container": {
           height: "100vh",
         },
         "& .pro-sidebar": {
-          display: isMobile ? (isCollapsed ? "none" : "block") : "block",
-          height: "100vh",
-          position: "sticky",
-          top: 0,
-          left: 0,
-          width: isCollapsed ? "80px" : "250px", // Adjusted width based on collapsed state
+          width: isHovered ? "250px" : "80px",
           transition: "width 0.3s ease",
         },
         "& .pro-sidebar-inner": {
@@ -82,7 +80,7 @@ const Sidebar = () => {
           backgroundColor: "transparent !important",
         },
         "& .pro-inner-item": {
-          padding: "5px 35px 5px 20px !important",
+          padding: "5px 20px 5px 20px !important",
         },
         "& .pro-inner-item:hover": {
           color: "#9A1DB1 !important",
@@ -92,42 +90,43 @@ const Sidebar = () => {
         },
       }}
     >
-      <ProSidebar collapsed={isCollapsed} collapsedWidth="80px">
+      <ProSidebar collapsed={isCollapsed}>
         <Menu iconShape="square">
-          {/* LOGO AND MENU ICON */}
           <MenuItem
-            onClick={() => setIsCollapsed(!isCollapsed)}
+            onClick={handleToggleCollapse}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
             style={{
-              margin: "10px 0 50px 0",
+              margin: "10px 0 40px 0",
               color: "#17054b",
             }}
           >
-            {!isCollapsed && (
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                ml="15px"
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              ml="15px"
+            >
+              <img
+                alt="lto-icon"
+                width="30px"
+                src={ltoIcon}
+                style={{
+                  cursor: "pointer",
+                  marginRight: "2px",
+                  borderRadius: "50%",
+                }}
+              />
+              <Typography
+                style={{ fontSize: "16px" }}
+                variant="h6"
+                color="#17054b"
               >
-                <img
-                  alt="lto-icon"
-                  width="40px"
-                  src={ltoIcon}
-                  style={{
-                    cursor: "pointer",
-                    marginRight: "2px",
-                    borderRadius: "50%",
-                  }}
-                />
-                <Typography variant="h6" color="#17054b">
-                  DASHBOARD
-                </Typography>
-                <IconButton onClick={() => setIsCollapsed(true)}>
-                  <MenuOutlinedIcon />
-                </IconButton>
-              </Box>
-            )}
+                DASHBOARD
+              </Typography>
+              <IconButton onClick={handleToggleCollapse}>
+                <MenuOutlinedIcon />
+              </IconButton>
+            </Box>
           </MenuItem>
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
@@ -214,7 +213,7 @@ const Sidebar = () => {
         >
           <IconButton
             style={{ color: "white", backgroundColor: "#17054B" }}
-            onClick={() => handleCollapsed()}
+            onClick={handleToggleCollapse}
           >
             <MenuOutlinedIcon />
           </IconButton>
