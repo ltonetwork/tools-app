@@ -201,7 +201,7 @@ const OverviewBottom = () => {
             </Typography>
 
             {operations
-              .slice(1, 4)
+              .slice(0, 3)
               .reverse()
               .map((op) => {
                 return (
