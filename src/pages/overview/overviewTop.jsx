@@ -86,6 +86,8 @@ const OverviewTop = () => {
       Navigate("/generators");
     } else if (action == "stats") {
       Navigate("/stats");
+    } else if (action == "blocks") {
+      Navigate("/blocks");
     }
   };
 
@@ -430,7 +432,7 @@ const OverviewTop = () => {
           </Typography> */}
             </CardContent>
             <CardActions>
-              <Button size="small" onClick={() => handleClick("generators")}>
+              <Button size="small" onClick={() => handleClick("blocks")}>
                 more
               </Button>
             </CardActions>
