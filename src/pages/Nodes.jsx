@@ -96,7 +96,7 @@ const Nodes = () => {
       </Box>
       <Card sx={{ margin: 2 }}>
         <CardContent>
-          <div style={{ height: 500 }}>
+          <div style={{ height: 600 }}>
             <DataGrid
               rows={rows}
               columns={columns}

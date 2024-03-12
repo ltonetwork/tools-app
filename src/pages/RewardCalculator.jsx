@@ -82,7 +82,7 @@ const RewardCalculator = () => {
         paddingTop: "5%",
         paddingLeft: "8%",
         paddingRight: "8%",
-        paddingBottom: isMobile ? "75%" : "30%",
+        paddingBottom: isMobile ? "75%" : "45%",
       }}
     >
       {/* <Box

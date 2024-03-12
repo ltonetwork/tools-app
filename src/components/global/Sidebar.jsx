@@ -72,6 +72,10 @@ const Sidebar = () => {
         "& .pro-sidebar": {
           width: isHovered ? "250px" : "80px",
           transition: "width 0.3s ease",
+          height: "100vh",
+          position: "sticky",
+          top: 0,
+          left: 0,
         },
         "& .pro-sidebar-inner": {
           backgroundColor: "#e9e9e9",

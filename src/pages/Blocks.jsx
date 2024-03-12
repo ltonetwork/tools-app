@@ -81,8 +81,8 @@ const Blocks = () => {
     { field: "time", headerName: "Time", width: 120 },
     { field: "blocksize", headerName: "Blocksize", width: 90 },
     { field: "transactionCount", headerName: "Transactions", width: 120 },
-    // { field: "fee", headerName: "Fees(LTO)", width: 100 },
-    //{ field: "burnedFees", headerName: "Burned fees", width: 120 },
+    { field: "fee", headerName: "Fees(LTO)", width: 100 },
+    { field: "burnedFees", headerName: "Burned fees", width: 120 },
     { field: "miningReward", headerName: "Mining reward", width: 120 },
     { field: "generatorReward", headerName: "Generator reward", width: 150 },
   ];
@@ -131,8 +131,8 @@ const Blocks = () => {
       }),
       blocksize: block.blockSize,
       transactionCount: block.transactionCount,
-      //fee: block.fee / 10000000,
-      //burnedFees: block.burnedFees / 10000000,
+      fee: block.fee / 10000000,
+      burnedFees: block.burnedFees / 10000000,
       miningReward: block.miningReward / 10000000,
       generatorReward: block.generatorReward / 10000000,
     }));
@@ -215,7 +215,7 @@ const Blocks = () => {
               }}
             />
           </Box>
-          <div style={{ height: 500 }}>
+          <div style={{ height: 600 }}>
             <DataGrid
               rows={searchedRows}
               columns={columns}

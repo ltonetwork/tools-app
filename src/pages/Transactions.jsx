@@ -42,14 +42,14 @@ function Transactions() {
   const reversedRows = [...rows].reverse();
 
   return (
-    <div style={{ paddingTop: "15px", paddingBottom: "10%" }}>
+    <div style={{ paddingTop: "15px", paddingBottom: "20%" }}>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Typography sx={{ fontSize: "20px" }}>{"[Transactions]"}</Typography>
       </Box>
       <LastUpdate />
       <Card sx={{ margin: 2 }}>
         <CardContent>
-          <div style={{ height: 500, width: "100%", marginTop: 20 }}>
+          <div style={{ height: 600, width: "100%", marginTop: 20 }}>
             <DataGrid rows={reversedRows} columns={columns} pageSize={5} />
           </div>
         </CardContent>
