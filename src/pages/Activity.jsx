@@ -4,8 +4,9 @@ import { Card, CardContent, Box, Typography } from "@mui/material";
 import LastUpdate from "../components/global/LastUpdate";
 import { SCRIPT } from "../utils/config";
 import axios from "axios";
+import OperationsChart from "./stats/OperationsChart";
 
-function Transactions() {
+function Activity() {
   const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
@@ -16,7 +17,7 @@ function Transactions() {
 
   const columns = [
     { field: "date", headerName: "Date", width: 120 },
-    { field: "all", headerName: "All Tx", width: 100 },
+    { field: "all", headerName: "Tx", width: 100 },
     { field: "anchor", headerName: "Anchor", width: 100 },
     { field: "transfer", headerName: "Transfer", width: 100 },
     { field: "mass_transfer", headerName: "Mass Transfer", width: 120 },
@@ -43,10 +44,17 @@ function Transactions() {
 
   return (
     <div style={{ paddingTop: "15px", paddingBottom: "20%" }}>
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <Typography sx={{ fontSize: "20px" }}>{"[Transactions]"}</Typography>
+      <Box sx={{ display: "grid", justifyContent: "center" }}>
+        <Typography sx={{ fontSize: "20px" }}>
+          {"[Network Activity]"}
+        </Typography>
       </Box>
       <LastUpdate />
+
+      <Card sx={{ margin: 2 }}>
+        <OperationsChart />
+      </Card>
+
       <Card sx={{ margin: 2 }}>
         <CardContent>
           <div style={{ height: 600, width: "100%", marginTop: 20 }}>
@@ -58,4 +66,4 @@ function Transactions() {
   );
 }
 
-export default Transactions;
+export default Activity;

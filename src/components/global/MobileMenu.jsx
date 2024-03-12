@@ -17,6 +17,7 @@ import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
 import QueryStatsOutlinedIcon from "@mui/icons-material/QueryStatsOutlined";
 import CalculateOutlinedIcon from "@mui/icons-material/CalculateOutlined";
 import ViewInArOutlinedIcon from "@mui/icons-material/ViewInArOutlined";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
 const MobileMenu = () => {
   const navigate = useNavigate();
@@ -121,6 +122,7 @@ const MobileMenu = () => {
                       <DashboardCustomizeOutlinedIcon sx={{ mr: 1 }} />
                       Overview
                     </MenuItem>
+
                     <MenuItem
                       onClick={() => navigateTo("/generators")}
                       sx={{ color: "#17054B" }}
@@ -128,6 +130,7 @@ const MobileMenu = () => {
                       <ViewDayOutlinedIcon sx={{ mr: 1 }} />
                       Generators
                     </MenuItem>
+
                     <MenuItem
                       onClick={() => navigateTo("/nodes")}
                       sx={{ color: "#17054B" }}
@@ -135,6 +138,15 @@ const MobileMenu = () => {
                       <AccountTreeOutlinedIcon sx={{ mr: 1 }} />
                       Nodes
                     </MenuItem>
+
+                    <MenuItem
+                      onClick={() => navigateTo("/activity")}
+                      sx={{ color: "#17054B" }}
+                    >
+                      <SettingsOutlinedIcon sx={{ mr: 1 }} />
+                      Network Activity
+                    </MenuItem>
+
                     <MenuItem
                       onClick={() => navigateTo("/stats")}
                       sx={{ color: "#17054B" }}
@@ -142,13 +154,7 @@ const MobileMenu = () => {
                       <QueryStatsOutlinedIcon sx={{ mr: 1 }} />
                       Stats
                     </MenuItem>
-                    <MenuItem
-                      onClick={() => navigateTo("/transactions")}
-                      sx={{ color: "#17054B" }}
-                    >
-                      <AccountBalanceWalletOutlinedIcon sx={{ mr: 1 }} />
-                      Transactions
-                    </MenuItem>
+
                     <MenuItem
                       onClick={() => navigateTo("/blocks")}
                       sx={{ color: "#17054B" }}
@@ -156,6 +162,7 @@ const MobileMenu = () => {
                       <ViewInArOutlinedIcon sx={{ mr: 1 }} />
                       Blocks
                     </MenuItem>
+
                     <MenuItem
                       onClick={() => navigateTo("/rewards-calc")}
                       sx={{ color: "#17054B" }}

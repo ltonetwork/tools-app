@@ -9,7 +9,7 @@ import {
   NodeMaps,
   Blocks,
   RewardCalculator,
-  Transactions,
+  Activity,
 } from "../pages/index.js";
 
 export const routes = [
@@ -34,6 +34,10 @@ export const routes = [
         element: <Nodes />,
       },
       {
+        path: "activity",
+        element: <Activity />,
+      },
+      {
         path: "stats",
         element: <Stats />,
       },
@@ -45,10 +49,7 @@ export const routes = [
         path: "node-maps",
         element: <NodeMaps />,
       },
-      {
-        path: "transactions",
-        element: <Transactions />,
-      },
+
       {
         path: "blocks",
         element: <Blocks />,
