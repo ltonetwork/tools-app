@@ -7,7 +7,7 @@ import OperationsChart from "../stats/OperationsChart";
 
 const Overview = () => {
   return (
-    <div style={{ paddingTop: "5%", paddingBottom: "15%" }}>
+    <div style={{ paddingTop: "5%", paddingBottom: "20%" }}>
       <DateComponent />
       <OverviewTop />
       <OverviewBottom />
