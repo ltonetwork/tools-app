@@ -4,7 +4,7 @@ import { Box, IconButton, useTheme, Typography } from "@mui/material";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowOutwardOutlinedIcon from "@mui/icons-material/ArrowOutwardOutlined";
-import { ltoIcon } from "../../assets";
+import { LOGO, ltoIcon } from "../../assets/index";
 
 const Topbar = () => {
   const theme = useTheme();
@@ -27,12 +27,23 @@ const Topbar = () => {
 
   return (
     <div style={{ backgroundColor: theme.palette.primary.main }}>
+      <Box></Box>
       <Box
         display="flex"
         justifyContent="space-between"
         alignItems="center"
         p={2}
       >
+        <img
+          alt="lto-icon"
+          width="40px"
+          src={ltoIcon}
+          style={{
+            cursor: "pointer",
+            marginRight: "2px",
+            // borderRadius: "50%",
+          }}
+        />
         {/* {isMobile && (
           <Box display="flex" backgroundColor="white" borderRadius="3px">
             <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" />

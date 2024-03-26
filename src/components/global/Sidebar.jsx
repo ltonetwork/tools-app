@@ -99,7 +99,7 @@ const Sidebar = () => {
         <Menu iconShape="square">
           <MenuItem
             onClick={handleToggleCollapse}
-            icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
+            //icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
             style={{
               margin: "10px 0 40px 0",
               color: "#17054b",
@@ -111,7 +111,7 @@ const Sidebar = () => {
               alignItems="center"
               ml="15px"
             >
-              <img
+              {/* <img
                 alt="lto-icon"
                 width="30px"
                 src={ltoIcon}
@@ -120,14 +120,16 @@ const Sidebar = () => {
                   marginRight: "2px",
                   borderRadius: "50%",
                 }}
-              />
-              <Typography
-                style={{ fontSize: "16px", fontWeight: "600" }}
-                variant="h6"
-                color="#17054b"
-              >
-                DASHBOARD
-              </Typography>
+              /> */}
+              {isHovered && (
+                <Typography
+                  style={{ fontSize: "24px", fontWeight: "600" }}
+                  variant="h6"
+                  color="#17054b"
+                >
+                  DASHBOARD
+                </Typography>
+              )}
               <IconButton onClick={handleToggleCollapse}>
                 {/* <MenuOutlinedIcon /> */}
               </IconButton>
@@ -192,12 +194,12 @@ const Sidebar = () => {
             />
           </Box>
 
-          {!isCollapsed && (
+          {isHovered && (
             <Box mt="70px" mb="25px">
               <Box display="flex" justifyContent="center" alignItems="center">
                 <img
                   alt="lto-network"
-                  width="150px"
+                  width="180px"
                   src={LOGO}
                   style={{ cursor: "pointer" }}
                 />
