@@ -122,14 +122,14 @@ const Sidebar = () => {
                 }}
               />
               <Typography
-                style={{ fontSize: "16px" }}
+                style={{ fontSize: "16px", fontWeight: "600" }}
                 variant="h6"
                 color="#17054b"
               >
                 DASHBOARD
               </Typography>
               <IconButton onClick={handleToggleCollapse}>
-                <MenuOutlinedIcon />
+                {/* <MenuOutlinedIcon /> */}
               </IconButton>
             </Box>
           </MenuItem>
@@ -150,6 +150,7 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
+
             <Item
               title="Nodes"
               to="/nodes"
