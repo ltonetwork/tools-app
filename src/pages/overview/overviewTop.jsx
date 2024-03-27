@@ -14,12 +14,14 @@ import axios from "axios";
 import { BASE_URL } from "../../utils/config";
 import { EXT_URL } from "../../utils/config";
 import { EXT_URL2 } from "../../utils/config";
+import { getApy } from "../../utils/getAPY";
 
 const OverviewTop = () => {
   const theme = useTheme();
   const Navigate = useNavigate();
   const [coinPrice, setCoinPrice] = useState(null);
   const [nodes, setNodes] = useState(null);
+  const [apy, setApy] = useState(null);
   const [generators, setGenerators] = useState([]);
   const [burned, setBurned] = useState(0);
   const [supply, setSupply] = useState(0);
@@ -34,6 +36,10 @@ const OverviewTop = () => {
         setBlockHeight(res.data.height);
         setBurned(res.data.burned / 100000000);
         setSupply(res.data.total / 100000000);
+
+        const apyData = await getApy();
+        console.log(apyData);
+        setApy(apyData.toFixed(3) + "%");
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -202,7 +208,7 @@ const OverviewTop = () => {
                 color="primary.sec"
                 component="div"
               >
-                {"8.66%"}
+                {apy}
               </Typography>
               {/* <Typography sx={{ mb: 1.5, mt: 2 }} color="primary.sec">
             (More Stats)

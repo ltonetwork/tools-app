@@ -32,11 +32,11 @@ const Blocks = () => {
         const [dailyRes, weeklyRes, monthlyRes] = await Promise.all([
           axios.get(`${SCRIPT}/blocks-daily`),
           axios.get(`${SCRIPT}/blocks-weekly`),
-          axios.get(`${SCRIPT}/blocks-monthly`),
+          //axios.get(`${SCRIPT}/blocks-monthly`),
         ]);
         setBlocksDaily(dailyRes.data);
         setBlocksWeekly(weeklyRes.data);
-        setBlocksMonthly(monthlyRes.data);
+        //setBlocksMonthly(monthlyRes.data);
         setDataLoaded(true);
       } catch (error) {
         console.error("Error fetching data:", error);

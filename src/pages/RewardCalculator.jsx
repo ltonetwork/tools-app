@@ -9,6 +9,7 @@ import {
   Slider,
 } from "@mui/material";
 import axios from "axios";
+import { getApy } from "../utils/getAPY";
 
 const RewardCalculator = () => {
   const [amount, setAmount] = useState("");
@@ -25,6 +26,7 @@ const RewardCalculator = () => {
     const handleResize = () => {
       if (window.innerWidth < 800) {
         setIsMobile(true);
+        getApy();
       } else {
         setIsMobile(false);
       }
@@ -51,6 +53,8 @@ const RewardCalculator = () => {
         );
         const priceData = priceResponse.data;
         setUsd(priceData["lto-network"].usd);
+        const apyData = await getApy();
+        setApy(apyData.toFixed(3));
       } catch (error) {
         console.error("Error fetching data:", error);
       }

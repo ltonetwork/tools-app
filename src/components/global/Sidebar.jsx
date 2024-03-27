@@ -122,7 +122,7 @@ const Sidebar = () => {
                   borderRadius: "50%",
                 }}
               /> */}
-              {isHovered && (
+              {(isHovered && (
                 <Typography
                   style={{ fontSize: "24px", fontWeight: "600" }}
                   variant="h6"
@@ -130,10 +130,19 @@ const Sidebar = () => {
                 >
                   DASHBOARD
                 </Typography>
-              )}
-              <IconButton onClick={handleToggleCollapse}>
-                {/* <MenuOutlinedIcon /> */}
-              </IconButton>
+              )) ||
+                (!isCollapsed && (
+                  <Typography
+                    style={{ fontSize: "24px", fontWeight: "600" }}
+                    variant="h6"
+                    color="#17054b"
+                  >
+                    DASHBOARD
+                  </Typography>
+                ))}
+              {/* <IconButton onClick={handleToggleCollapse}>
+                <MenuOutlinedIcon />
+              </IconButton> */}
             </Box>
           </MenuItem>
 
@@ -195,7 +204,7 @@ const Sidebar = () => {
             />
           </Box>
 
-          {isHovered && (
+          {(isHovered && (
             <Box mt="70px" mb="25px">
               <Box display="flex" justifyContent="center" alignItems="center">
                 <img
@@ -206,7 +215,19 @@ const Sidebar = () => {
                 />
               </Box>
             </Box>
-          )}
+          )) ||
+            (!isCollapsed && (
+              <Box mt="70px" mb="25px">
+                <Box display="flex" justifyContent="center" alignItems="center">
+                  <img
+                    alt="lto-network"
+                    width="180px"
+                    src={LOGO}
+                    style={{ cursor: "pointer" }}
+                  />
+                </Box>
+              </Box>
+            ))}
         </Menu>
       </ProSidebar>
 
