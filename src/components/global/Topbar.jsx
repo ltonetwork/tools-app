@@ -5,9 +5,11 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowOutwardOutlinedIcon from "@mui/icons-material/ArrowOutwardOutlined";
 import { LOGO, ltoIcon } from "../../assets/index";
+import { useNavigate } from "react-router-dom";
 
 const Topbar = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -25,6 +27,11 @@ const Topbar = () => {
     };
   }, []);
 
+  const navigateTo = (route) => {
+    navigate(route);
+    handleClose();
+  };
+
   return (
     <div style={{ backgroundColor: theme.palette.primary.main }}>
       <Box></Box>
@@ -34,16 +41,19 @@ const Topbar = () => {
         alignItems="center"
         p={2}
       >
-        <img
-          alt="lto-icon"
-          width="40px"
-          src={ltoIcon}
-          style={{
-            cursor: "pointer",
-            marginRight: "2px",
-            // borderRadius: "50%",
-          }}
-        />
+        {!isMobile && (
+          <img
+            alt="lto-icon"
+            width="40px"
+            src={ltoIcon}
+            style={{
+              cursor: "pointer",
+              marginRight: "2px",
+              // borderRadius: "50%",
+            }}
+            onClick={() => navigateTo("/")}
+          />
+        )}
         {/* {isMobile && (
           <Box display="flex" backgroundColor="white" borderRadius="3px">
             <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" />
@@ -63,6 +73,7 @@ const Topbar = () => {
                 marginRight: "2px",
                 borderRadius: "50%",
               }}
+              onClick={() => navigateTo("/")}
             />
           )}
         </div>
