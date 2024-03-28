@@ -22,8 +22,6 @@ export async function getApy() {
     }, 0);
 
     const reward = totalReward / 100000000;
-
-    //console.log("total gen. rewards: ", reward);
     const APY = (reward / totalBalance) * 100 * 52;
     //console.log("APY: ", (reward / totalBalance) * 100 * 52);
     return APY;
