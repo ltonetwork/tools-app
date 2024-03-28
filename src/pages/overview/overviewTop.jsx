@@ -38,37 +38,7 @@ const OverviewTop = () => {
         setSupply(res.data.total / 100000000);
 
         const apyData = await getApy();
-        console.log(apyData);
         setApy(apyData.toFixed(3) + "%");
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const marketResponse = await axios.get(
-          "https://api.coingecko.com/api/v3/simple/price",
-          {
-            params: {
-              ids: "lto-network",
-              vs_currencies: "usd",
-              include_market_cap: true,
-            },
-          }
-        );
-        const priceResponse = await axios.get(
-          "https://api.binance.com/api/v3/ticker/price?symbol=LTOUSDT"
-        );
-        const marketData = marketResponse.data;
-        // setCoinPrice(priceData["lto-network"].usd);
-        setMarketCap(marketData["lto-network"].usd_market_cap);
-        const price = priceResponse.data.price;
-        setCoinPrice(parseFloat(price).toFixed(3));
 
         // Fetch peer data
         const peersResponse = await axios.get(`${EXT_URL2}/nodes/json`);
@@ -87,6 +57,37 @@ const OverviewTop = () => {
     };
 
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        // const priceResponse = await axios.get(
+        //   "https://api.binance.com/api/v3/ticker/price?symbol=LTOUSDT"
+        // );
+
+        const marketResponse = await axios.get(
+          "https://api.coingecko.com/api/v3/simple/price",
+          {
+            params: {
+              ids: "lto-network",
+              vs_currencies: "usd",
+              include_market_cap: true,
+            },
+          }
+        );
+
+        const marketData = marketResponse.data;
+        setCoinPrice(marketData["lto-network"].usd);
+        setMarketCap(marketData["lto-network"].usd_market_cap);
+        const price = priceResponse.data.price;
+        setCoinPrice(parseFloat(price).toFixed(3));
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    getData();
   }, []);
 
   const handleClick = (action) => {
@@ -135,7 +136,7 @@ const OverviewTop = () => {
                 ${coinPrice ? coinPrice : "---"}
               </Typography>
               <Typography sx={{ mb: 1.5, mt: 2 }} color="primary.sec">
-                (Binance)
+                (Coingecko)
               </Typography>
             </CardContent>
             {/* <CardActions>
