@@ -37,9 +37,6 @@ const OverviewTop = () => {
         setBurned(res.data.burned / 100000000);
         setSupply(res.data.total / 100000000);
 
-        const apyData = await getApy();
-        setApy(apyData.toFixed(3) + "%");
-
         // Fetch peer data
         const peersResponse = await axios.get(`${EXT_URL2}/nodes/json`);
         const peersData = peersResponse.data;
@@ -76,6 +73,9 @@ const OverviewTop = () => {
             },
           }
         );
+
+        const apyData = await getApy();
+        setApy(apyData.toFixed(3) + "%");
 
         const marketData = marketResponse.data;
         setCoinPrice(marketData["lto-network"].usd);
