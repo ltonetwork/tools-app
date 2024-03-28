@@ -19,12 +19,13 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
-  const colors = theme.palette.primary.main;
+  const isActive = selected === title;
+
   return (
     <MenuItem
-      active={selected === title}
+      active={isActive}
       style={{
-        color: "#17054b",
+        color: isActive ? "#9A1DB1" : "#17054b",
       }}
       onClick={() => setSelected(title)}
       icon={icon}

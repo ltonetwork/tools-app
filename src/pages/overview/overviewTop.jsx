@@ -51,8 +51,7 @@ const OverviewTop = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch coin price and market cap
-        const priceResponse = await axios.get(
+        const marketResponse = await axios.get(
           "https://api.coingecko.com/api/v3/simple/price",
           {
             params: {
@@ -62,9 +61,14 @@ const OverviewTop = () => {
             },
           }
         );
-        const priceData = priceResponse.data;
-        setCoinPrice(priceData["lto-network"].usd);
-        setMarketCap(priceData["lto-network"].usd_market_cap);
+        const priceResponse = await axios.get(
+          "https://api.binance.com/api/v3/ticker/price?symbol=LTOUSDT"
+        );
+        const marketData = marketResponse.data;
+        // setCoinPrice(priceData["lto-network"].usd);
+        setMarketCap(marketData["lto-network"].usd_market_cap);
+        const price = priceResponse.data.price;
+        setCoinPrice(parseFloat(price).toFixed(3));
 
         // Fetch peer data
         const peersResponse = await axios.get(`${EXT_URL2}/nodes/json`);
@@ -131,7 +135,7 @@ const OverviewTop = () => {
                 ${coinPrice ? coinPrice : "---"}
               </Typography>
               <Typography sx={{ mb: 1.5, mt: 2 }} color="primary.sec">
-                (Coingecko)
+                (Binance)
               </Typography>
             </CardContent>
             {/* <CardActions>

@@ -23,6 +23,7 @@ const MobileMenu = () => {
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
+  const [selected, setSelected] = React.useState("/overview");
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -57,6 +58,7 @@ const MobileMenu = () => {
 
   const navigateTo = (route) => {
     navigate(route);
+    setSelected(route);
     handleClose();
   };
 
@@ -117,7 +119,9 @@ const MobileMenu = () => {
                   >
                     <MenuItem
                       onClick={() => navigateTo("/overview")}
-                      sx={{ color: "#17054B" }}
+                      sx={{
+                        color: selected === "/overview" ? "#9A1DB1" : "#17054B",
+                      }}
                     >
                       <DashboardCustomizeOutlinedIcon sx={{ mr: 1 }} />
                       Overview
@@ -125,7 +129,10 @@ const MobileMenu = () => {
 
                     <MenuItem
                       onClick={() => navigateTo("/generators")}
-                      sx={{ color: "#17054B" }}
+                      sx={{
+                        color:
+                          selected === "/generators" ? "#9A1DB1" : "#17054B",
+                      }}
                     >
                       <ViewDayOutlinedIcon sx={{ mr: 1 }} />
                       Generators
@@ -133,7 +140,9 @@ const MobileMenu = () => {
 
                     <MenuItem
                       onClick={() => navigateTo("/nodes")}
-                      sx={{ color: "#17054B" }}
+                      sx={{
+                        color: selected === "/nodes" ? "#9A1DB1" : "#17054B",
+                      }}
                     >
                       <AccountTreeOutlinedIcon sx={{ mr: 1 }} />
                       Nodes
@@ -141,7 +150,9 @@ const MobileMenu = () => {
 
                     <MenuItem
                       onClick={() => navigateTo("/activity")}
-                      sx={{ color: "#17054B" }}
+                      sx={{
+                        color: selected === "/activity" ? "#9A1DB1" : "#17054B",
+                      }}
                     >
                       <SettingsOutlinedIcon sx={{ mr: 1 }} />
                       Network Activity
@@ -149,7 +160,9 @@ const MobileMenu = () => {
 
                     <MenuItem
                       onClick={() => navigateTo("/stats")}
-                      sx={{ color: "#17054B" }}
+                      sx={{
+                        color: selected === "/stats" ? "#9A1DB1" : "#17054B",
+                      }}
                     >
                       <QueryStatsOutlinedIcon sx={{ mr: 1 }} />
                       Stats
@@ -157,7 +170,9 @@ const MobileMenu = () => {
 
                     <MenuItem
                       onClick={() => navigateTo("/blocks")}
-                      sx={{ color: "#17054B" }}
+                      sx={{
+                        color: selected === "/blocks" ? "#9A1DB1" : "#17054B",
+                      }}
                     >
                       <ViewInArOutlinedIcon sx={{ mr: 1 }} />
                       Blocks
@@ -165,7 +180,10 @@ const MobileMenu = () => {
 
                     <MenuItem
                       onClick={() => navigateTo("/rewards-calc")}
-                      sx={{ color: "#17054B" }}
+                      sx={{
+                        color:
+                          selected === "/rewards-calc" ? "#9A1DB1" : "#17054B",
+                      }}
                     >
                       <CalculateOutlinedIcon sx={{ mr: 1 }} />
                       Reward Calc
