@@ -6,7 +6,7 @@ import Topbar from "./components/global/Topbar";
 import ResponsiveMenu from "./components/global/ResponsiveMenu";
 import { theme } from "./theme";
 import { ThemeProvider } from "@emotion/react";
-import { BG_Wave } from "./assets";
+import { Wave } from "./assets";
 
 const App = () => {
   //const [isSidebar, setIsSidebar] = useState(true);
@@ -24,7 +24,7 @@ const App = () => {
               style={{
                 padding: "10px",
                 backgroundColor: "#f0f3fa",
-                backgroundImage: `url(${BG_Wave})`,
+                backgroundImage: `url(${Wave})`,
                 backgroundRepeat: "no-repeat",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
