@@ -11,9 +11,7 @@ import {
   useTheme,
 } from "@mui/material";
 import axios from "axios";
-import { BASE_URL } from "../../utils/config";
-import { EXT_URL } from "../../utils/config";
-import { EXT_URL2 } from "../../utils/config";
+import { BASE_URL, EXT_URL, EXT_URL2, STATS } from "../../utils/config";
 import { getApy } from "../../utils/getAPY";
 
 const OverviewTop = () => {
@@ -32,10 +30,11 @@ const OverviewTop = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const supplyResponse = await axios.get(`${STATS}/suuply/total`);
         const res = await axios.get(`${BASE_URL}supply`);
         setBlockHeight(res.data.height);
         setBurned(res.data.burned / 100000000);
-        setSupply(res.data.total / 100000000);
+        setSupply(supplyResponse);
 
         // Fetch peer data
         const peersResponse = await axios.get(`${EXT_URL2}/nodes/json`);
