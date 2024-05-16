@@ -178,7 +178,7 @@ const Generators = () => {
             variant={all === "all" ? "outlined" : "contained"}
             size="small"
           >
-            All
+            All time
           </Button>
 
           <Button
@@ -225,7 +225,7 @@ const Generators = () => {
         {all != "all" ? (
           <Card sx={{ margin: 2 }}>
             <CardContent>
-              <div style={{ height: 600, width: "100%" }}>
+              <div style={{ width: "100%" }}>
                 <Box
                   sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}
                 >
@@ -281,14 +281,16 @@ const Generators = () => {
                     }}
                   />
                 </Box>
-                <DataGrid
-                  rows={searchAllGenerators}
-                  columns={allGeneratorsColumn}
-                  pageSize={5}
-                  rowsPerPageOptions={[5]}
-                  checkboxSelection={false}
-                  disableSelectionOnClick
-                />
+                <div style={{ height: 600 }}>
+                  <DataGrid
+                    rows={searchAllGenerators}
+                    columns={allGeneratorsColumn}
+                    pageSize={60}
+                    rowsPerPageOptions={[15, 30, 60]}
+                    checkboxSelection={false}
+                    disableSelectionOnClick
+                  />
+                </div>
               </div>
             </CardContent>
           </Card>
