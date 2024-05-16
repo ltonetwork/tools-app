@@ -9,12 +9,10 @@ export async function getApy() {
       .then((res) => {
         return res.data;
       });
-    //console.log(gen);
 
     const totalBalance = gen.reduce((total, datum) => {
       return total + datum.balance;
     }, 0);
-    //console.log("generating bal: ", totalBalance);
 
     const response = await axios.get(`${SCRIPT}/blocks-weekly`);
     const totalReward = response.data.reduce((total, datum) => {
@@ -23,7 +21,6 @@ export async function getApy() {
 
     const reward = totalReward / 100000000;
     const APY = (reward / totalBalance) * 100 * 52;
-    //console.log("APY: ", (reward / totalBalance) * 100 * 52);
     return APY;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -34,11 +31,7 @@ export async function getApy() {
 async function fetchData() {
   try {
     const data = await getApy();
-    // Do something with the data here
-  } catch (error) {
-    // Handle error if necessary
-  }
+  } catch (error) {}
 }
 
-// Call the fetchData function
 fetchData();

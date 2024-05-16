@@ -11,8 +11,7 @@ import {
   useTheme,
 } from "@mui/material";
 import axios from "axios";
-import { BASE_URL } from "../../utils/config";
-import { EXT_URL } from "../../utils/config";
+import { BASE_URL, STATS } from "../../utils/config";
 
 const OverviewBottom = () => {
   const theme = useTheme();
@@ -64,17 +63,19 @@ const OverviewBottom = () => {
         console.error("Errors fetching the node data", error);
       });
 
-    axios
-      .get(`${EXT_URL}/generators`)
-      .then((res) => {
-        const gen = res.data;
-        const value = gen.filter((val) => val.name && val.name.length > 1);
-        setGenerators(value);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Errors fetching the node data", error);
-      });
+    // axios
+    //   .get(`${STATS}/generator/all`)
+    //   .then((res) => {
+    //     const gen = res.data;
+    //     const value = gen.filter(
+    //       (val) => val.generator && val.generator.length > 1
+    //     );
+    //     setGenerators(value);
+    //     setLoading(false);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Errors fetching the node data", error);
+    //   });
   }, []);
 
   const handleClick = (action) => {

@@ -11,7 +11,7 @@ import {
   useTheme,
 } from "@mui/material";
 import axios from "axios";
-import { BASE_URL, EXT_URL, EXT_URL2, STATS } from "../../utils/config";
+import { BASE_URL, EXT_URL, EXT_URL2, SCRIPT, STATS } from "../../utils/config";
 import { getApy } from "../../utils/getAPY";
 
 const OverviewTop = () => {
@@ -30,11 +30,14 @@ const OverviewTop = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const supplyResponse = await axios.get(`${STATS}/suuply/total`);
+        const supplyResponse = await axios.get(
+          `${STATS}/stats/supply/circulating`
+        );
+        setSupply(supplyResponse.data);
+
         const res = await axios.get(`${BASE_URL}supply`);
         setBlockHeight(res.data.height);
         setBurned(res.data.burned / 100000000);
-        setSupply(supplyResponse);
 
         // Fetch peer data
         const peersResponse = await axios.get(`${EXT_URL2}/nodes/json`);
@@ -43,10 +46,11 @@ const OverviewTop = () => {
         setNodes(numberOfNodes);
 
         // Fetch generator data
-        const generatorsResponse = await axios.get(`${EXT_URL}/generators`);
-        const generatorsData = generatorsResponse.data;
-        let value = generatorsData.length;
-        setGenerators(value);
+        const generatorsResponse = await axios.get(`${SCRIPT}/blocks-monthly`);
+        const uniqueGenerators = new Set(
+          generatorsResponse.data.map((gen) => gen.generator)
+        );
+        setGenerators(uniqueGenerators.size);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -247,7 +251,7 @@ const OverviewTop = () => {
                 color="primary.sec"
                 gutterBottom
               >
-                Total Supply
+                Circulating Supply
               </Typography>
               <Typography
                 style={{
@@ -383,7 +387,7 @@ const OverviewTop = () => {
                 color="primary.sec"
                 gutterBottom
               >
-                Generators
+                Generators (last 30days)
               </Typography>
               <Typography
                 style={{
