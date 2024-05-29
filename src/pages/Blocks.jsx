@@ -22,9 +22,14 @@ const Blocks = () => {
   const [blocksMonthly, setBlocksMonthly] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedPeriod, setSelectedPeriod] = useState("daily");
-  const [loadingMonthly, setLoadingMonthly] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [loadingWeekly, setLoadingWeekly] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 5000);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -150,7 +155,7 @@ const Blocks = () => {
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Typography sx={{ fontSize: "20px" }}>{"[Blocks]"}</Typography>
       </Box>
-      {loadingWeekly && <Loader />} <LastUpdate />
+      {loading && <Loader />} <LastUpdate />
       <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
         <Button
           style={{

@@ -1,5 +1,5 @@
 import React, { useState, CSSProperties } from "react";
-import BarLoader from "react-spinners/BarLoader";
+import { HashLoader } from "react-spinners";
 
 const override: CSSProperties = {
   position: "fixed",
@@ -13,7 +13,7 @@ const override: CSSProperties = {
 const Loader = ({ loading }) => {
   let [color, setColor] = useState("#17054B");
 
-  return <BarLoader color={color} cssOverride={override} />;
+  return <HashLoader color={color} cssOverride={override} />;
 };
 
 export default Loader;

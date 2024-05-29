@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
-  Box,
   Card,
   CardActions,
   CardContent,
@@ -11,12 +10,13 @@ import {
   useTheme,
 } from "@mui/material";
 import axios from "axios";
-import { BASE_URL, EXT_URL, EXT_URL2, SCRIPT, STATS } from "../../utils/config";
-import { getApy } from "../../utils/getAPY";
+import { BASE_URL, STATS } from "../../utils/config";
+import { getApy, getGenerators, getNodeNumber, MarketInfo } from "../../utils";
+import Loader from "../../components/global/Loader";
 
 const OverviewTop = () => {
   const theme = useTheme();
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const [coinPrice, setCoinPrice] = useState(null);
   const [nodes, setNodes] = useState(null);
   const [apy, setApy] = useState(null);
@@ -24,8 +24,13 @@ const OverviewTop = () => {
   const [burned, setBurned] = useState(0);
   const [supply, setSupply] = useState(0);
   const [blockHeight, setBlockHeight] = useState();
-  // const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // Loading state
   const [marketCap, setMarketCap] = useState(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 6000);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,24 +38,24 @@ const OverviewTop = () => {
         const supplyResponse = await axios.get(
           `${STATS}/stats/supply/circulating`
         );
+
         setSupply(supplyResponse.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setNodes(await getNodeNumber());
+        setGenerators(await getGenerators());
 
         const res = await axios.get(`${BASE_URL}supply`);
         setBlockHeight(res.data.height);
         setBurned(res.data.burned / 100000000);
-
-        // Fetch peer data
-        const peersResponse = await axios.get(`${EXT_URL2}/nodes/json`);
-        const peersData = peersResponse.data;
-        const numberOfNodes = peersData.length;
-        setNodes(numberOfNodes);
-
-        // Fetch generator data
-        const generatorsResponse = await axios.get(`${SCRIPT}/blocks-monthly`);
-        const uniqueGenerators = new Set(
-          generatorsResponse.data.map((gen) => gen.generator)
-        );
-        setGenerators(uniqueGenerators.size);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -62,29 +67,21 @@ const OverviewTop = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        // const priceResponse = await axios.get(
-        //   "https://api.binance.com/api/v3/ticker/price?symbol=LTOUSDT"
-        // );
-
-        const marketResponse = await axios.get(
-          "https://api.coingecko.com/api/v3/simple/price",
-          {
-            params: {
-              ids: "lto-network",
-              vs_currencies: "usd",
-              include_market_cap: true,
-            },
-          }
-        );
-
         const apyData = await getApy();
         setApy(apyData.toFixed(3) + "%");
 
-        const marketData = marketResponse.data;
-        setCoinPrice(marketData["lto-network"].usd);
-        setMarketCap(marketData["lto-network"].usd_market_cap);
-        const price = priceResponse.data.price;
-        setCoinPrice(parseFloat(price).toFixed(3));
+        const marketData = await MarketInfo.getMarketInfo();
+
+        setCoinPrice(
+          marketData?.geckoPrice
+            ? marketData?.geckoPrice
+            : marketData.binancePrice
+        );
+        setMarketCap(
+          marketData?.geckoMarketCap
+            ? marketData?.geckoMarketCap
+            : marketData.estimatedMarketCap
+        );
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -95,18 +92,31 @@ const OverviewTop = () => {
 
   const handleClick = (action) => {
     if (action === "nodes") {
-      Navigate("/nodes");
+      navigate("/nodes");
     } else if (action === "generators") {
-      Navigate("/generators");
-    } else if (action == "stats") {
-      Navigate("/stats");
-    } else if (action == "blocks") {
-      Navigate("/blocks");
+      navigate("/generators");
+    } else if (action === "stats") {
+      navigate("/stats");
+    } else if (action === "blocks") {
+      navigate("/blocks");
     }
   };
 
   return (
     <div>
+      {loading && (
+        <div
+          style={{
+            position: "fixed",
+            width: "100%",
+            height: "100%",
+            background: "rgba(255, 255, 255, 0.8)",
+            zIndex: 9999,
+          }}
+        >
+          <Loader />
+        </div>
+      )}
       <Grid container>
         <Grid item xs={12} sm={6} md={6} lg={3}>
           <Card
@@ -143,8 +153,8 @@ const OverviewTop = () => {
               </Typography>
             </CardContent>
             {/* <CardActions>
-          <Button size="small">more</Button>
-        </CardActions> */}
+              <Button size="small">more</Button>
+            </CardActions> */}
           </Card>
         </Grid>
 
@@ -183,8 +193,8 @@ const OverviewTop = () => {
               </Typography>
             </CardContent>
             {/* <CardActions>
-          <Button size="small">more</Button>
-        </CardActions> */}
+              <Button size="small">more</Button>
+            </CardActions> */}
           </Card>
         </Grid>
 
@@ -218,9 +228,6 @@ const OverviewTop = () => {
               >
                 {apy}
               </Typography>
-              {/* <Typography sx={{ mb: 1.5, mt: 2 }} color="primary.sec">
-            (More Stats)
-          </Typography> */}
             </CardContent>
             <CardActions>
               <Link
@@ -263,9 +270,6 @@ const OverviewTop = () => {
               >
                 {Math.floor(supply)} LTO
               </Typography>
-              {/* <Typography sx={{ mb: 1.5, mt: 2 }} color="primary.sec">
-            (Coingecko)
-          </Typography> */}
             </CardContent>
             <CardActions>
               <Button
@@ -280,10 +284,10 @@ const OverviewTop = () => {
           </Card>
         </Grid>
 
-        <Grid item xs={12} sm={6} md={6} lg={3}>
+        {/* <Grid item xs={12} sm={6} md={6} lg={3}>
           <Card
             sx={{
-              minWidth: { xs: 110, sm: 250, md: 250 },
+              minWidth: { xs: 150, sm: 250, md: 250 },
               margin: 2,
               background: "linear-gradient(to right, #c2c5f0, #d3e9f6)",
               boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
@@ -310,9 +314,6 @@ const OverviewTop = () => {
               >
                 {Math.floor(burned)} LTO
               </Typography>
-              {/* <Typography sx={{ mb: 1.5, mt: 2 }} color="primary.sec">
-            (Coingecko)
-          </Typography> */}
             </CardContent>
             <CardActions>
               <Button
@@ -325,7 +326,7 @@ const OverviewTop = () => {
               </Button>
             </CardActions>
           </Card>
-        </Grid>
+        </Grid> */}
 
         <Grid item xs={12} sm={6} md={6} lg={3}>
           <Card
@@ -357,9 +358,6 @@ const OverviewTop = () => {
               >
                 {nodes ? nodes : "---"}
               </Typography>
-              {/* <Typography sx={{ mb: 1.5, mt: 2 }} color="primary.sec">
-            (Coingecko)
-          </Typography> */}
             </CardContent>
             <CardActions>
               <Button onClick={() => handleClick("nodes")} size="small">
@@ -387,7 +385,7 @@ const OverviewTop = () => {
                 color="primary.sec"
                 gutterBottom
               >
-                Generators (last 30days)
+                Generators (last 30 days)
               </Typography>
               <Typography
                 style={{
@@ -399,9 +397,6 @@ const OverviewTop = () => {
               >
                 {generators}
               </Typography>
-              {/* <Typography sx={{ mb: 1.5, mt: 2 }} color="primary.sec">
-            
-          </Typography> */}
             </CardContent>
             <CardActions>
               <Button size="small" onClick={() => handleClick("generators")}>
@@ -441,9 +436,6 @@ const OverviewTop = () => {
               >
                 {blockHeight}
               </Typography>
-              {/* <Typography sx={{ mb: 1.5, mt: 2 }} color="primary.sec">
-            
-          </Typography> */}
             </CardContent>
             <CardActions>
               <Button size="small" onClick={() => handleClick("blocks")}>
@@ -456,4 +448,5 @@ const OverviewTop = () => {
     </div>
   );
 };
+
 export default OverviewTop;

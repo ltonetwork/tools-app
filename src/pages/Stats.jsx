@@ -7,8 +7,6 @@ import BurnChart from "./stats/BurnChart";
 import LeaseChart from "./stats/LeaseChart";
 import AnchorChart from "./stats/AnchorChart";
 import AssociationsChart from "./stats/AssociationsChart";
-import GeneratorShare from "./stats/GeneratorShare";
-import AllTransactions from "./stats/AllTransactions";
 import OperationsChart from "./stats/OperationsChart";
 
 const Stats = () => {
