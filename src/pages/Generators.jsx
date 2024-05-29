@@ -15,26 +15,21 @@ import { EXT_URL2, STATS } from "../utils/config";
 import SearchIcon from "@mui/icons-material/Search";
 import { DataGrid } from "@mui/x-data-grid";
 import { generatorNames } from "../utils/data";
+import Loader from "../components/global/Loader";
 
 const Generators = () => {
-  generatorNames;
-
   const [gen, setGen] = useState([]);
   const [allGenerators, setAllGenerators] = useState([]);
-  const [all, setAll] = useState("");
   const [genWeekly, setGenWeekly] = useState([]);
   const [genMonthly, setGenMonthly] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedPeriod, setSelectedPeriod] = useState("24");
+  const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 700) {
-        setIsMobile(true);
-      } else {
-        setIsMobile(false);
-      }
+      setIsMobile(window.innerWidth < 700);
     };
     handleResize();
     window.addEventListener("resize", handleResize);
@@ -44,19 +39,26 @@ const Generators = () => {
   }, []);
 
   useEffect(() => {
-    axios.get(`${EXT_URL2}generators/json`).then((res) => {
-      setGen(res.data);
-    });
-    axios.get(`${EXT_URL2}generators-weekly/json`).then((res) => {
-      setGenWeekly(res.data);
-    });
-    axios.get(`${EXT_URL2}generators-monthly/json`).then((res) => {
-      setGenMonthly(res.data);
-    });
-    axios.get(`${STATS}/generator/all`).then((res) => {
-      setAllGenerators(res.data);
-      console.log(res.data);
-    });
+    const fetchData = async () => {
+      try {
+        const [genRes, genWeeklyRes, genMonthlyRes, allGeneratorsRes] =
+          await Promise.all([
+            axios.get(`${EXT_URL2}generators/json`),
+            axios.get(`${EXT_URL2}generators-weekly/json`),
+            axios.get(`${EXT_URL2}generators-monthly/json`),
+            axios.get(`${STATS}/generator/all`),
+          ]);
+        setGen(genRes.data);
+        setGenWeekly(genWeeklyRes.data);
+        setGenMonthly(genMonthlyRes.data);
+        setAllGenerators(allGeneratorsRes.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const handleSearch = (event) => {
@@ -64,11 +66,9 @@ const Generators = () => {
   };
 
   const handlePeriodClick = (period) => {
-    if (period != "all") {
+    if (period !== "all") {
       setSelectedPeriod(period);
-      setAll("");
     } else {
-      setAll("all");
       setSelectedPeriod("");
     }
   };
@@ -136,21 +136,15 @@ const Generators = () => {
   }));
 
   const rows =
-    selectedPeriod == "24"
+    selectedPeriod === "24"
       ? genDay
-      : selectedPeriod == "weekly"
+      : selectedPeriod === "weekly"
       ? genWeek
-      : genMonth;
+      : selectedPeriod === "monthly"
+      ? genMonth
+      : allGen;
 
-  let searchGenerators = rows.filter(
-    (generator) =>
-      (generator.name &&
-        generator.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      (generator.address &&
-        generator.address.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
-
-  let searchAllGenerators = allGen.filter(
+  const searchResults = rows.filter(
     (generator) =>
       (generator.name &&
         generator.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
@@ -170,12 +164,12 @@ const Generators = () => {
         <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
           <Button
             style={{
-              backgroundColor: all === "all" ? "#17054B" : "white",
-              color: all === "all" ? "white" : "#17054B",
+              backgroundColor: selectedPeriod === "" ? "#17054B" : "white",
+              color: selectedPeriod === "" ? "white" : "#17054B",
             }}
             sx={{ margin: 1 }}
             onClick={() => handlePeriodClick("all")}
-            variant={all === "all" ? "outlined" : "contained"}
+            variant={selectedPeriod === "" ? "outlined" : "contained"}
             size="small"
           >
             All time
@@ -222,79 +216,46 @@ const Generators = () => {
             Last 30days
           </Button>
         </Box>
-        {all != "all" ? (
-          <Card sx={{ margin: 2 }}>
-            <CardContent>
-              <div style={{ width: "100%" }}>
-                <Box
-                  sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}
-                >
-                  <TextField
-                    size="small"
-                    label="Search Name | Address"
-                    variant="outlined"
-                    value={searchTerm}
-                    onChange={handleSearch}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton>
-                            <SearchIcon />
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                </Box>
+        <Card sx={{ margin: 2 }}>
+          <CardContent>
+            <div style={{ width: "100%" }}>
+              <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
+                <TextField
+                  size="small"
+                  label="Search Name | Address"
+                  variant="outlined"
+                  value={searchTerm}
+                  onChange={handleSearch}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton>
+                          <SearchIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Box>
+              {loading ? (
+                <Loader />
+              ) : (
                 <DataGrid
-                  rows={searchGenerators}
-                  columns={columns}
-                  pageSize={5}
-                  rowsPerPageOptions={[5]}
+                  rows={searchResults}
+                  columns={
+                    selectedPeriod === "" ? allGeneratorsColumn : columns
+                  }
+                  pageSize={isMobile ? 5 : 10}
+                  rowsPerPageOptions={[25, 50, 100]}
+                  pagination
+                  autoHeight
                   checkboxSelection={false}
                   disableSelectionOnClick
                 />
-              </div>
-            </CardContent>
-          </Card>
-        ) : (
-          <Card sx={{ margin: 2 }}>
-            <CardContent>
-              <div style={{ height: 600, width: "100%" }}>
-                <Box
-                  sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}
-                >
-                  <TextField
-                    size="small"
-                    label="Search Name | Address"
-                    variant="outlined"
-                    value={searchTerm}
-                    onChange={handleSearch}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton>
-                            <SearchIcon />
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                </Box>
-                <div style={{ height: 600 }}>
-                  <DataGrid
-                    rows={searchAllGenerators}
-                    columns={allGeneratorsColumn}
-                    pageSize={60}
-                    rowsPerPageOptions={[15, 30, 60]}
-                    checkboxSelection={false}
-                    disableSelectionOnClick
-                  />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        )}
+              )}
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </>
   );

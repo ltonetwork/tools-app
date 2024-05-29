@@ -71,6 +71,7 @@ const OverviewTop = () => {
         setApy(apyData.toFixed(3) + "%");
 
         const marketData = await MarketInfo.getMarketInfo();
+        console.log(marketData);
 
         setCoinPrice(
           marketData?.geckoPrice
