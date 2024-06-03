@@ -63,16 +63,48 @@ const OverviewTop = () => {
     fetchData();
   }, []);
 
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     try {
+  //       const apyData = await getApy();
+  //       setApy(apyData.toFixed(3) + "%");
+
+  //       //const marketData = await MarketInfo.getMarketInfo();
+  //       //Note MarketInfo.getMarketInfo exists here too to query marketData
+  //       //You can alsways switch to it, we had issues with delay in using the
+  //       //free coinGecko data sometimes, hence why there's a custom script
+
+  //       const response = await axios.get(`${SCRIPT}/marketInfo`);
+  //       const marketData = response.data;
+
+  //       setCoinPrice(
+  //         marketData?.geckoPrice
+  //           ? marketData?.geckoPrice
+  //           : marketData.binancePrice
+  //       );
+  //       setMarketCap(
+  //         marketData?.geckoMarketCap
+  //           ? marketData?.geckoMarketCap
+  //           : marketData.estimatedMarketCap
+  //       );
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //     }
+  //   };
+
+  //   getData();
+  // }, []);
+
   useEffect(() => {
     const getData = async () => {
       try {
         const apyData = await getApy();
         setApy(apyData.toFixed(3) + "%");
 
-        //const marketData = await MarketInfo.getMarketInfo();
-        //Note MarketInfo.getMarketInfo exists here too to query marketData
-        //You can alsways switch to it, we had issues with delay in using the
-        //free coinGecko data sometimes, hence why there's a custom script
+        // const marketData = await MarketInfo.getMarketInfo();
+        // Note MarketInfo.getMarketInfo exists here too to query marketData
+        // You can always switch to it, we had issues with delay in using the
+        // free coinGecko data sometimes, hence why there's a custom script
 
         const response = await axios.get(`${SCRIPT}/marketInfo`);
         const marketData = response.data;
@@ -91,8 +123,9 @@ const OverviewTop = () => {
         console.error("Error fetching data:", error);
       }
     };
-
     getData();
+    const intervalId = setInterval(getData, 15000);
+    return () => clearInterval(intervalId);
   }, []);
 
   const handleClick = (action) => {
