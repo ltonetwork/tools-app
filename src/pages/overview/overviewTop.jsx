@@ -10,7 +10,7 @@ import {
   useTheme,
 } from "@mui/material";
 import axios from "axios";
-import { BASE_URL, STATS } from "../../utils/config";
+import { BASE_URL, STATS, SCRIPT } from "../../utils/config";
 import { getApy, getGenerators, getNodeNumber, MarketInfo } from "../../utils";
 import Loader from "../../components/global/Loader";
 
@@ -28,7 +28,7 @@ const OverviewTop = () => {
   const [marketCap, setMarketCap] = useState(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 6000);
+    const timer = setTimeout(() => setLoading(false), 4000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -38,7 +38,6 @@ const OverviewTop = () => {
         const supplyResponse = await axios.get(
           `${STATS}/stats/supply/circulating`
         );
-
         setSupply(supplyResponse.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -70,7 +69,13 @@ const OverviewTop = () => {
         const apyData = await getApy();
         setApy(apyData.toFixed(3) + "%");
 
-        const marketData = await MarketInfo.getMarketInfo();
+        //const marketData = await MarketInfo.getMarketInfo();
+        //Note MarketInfo.getMarketInfo exists here too to query marketData
+        //You can alsways switch to it, we had issues with delay in using the
+        //free coinGecko data sometimes, hence why there's a custom script
+
+        const response = await axios.get(`${SCRIPT}/marketInfo`);
+        const marketData = response.data;
 
         setCoinPrice(
           marketData?.geckoPrice
