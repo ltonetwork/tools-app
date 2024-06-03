@@ -98,14 +98,10 @@ const OverviewTop = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const apyData = await getApy();
-        setApy(apyData.toFixed(3) + "%");
-
         // const marketData = await MarketInfo.getMarketInfo();
         // Note MarketInfo.getMarketInfo exists here too to query marketData
         // You can always switch to it, we had issues with delay in using the
         // free coinGecko data sometimes, hence why there's a custom script
-
         const response = await axios.get(`${SCRIPT}/marketInfo`);
         const marketData = response.data;
 
@@ -119,6 +115,9 @@ const OverviewTop = () => {
             ? marketData?.geckoMarketCap
             : marketData.estimatedMarketCap
         );
+
+        const apyData = await getApy();
+        setApy(apyData.toFixed(3) + "%");
       } catch (error) {
         console.error("Error fetching data:", error);
       }
