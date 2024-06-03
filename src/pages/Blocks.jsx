@@ -136,10 +136,10 @@ const Blocks = () => {
       }),
       blocksize: block.blockSize,
       transactionCount: block.transactionCount,
-      fee: block.fee / 10000000,
-      burnedFees: block.burnedFees / 10000000,
-      miningReward: block.miningReward / 10000000,
-      generatorReward: block.generatorReward / 10000000,
+      fee: block.fee / 100000000,
+      burnedFees: block.burnedFees / 100000000,
+      miningReward: block.miningReward / 100000000,
+      generatorReward: block.generatorReward / 100000000,
     }));
 
   const handleSearchChange = (event) => {
