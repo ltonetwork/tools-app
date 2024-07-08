@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Box, IconButton, useTheme, Typography } from "@mui/material";
-import InputBase from "@mui/material/InputBase";
-import SearchIcon from "@mui/icons-material/Search";
 import ArrowOutwardOutlinedIcon from "@mui/icons-material/ArrowOutwardOutlined";
-import { LOGO, ltoIcon } from "../../assets/index";
+import { ltoIcon } from "../../assets/index";
 import { useNavigate } from "react-router-dom";
 
 const Topbar = () => {
