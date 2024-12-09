@@ -7,6 +7,7 @@ import NodeMaps from "./NodeMaps";
 import Blocks from "./Blocks";
 import RewardCalculator from "./RewardCalculator";
 import Activity from "./Activity";
+import OwnablesTrack from "./OwnablesTrack";
 
 export {
   Overview,
@@ -18,4 +19,5 @@ export {
   NodeMaps,
   RewardCalculator,
   Activity,
+  OwnablesTrack,
 };

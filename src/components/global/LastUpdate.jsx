@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SCRIPT } from "../../utils/config";
+import { SCRIPT } from "../../services/config";
 import { Typography } from "@mui/material";
 import axios from "axios";
 
@@ -17,7 +17,6 @@ const LastUpdate = () => {
           .map((res) => {
             return res.timestamp;
           });
-        // Get the latest timestamp
         const latestTimestamp = timestamps.length > 0 ? timestamps[0] : null;
         setLastUpdate(latestTimestamp);
       })

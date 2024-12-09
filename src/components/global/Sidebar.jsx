@@ -12,6 +12,7 @@ import QueryStatsOutlinedIcon from "@mui/icons-material/QueryStatsOutlined";
 import CalculateOutlinedIcon from "@mui/icons-material/CalculateOutlined";
 import ViewInArOutlinedIcon from "@mui/icons-material/ViewInArOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import { RouteOutlined } from "@mui/icons-material";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -196,6 +197,14 @@ const Sidebar = () => {
               title="Rewards Calc"
               to="/rewards-calc"
               icon={<CalculateOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
+            <Item
+              title="Ownables Track"
+              to="/ownables-track"
+              icon={<RouteOutlined />}
               selected={selected}
               setSelected={setSelected}
             />

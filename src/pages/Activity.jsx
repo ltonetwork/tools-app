@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Card, CardContent, Box, Typography } from "@mui/material";
 import LastUpdate from "../components/global/LastUpdate";
-import { SCRIPT } from "../utils/config";
+import { SCRIPT } from "../services/config";
 import axios from "axios";
 import OperationsChart from "./stats/OperationsChart";
 

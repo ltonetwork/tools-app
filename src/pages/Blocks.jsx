@@ -13,7 +13,7 @@ import {
 import { DataGrid } from "@mui/x-data-grid";
 import LastUpdate from "../components/global/LastUpdate";
 import SearchIcon from "@mui/icons-material/Search";
-import { SCRIPT } from "../utils/config";
+import { SCRIPT } from "../services/config";
 import Loader from "../components/global/Loader";
 
 const Blocks = () => {

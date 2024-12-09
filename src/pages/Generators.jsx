@@ -11,10 +11,10 @@ import {
   Button,
 } from "@mui/material";
 import DateComponent from "../components/global/DateComponent";
-import { EXT_URL2, STATS } from "../utils/config";
+import { EXT_URL2, STATS } from "../services/config";
 import SearchIcon from "@mui/icons-material/Search";
 import { DataGrid } from "@mui/x-data-grid";
-import { generatorNames } from "../utils/data";
+import { generatorNames } from "../services/data";
 import Loader from "../components/global/Loader";
 
 const Generators = () => {

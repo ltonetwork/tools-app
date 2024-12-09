@@ -16,6 +16,7 @@ import QueryStatsOutlinedIcon from "@mui/icons-material/QueryStatsOutlined";
 import CalculateOutlinedIcon from "@mui/icons-material/CalculateOutlined";
 import ViewInArOutlinedIcon from "@mui/icons-material/ViewInArOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import { RouteOutlined } from "@mui/icons-material";
 
 const MobileMenu = () => {
   const navigate = useNavigate();
@@ -185,6 +186,19 @@ const MobileMenu = () => {
                     >
                       <CalculateOutlinedIcon sx={{ mr: 1 }} />
                       Reward Calc
+                    </MenuItem>
+
+                    <MenuItem
+                      onClick={() => navigateTo("/ownables-track")}
+                      sx={{
+                        color:
+                          selected === "/ownables-track"
+                            ? "#9A1DB1"
+                            : "#17054B",
+                      }}
+                    >
+                      <RouteOutlined sx={{ mr: 1 }} />
+                      Ownables Track
                     </MenuItem>
                   </MenuList>
                 </ClickAwayListener>

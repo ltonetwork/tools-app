@@ -12,7 +12,7 @@ import {
 import { DataGrid } from "@mui/x-data-grid";
 import DateComponent from "../components/global/DateComponent";
 import SearchIcon from "@mui/icons-material/Search";
-import { EXT_URL2 } from "../utils/config";
+import { EXT_URL2 } from "../services/config";
 
 const Nodes = () => {
   const [nodes, setNodes] = useState([]);

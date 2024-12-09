@@ -10,8 +10,13 @@ import {
   useTheme,
 } from "@mui/material";
 import axios from "axios";
-import { BASE_URL, STATS, SCRIPT } from "../../utils/config";
-import { getApy, getGenerators, getNodeNumber, MarketInfo } from "../../utils";
+import { BASE_URL, STATS, SCRIPT } from "../../services/config";
+import {
+  getApy,
+  getGenerators,
+  getNodeNumber,
+  MarketInfo,
+} from "../../services/index";
 import Loader from "../../components/global/Loader";
 
 const OverviewTop = () => {

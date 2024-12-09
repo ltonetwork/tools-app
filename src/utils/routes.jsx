@@ -10,7 +10,9 @@ import {
   Blocks,
   RewardCalculator,
   Activity,
+  OwnablesTrack,
 } from "../pages/index.js";
+import ErrorBoundary from "../components/global/ErrorBoundary.jsx";
 
 export const routes = [
   {
@@ -57,6 +59,14 @@ export const routes = [
       {
         path: "rewards-calc",
         element: <RewardCalculator />,
+      },
+      {
+        path: "ownables-track",
+        element: <OwnablesTrack />,
+      },
+      {
+        path: "*",
+        element: <ErrorBoundary />,
       },
     ],
   },

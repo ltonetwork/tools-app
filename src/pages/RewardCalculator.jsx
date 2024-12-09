@@ -9,7 +9,7 @@ import {
   Slider,
 } from "@mui/material";
 import axios from "axios";
-import { getApy } from "../utils/getAPY";
+import { getApy } from "../services/getAPY";
 
 const RewardCalculator = () => {
   const [amount, setAmount] = useState("");
