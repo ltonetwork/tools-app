@@ -8,7 +8,7 @@ export class ObuilderApi {
       console.log("STAGING");
       url = `http://obuilder-staging.eba-ftdayif2.eu-west-1.elasticbeanstalk.com/api/v1/getQueueEntriesByRequestId`;
     } else if (env === "prod") {
-      url = `http://obuilder.lto.network/api/v1/getQueueEntriesByRequestId`;
+      url = `https://obuilder.lto.network/api/v1/getQueueEntriesByRequestId`;
     } else {
       throw new Error("Invalid environment specified");
     }
