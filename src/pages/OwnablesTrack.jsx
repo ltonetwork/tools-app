@@ -97,8 +97,7 @@ const OwnablesTrack = () => {
         Track your Ownable
       </h1>
       <p className="text-sm sm:text-base mb-6 text-center">
-        Paste your request ID, select the network and environment, then click
-        TRACK!
+        Paste your request ID to track your Ownable!
       </p>
 
       {/* Input and Search Button */}
