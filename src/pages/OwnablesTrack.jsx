@@ -8,8 +8,8 @@ import { ObuilderApi, RelayApi } from "../services/index";
 
 const OwnablesTrack = () => {
   const [requestId, setRequestId] = useState("");
-  const [env, setEnv] = useState("staging");
-  const [network, setNetwork] = useState("T");
+  const [env, setEnv] = useState("prod");
+  const [network, setNetwork] = useState("L");
   const [steps, setSteps] = useState([
     { label: "Stage 1: Obuilder queue", completed: false },
     { label: "Stage 2: Processing", completed: false },
@@ -127,7 +127,7 @@ const OwnablesTrack = () => {
       </div>
 
       {/* Environment and Network Dropdowns */}
-      <div className="flex flex-col sm:flex-row w-full max-w-md space-y-4 sm:space-y-0 sm:space-x-4 mb-6">
+      {/* <div className="flex flex-col sm:flex-row w-full max-w-md space-y-4 sm:space-y-0 sm:space-x-4 mb-6">
         <Select
           value={env}
           onChange={(e) => setEnv(e.target.value)}
@@ -146,7 +146,7 @@ const OwnablesTrack = () => {
           <MenuItem value="L">Mainnet</MenuItem>
           <MenuItem value="T">Testnet</MenuItem>
         </Select>
-      </div>
+      </div> */}
 
       {/* Timeline */}
       <Timeline steps={steps} />
