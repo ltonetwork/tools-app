@@ -1,23 +1,32 @@
-import React, { useState, useEffect, useCallback } from "react";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
+import { useState, useEffect, useCallback } from "react";
+import {
+  Box,
+  TextField,
+  Button,
+  Typography,
+  Paper,
+  CircularProgress,
+  useTheme,
+} from "@mui/material";
 import Timeline from "../components/Timeline";
 import { ObuilderApi, RelayApi } from "../services/index";
+import { theme } from "../styles/theme";
+
+const INITIAL_STEPS = [
+  { label: "Stage 1: Obuilder queue", completed: false },
+  { label: "Stage 2: Processing", completed: false },
+  { label: "Stage 3: Ready", completed: false },
+  { label: "Stage 4: Sent", completed: false },
+  { label: "Stage 5: Message Arrived", completed: false },
+];
 
 const OwnablesTrack = () => {
+  const muiTheme = useTheme();
   const [requestId, setRequestId] = useState("");
-  const [env, setEnv] = useState("prod");
-  const [network, setNetwork] = useState("L");
-  const [steps, setSteps] = useState([
-    { label: "Stage 1: Obuilder queue", completed: false },
-    { label: "Stage 2: Processing", completed: false },
-    { label: "Stage 3: Ready", completed: false },
-    { label: "Stage 4: Sent", completed: false },
-    { label: "Stage 5: Message Arrived", completed: false },
-  ]);
+  const [steps, setSteps] = useState(INITIAL_STEPS);
   const [isPolling, setIsPolling] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [retryLimit] = useState(4);
 
   const obuilderApi = new ObuilderApi();
@@ -26,7 +35,11 @@ const OwnablesTrack = () => {
   const checkRelayWithRetries = async (address, hash, retryCount) => {
     for (let attempt = 0; attempt < retryCount; attempt++) {
       try {
-        const relayResponse = await relayApi.checkMessage(address, hash, env);
+        const relayResponse = await relayApi.checkMessage(
+          address,
+          hash,
+          "prod"
+        );
         if (relayResponse) {
           setSteps((prevSteps) =>
             prevSteps.map((step, index) => ({
@@ -41,18 +54,29 @@ const OwnablesTrack = () => {
       }
       await new Promise((resolve) => setTimeout(resolve, 2000));
     }
-    console.error("Relay task failed after maximum retries.");
+    setError("Failed to verify message on relay after maximum retries");
     return false;
   };
 
   const handleSearch = useCallback(async () => {
-    if (!requestId) return;
+    if (!requestId) {
+      setError("Please enter a request ID");
+      return;
+    }
 
     if (handleSearch.running) return;
     handleSearch.running = true;
 
+    setIsLoading(true);
+    setError(null);
+
     try {
-      const obuilderResponse = await obuilderApi.track(requestId, network, env);
+      const obuilderResponse = await obuilderApi.track(requestId, "L", "prod");
+
+      if (!obuilderResponse || !obuilderResponse[0]) {
+        setError("No data found for this request ID");
+        return;
+      }
 
       const updatedSteps = steps.map((step, index) => ({
         ...step,
@@ -74,10 +98,12 @@ const OwnablesTrack = () => {
       }
     } catch (error) {
       console.error("Error during search:", error);
+      setError(error.message || "An error occurred while tracking the request");
     } finally {
+      setIsLoading(false);
       handleSearch.running = false;
     }
-  }, [requestId, env, network, steps, obuilderApi, retryLimit]);
+  }, [requestId, steps, retryLimit]);
 
   handleSearch.running = false;
 
@@ -91,65 +117,116 @@ const OwnablesTrack = () => {
     return () => clearInterval(interval);
   }, [handleSearch, isPolling]);
 
-  return (
-    <div className="relative min-h-screen flex flex-col items-center justify-center p-4">
-      <h1 className="text-xl sm:text-2xl font-bold mb-2 text-center text-[#18054B]">
-        Track your Ownable
-      </h1>
-      <p className="text-sm sm:text-base mb-6 text-center">
-        Paste your request ID to track your Ownable!
-      </p>
+  const handleTrackClick = () => {
+    setError(null);
+    setIsPolling(true);
+  };
 
-      {/* Input and Search Button */}
-      <div className="flex flex-col sm:flex-row w-full max-w-md items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-6">
-        <TextField
-          fullWidth
-          variant="outlined"
-          label="Request ID"
-          value={requestId}
-          onChange={(e) => setRequestId(e.target.value)}
-        />
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => setIsPolling(true)}
+  return (
+    <Box
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        p: 4,
+        background: `linear-gradient(135deg, ${muiTheme.palette.background.default} 0%, ${muiTheme.palette.background.paper} 100%)`,
+      }}
+    >
+      <Paper
+        elevation={3}
+        sx={{
+          width: "100%",
+          maxWidth: "2xl",
+          p: { xs: 3, sm: 4 },
+          borderRadius: theme.borderRadius.lg,
+          background: theme.colors.background.paper,
+          boxShadow: theme.shadows.lg,
+          backdropFilter: "blur(10px)",
+        }}
+      >
+        <Typography
+          variant="h4"
           sx={{
-            height: "56px",
-            minWidth: "120px",
-            whiteSpace: "nowrap",
-            backgroundColor: "#18054B",
-            "&:hover": { backgroundColor: "#1a0b5e" },
+            textAlign: "center",
+            mb: 2,
+            color: theme.colors.primary.main,
+            fontWeight: 700,
+            fontSize: { xs: "1.75rem", sm: "2rem" },
           }}
         >
-          Track
-        </Button>
-      </div>
-
-      {/* Environment and Network Dropdowns */}
-      {/* <div className="flex flex-col sm:flex-row w-full max-w-md space-y-4 sm:space-y-0 sm:space-x-4 mb-6">
-        <Select
-          value={env}
-          onChange={(e) => setEnv(e.target.value)}
-          variant="outlined"
-          fullWidth
+          Track your Ownable
+        </Typography>
+        <Typography
+          variant="body1"
+          sx={{
+            textAlign: "center",
+            mb: 4,
+            color: theme.colors.text.secondary,
+            fontSize: { xs: "0.875rem", sm: "1rem" },
+          }}
         >
-          <MenuItem value="staging">Staging</MenuItem>
-          <MenuItem value="prod">Production</MenuItem>
-        </Select>
-        <Select
-          value={network}
-          onChange={(e) => setNetwork(e.target.value)}
-          variant="outlined"
-          fullWidth
-        >
-          <MenuItem value="L">Mainnet</MenuItem>
-          <MenuItem value="T">Testnet</MenuItem>
-        </Select>
-      </div> */}
+          Paste your request ID to track your Ownable!
+        </Typography>
 
-      {/* Timeline */}
-      <Timeline steps={steps} />
-    </div>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", sm: "row" },
+            gap: { xs: 2, sm: 3 },
+            mb: 6,
+          }}
+        >
+          <TextField
+            fullWidth
+            variant="outlined"
+            label="Request ID"
+            value={requestId}
+            onChange={(e) => setRequestId(e.target.value)}
+            error={!!error}
+            helperText={error}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                borderRadius: theme.borderRadius.md,
+                "&:hover fieldset": {
+                  borderColor: theme.colors.secondary.main,
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: theme.colors.secondary.main,
+                },
+              },
+              "& .MuiFormHelperText-root": {
+                color: theme.colors.error.main,
+              },
+            }}
+          />
+          <Button
+            variant="contained"
+            onClick={handleTrackClick}
+            disabled={isLoading}
+            sx={{
+              height: "56px",
+              minWidth: "120px",
+              whiteSpace: "nowrap",
+              backgroundColor: theme.colors.secondary.main,
+              "&:hover": { backgroundColor: theme.colors.secondary.dark },
+              "&:disabled": { backgroundColor: theme.colors.text.disabled },
+              borderRadius: theme.borderRadius.md,
+              transition: theme.transitions.default,
+            }}
+          >
+            {isLoading ? (
+              <CircularProgress size={24} color="inherit" />
+            ) : (
+              "Track"
+            )}
+          </Button>
+        </Box>
+
+        <Timeline steps={steps} />
+      </Paper>
+    </Box>
   );
 };
 

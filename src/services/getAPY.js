@@ -14,7 +14,7 @@ export async function getApy() {
       return total + datum.balance;
     }, 0);
 
-    const response = await axios.get(`${SCRIPT}/blocks-weekly`);
+    const response = await axios.get(`${SCRIPT}/tools/blocks-weekly`);
     const totalReward = response.data.reduce((total, datum) => {
       return total + datum.generatorReward;
     }, 0);

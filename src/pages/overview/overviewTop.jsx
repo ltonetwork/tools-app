@@ -11,12 +11,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { BASE_URL, STATS, SCRIPT } from "../../services/config";
-import {
-  getApy,
-  getGenerators,
-  getNodeNumber,
-  MarketInfo,
-} from "../../services/index";
+import { getApy, getGenerators, getNodeNumber } from "../../services/index";
 import Loader from "../../components/global/Loader";
 
 const OverviewTop = () => {
@@ -29,7 +24,7 @@ const OverviewTop = () => {
   const [burned, setBurned] = useState(0);
   const [supply, setSupply] = useState(0);
   const [blockHeight, setBlockHeight] = useState();
-  const [loading, setLoading] = useState(true); // Loading state
+  const [loading, setLoading] = useState(true);
   const [marketCap, setMarketCap] = useState(null);
 
   useEffect(() => {
@@ -55,7 +50,7 @@ const OverviewTop = () => {
     const fetchData = async () => {
       try {
         setNodes(await getNodeNumber());
-        setGenerators(await getGenerators());
+        setGenerators((await getGenerators()).length);
 
         const res = await axios.get(`${BASE_URL}supply`);
         setBlockHeight(res.data.height);
@@ -68,58 +63,14 @@ const OverviewTop = () => {
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     try {
-  //       const apyData = await getApy();
-  //       setApy(apyData.toFixed(3) + "%");
-
-  //       //const marketData = await MarketInfo.getMarketInfo();
-  //       //Note MarketInfo.getMarketInfo exists here too to query marketData
-  //       //You can alsways switch to it, we had issues with delay in using the
-  //       //free coinGecko data sometimes, hence why there's a custom script
-
-  //       const response = await axios.get(`${SCRIPT}/marketInfo`);
-  //       const marketData = response.data;
-
-  //       setCoinPrice(
-  //         marketData?.geckoPrice
-  //           ? marketData?.geckoPrice
-  //           : marketData.binancePrice
-  //       );
-  //       setMarketCap(
-  //         marketData?.geckoMarketCap
-  //           ? marketData?.geckoMarketCap
-  //           : marketData.estimatedMarketCap
-  //       );
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
-
-  //   getData();
-  // }, []);
-
   useEffect(() => {
     const getData = async () => {
       try {
-        // const marketData = await MarketInfo.getMarketInfo();
-        // Note MarketInfo.getMarketInfo exists here too to query marketData
-        // You can always switch to it, we had issues with delay in using the
-        // free coinGecko data sometimes, hence why there's a custom script
-        const response = await axios.get(`${SCRIPT}/marketInfo`);
-        const marketData = response.data;
+        const response = await axios.get(`${SCRIPT}/tools/market`);
+        //const marketData = response.data;
 
-        setCoinPrice(
-          marketData?.geckoPrice
-            ? marketData?.geckoPrice
-            : marketData.binancePrice
-        );
-        setMarketCap(
-          marketData?.geckoMarketCap
-            ? marketData?.geckoMarketCap
-            : marketData.estimatedMarketCap
-        );
+        setCoinPrice(response.data.price.toFixed(3));
+        setMarketCap(response.data.marketCap);
 
         const apyData = await getApy();
         setApy(apyData.toFixed(3) + "%");
@@ -128,7 +79,7 @@ const OverviewTop = () => {
       }
     };
     getData();
-    const intervalId = setInterval(getData, 15000);
+    const intervalId = setInterval(getData, 10000);
     return () => clearInterval(intervalId);
   }, []);
 
@@ -146,7 +97,7 @@ const OverviewTop = () => {
 
   return (
     <div>
-      {loading && (
+      {/* {loading && (
         <div
           style={{
             position: "fixed",
@@ -158,7 +109,7 @@ const OverviewTop = () => {
         >
           <Loader />
         </div>
-      )}
+      )} */}
       <Grid container>
         <Grid item xs={12} sm={6} md={6} lg={3}>
           <Card

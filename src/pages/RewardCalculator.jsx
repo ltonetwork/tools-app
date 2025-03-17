@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { getApy } from "../services/getAPY";
+import { SCRIPT } from "../services/config";
 
 const RewardCalculator = () => {
   const [amount, setAmount] = useState("");
@@ -41,18 +42,9 @@ const RewardCalculator = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const priceResponse = await axios.get(
-          "https://api.coingecko.com/api/v3/simple/price",
-          {
-            params: {
-              ids: "lto-network",
-              vs_currencies: "usd",
-              include_market_cap: true,
-            },
-          }
-        );
-        const priceData = priceResponse.data;
-        setUsd(priceData["lto-network"].usd);
+        const response = await axios.get(`${SCRIPT}/tools/market`);
+        const priceData = await response.data.price;
+        setUsd(priceData);
         const apyData = await getApy();
         setApy(apyData.toFixed(3));
       } catch (error) {

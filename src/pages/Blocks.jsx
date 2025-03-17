@@ -35,8 +35,8 @@ const Blocks = () => {
     const fetchData = async () => {
       try {
         const [dailyRes, weeklyRes, monthlyRes] = await Promise.all([
-          axios.get(`${SCRIPT}/blocks-daily`),
-          axios.get(`${SCRIPT}/blocks-weekly`),
+          axios.get(`${SCRIPT}/tools/blocks-daily`),
+          axios.get(`${SCRIPT}/tools/blocks-weekly`),
           //axios.get(`${SCRIPT}/blocks-monthly`),
         ]);
         setBlocksDaily(dailyRes.data);
@@ -87,7 +87,7 @@ const Blocks = () => {
     { field: "blocksize", headerName: "Blocksize", width: 90 },
     { field: "transactionCount", headerName: "Transactions", width: 120 },
     { field: "fee", headerName: "Fees(LTO)", width: 100 },
-    { field: "burnedFees", headerName: "Burned fees", width: 120 },
+    { field: "burned", headerName: "Burned fees", width: 120 },
     { field: "miningReward", headerName: "Mining reward", width: 120 },
     { field: "generatorReward", headerName: "Generator reward", width: 150 },
   ];
@@ -137,7 +137,7 @@ const Blocks = () => {
       blocksize: block.blockSize,
       transactionCount: block.transactionCount,
       fee: block.fee / 100000000,
-      burnedFees: block.burnedFees / 100000000,
+      burned: block.burned / 100000000,
       miningReward: block.miningReward / 100000000,
       generatorReward: block.generatorReward / 100000000,
     }));

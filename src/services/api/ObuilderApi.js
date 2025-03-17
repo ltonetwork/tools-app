@@ -1,29 +1,63 @@
 import axios from "axios";
 
-export class ObuilderApi {
-  async track(requestId, ltoNetworkId, env) {
-    let url = "";
+const API_CONFIG = {
+  staging: {
+    baseURL:
+      "http://obuilder-staging.eba-ftdayif2.eu-west-1.elasticbeanstalk.com",
+    timeout: 10000,
+  },
+  prod: {
+    baseURL: "https://obuilder.lto.network",
+    timeout: 10000,
+  },
+};
 
-    if (env === "staging") {
-      console.log("STAGING");
-      url = `http://obuilder-staging.eba-ftdayif2.eu-west-1.elasticbeanstalk.com/api/v1/getQueueEntriesByRequestId`;
-    } else if (env === "prod") {
-      url = `https://obuilder.lto.network/api/v1/getQueueEntriesByRequestId`;
-    } else {
-      throw new Error("Invalid environment specified");
+export class ObuilderApi {
+  constructor() {
+    this.axiosInstance = axios.create({
+      timeout: 10000,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
+
+  async track(requestId, ltoNetworkId, env = "prod") {
+    const config = API_CONFIG[env];
+    if (!config) {
+      throw new Error(`Invalid environment specified: ${env}`);
     }
 
     try {
-      const response = await axios.get(url, {
-        params: {
-          requestId,
-          ltoNetworkId,
-        },
-      });
+      const response = await this.axiosInstance.get(
+        `${config.baseURL}/api/v1/getQueueEntriesByRequestId`,
+        {
+          params: {
+            requestId,
+            ltoNetworkId,
+          },
+          timeout: config.timeout,
+        }
+      );
+
+      if (!response.data) {
+        throw new Error("No data received from the server");
+      }
+
       return response.data;
     } catch (error) {
-      console.error("Error fetching data:", error);
-      throw error;
+      if (error.code === "ECONNABORTED") {
+        throw new Error("Request timed out. Please try again.");
+      }
+      if (error.response) {
+        throw new Error(
+          `Server error: ${error.response.status} - ${error.response.statusText}`
+        );
+      }
+      if (error.request) {
+        throw new Error("Network error. Please check your connection.");
+      }
+      throw new Error("An unexpected error occurred while fetching data.");
     }
   }
 }

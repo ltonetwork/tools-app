@@ -13,9 +13,6 @@ const Balances = () => {
   const addresses = allAddresses;
   const [balances, setBalances] = useState({});
 
-  // const value = lto.getBurned();
-  // console.log(value);
-
   useEffect(() => {
     const fetchBalances = async () => {
       const balances = {};

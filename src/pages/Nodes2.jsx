@@ -19,7 +19,6 @@ const Nodes = () => {
       .then((res) => {
         const nodes = res.data.peers;
         setData(nodes);
-        console.log(nodes);
 
         // Fetch IP information for all nodes
         const fetchIpInfoPromises = nodes.map((node) =>
