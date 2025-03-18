@@ -61,7 +61,7 @@ function Activity() {
         <CardContent>
           <Box sx={{ display: "grid", justifyContent: "center" }}>
             <Typography sx={{ fontSize: "20px" }}>
-              {"Network Operations and Transactions Summary"}
+              {"Daily Network Operations and Transactions Summary"}
             </Typography>
           </Box>
           <div style={{ height: 600, width: "100%", marginTop: 20 }}>
