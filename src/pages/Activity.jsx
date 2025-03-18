@@ -10,7 +10,7 @@ function Activity() {
   const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
-    axios.get(`${SCRIPT}/transactions`).then((res) => {
+    axios.get(`${SCRIPT}/tools/transactions`).then((res) => {
       setTransactions(res.data);
     });
   }, []);
