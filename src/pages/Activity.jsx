@@ -12,23 +12,25 @@ function Activity() {
   useEffect(() => {
     axios.get(`${SCRIPT}/tools/transactions`).then((res) => {
       setTransactions(res.data);
+      console.log(res.data);
     });
   }, []);
 
   const columns = [
     { field: "date", headerName: "Date", width: 120 },
-    { field: "all", headerName: "Tx", width: 100 },
+    { field: "operations", headerName: "Operations", width: 100 },
+    { field: "all", headerName: "Batch Tx", width: 100 },
     { field: "anchor", headerName: "Anchor", width: 100 },
     { field: "transfer", headerName: "Transfer", width: 100 },
     { field: "mass_transfer", headerName: "Mass Transfer", width: 120 },
     { field: "all_transfers", headerName: "All Transfers", width: 120 },
-    { field: "burn", headerName: "Burn", width: 90 },
+    //{ field: "burn", headerName: "Burn", width: 90 },
     { field: "lease", headerName: "Lease", width: 90 },
-    { field: "association", headerName: "Association", width: 120 },
+    //{ field: "association", headerName: "Association", width: 120 },
     { field: "script", headerName: "Script", width: 90 },
     { field: "sponsor", headerName: "Sponsor", width: 120 },
     { field: "data", headerName: "Data", width: 90 },
-    //{ field: "statement", headerName: "Statement", width: 120 },
+    { field: "statement", headerName: "Statement", width: 120 },
   ];
 
   const rows = transactions.flatMap((transaction) => {
