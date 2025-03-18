@@ -18,7 +18,7 @@ function Activity() {
 
   const columns = [
     { field: "date", headerName: "Date", width: 120 },
-    { field: "operations", headerName: "Operations", width: 100 },
+    { field: "operations", headerName: "Operations", width: 150 },
     { field: "all", headerName: "Batch Tx", width: 100 },
     { field: "anchor", headerName: "Anchor", width: 100 },
     { field: "transfer", headerName: "Transfer", width: 100 },
@@ -59,6 +59,11 @@ function Activity() {
 
       <Card sx={{ margin: 2 }}>
         <CardContent>
+          <Box sx={{ display: "grid", justifyContent: "center" }}>
+            <Typography sx={{ fontSize: "20px" }}>
+              {"Network Operations and Transactions Summary"}
+            </Typography>
+          </Box>
           <div style={{ height: 600, width: "100%", marginTop: 20 }}>
             <DataGrid rows={reversedRows} columns={columns} pageSize={5} />
           </div>
