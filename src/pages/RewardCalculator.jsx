@@ -21,7 +21,7 @@ const RewardCalculator = () => {
   const [rewardsPerMonth, setRewardsPerMonth] = useState("");
   const [rewardsPerYear, setRewardsPerYear] = useState("");
   const [calc, setCalc] = useState(false);
-  const [apy, setApy] = useState(8.66);
+  const [apy, setApy] = useState(null);
 
   useEffect(() => {
     const handleResize = () => {
