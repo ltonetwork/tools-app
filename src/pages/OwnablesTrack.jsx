@@ -13,11 +13,11 @@ import { ObuilderApi, RelayApi } from "../services/index";
 import { theme } from "../styles/theme";
 
 const INITIAL_STEPS = [
-  { label: "Stage 1: Obuilder queue", completed: false },
+  { label: "Stage 1: In Obuilder", completed: false },
   { label: "Stage 2: Processing", completed: false },
   { label: "Stage 3: Ready", completed: false },
   { label: "Stage 4: Sent", completed: false },
-  { label: "Stage 5: Message Arrived", completed: false },
+  { label: "Stage 5: Arrived", completed: false },
 ];
 
 const OwnablesTrack = () => {
@@ -209,18 +209,14 @@ const OwnablesTrack = () => {
               height: "56px",
               minWidth: "120px",
               whiteSpace: "nowrap",
-              backgroundColor: theme.colors.secondary.main,
+              backgroundColor: theme.colors.primary.main,
               "&:hover": { backgroundColor: theme.colors.secondary.dark },
               "&:disabled": { backgroundColor: theme.colors.text.disabled },
               borderRadius: theme.borderRadius.md,
               transition: theme.transitions.default,
             }}
           >
-            {isLoading ? (
-              <CircularProgress size={24} color="inherit" />
-            ) : (
-              "Track"
-            )}
+            {isLoading ? <CircularProgress size={24} /> : "Track"}
           </Button>
         </Box>
 
