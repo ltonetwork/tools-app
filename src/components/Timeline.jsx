@@ -108,7 +108,7 @@ const Timeline = ({ steps }) => {
                   textAlign: "center",
                   maxWidth: { xs: 120, sm: 150 },
                   color: step.completed ? "secondary.main" : "text.secondary",
-                  fontWeight: step.completed ? 700 : 600,
+                  fontWeight: step.completed ? 600 : 500,
                   transition: theme.transitions.default,
                 }}
               >
