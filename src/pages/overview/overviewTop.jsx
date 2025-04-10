@@ -18,7 +18,7 @@ import {
   selectNetworkLoading,
   selectNetworkError,
 } from "../../store/selectors/networkSelectors";
-import LoadingSpinner from "../../components/global/LoadingSpinner";
+import Loader from "../../components/global/Loader";
 import ErrorDisplay from "../../components/global/ErrorDisplay";
 import StatCard from "../../components/global/StatCard";
 import { fetchTokenSupply } from "../../store/slices/tokenSupplySlice";
@@ -79,7 +79,7 @@ const OverviewTop = () => {
 
   // Only show loading spinner on initial load
   if ((marketLoading && !price) || (networkLoading && !nodes)) {
-    return <LoadingSpinner />;
+    return <Loader />;
   }
 
   if (marketError || networkError) {

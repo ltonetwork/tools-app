@@ -19,7 +19,7 @@ import {
   selectNodesLoading,
   selectNodesError,
 } from "../store/selectors/nodesSelectors";
-import LoadingSpinner from "../components/global/LoadingSpinner";
+import Loader from "../components/global/Loader";
 import ErrorDisplay from "../components/global/ErrorDisplay";
 
 const columns = [
@@ -60,7 +60,7 @@ const Nodes = () => {
   }));
 
   if (loading) {
-    return <LoadingSpinner />;
+    return <Loader />;
   }
 
   if (error) {
