@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Card,
@@ -7,7 +7,6 @@ import {
   Button,
   Typography,
   Grid,
-  useTheme,
 } from "@mui/material";
 import axios from "axios";
 import { BASE_URL } from "../../services/config";
@@ -15,7 +14,6 @@ import NodesList from "../../components/NodesList";
 import OperationsList from "../../components/OperationsList";
 
 const OverviewBottom = () => {
-  const theme = useTheme();
   const Navigate = useNavigate();
 
   const [nodes, setNodes] = useState([]);

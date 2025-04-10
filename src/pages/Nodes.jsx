@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Card,
   CardContent,
@@ -12,43 +12,41 @@ import {
 import { DataGrid } from "@mui/x-data-grid";
 import DateComponent from "../components/global/DateComponent";
 import SearchIcon from "@mui/icons-material/Search";
-import { EXT_URL2 } from "../services/config";
+import { fetchNodes, setSearchTerm } from "../store/slices/nodesSlice";
+import {
+  selectFilteredNodes,
+  selectSearchTerm,
+  selectNodesLoading,
+  selectNodesError,
+} from "../store/selectors/nodesSelectors";
+import LoadingSpinner from "../components/global/LoadingSpinner";
+import ErrorDisplay from "../components/global/ErrorDisplay";
+
+const columns = [
+  { field: "id", headerName: "#", width: 90 },
+  { field: "peerName", headerName: "Node Name", width: 200 },
+  { field: "ip", headerName: "IP Address", width: 150 },
+  { field: "location", headerName: "Country", width: 150 },
+  { field: "network", headerName: "Network", width: 150 },
+  { field: "networkDes", headerName: "Network Desc.", width: 150 },
+  { field: "applicationVersion", headerName: "Version", width: 150 },
+  { field: "p2pport", headerName: "P2P", width: 150 },
+];
 
 const Nodes = () => {
-  const [nodes, setNodes] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const filteredNodes = nodes.filter(
-    (node) =>
-      node.name && node.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const dispatch = useDispatch();
+  const filteredNodes = useSelector(selectFilteredNodes);
+  const searchTerm = useSelector(selectSearchTerm);
+  const loading = useSelector(selectNodesLoading);
+  const error = useSelector(selectNodesError);
 
   useEffect(() => {
-    axios.get(`${EXT_URL2}nodes/json`).then((res) => {
-      setNodes(res.data);
-    });
-  }, []);
+    dispatch(fetchNodes());
+  }, [dispatch]);
 
-  const columns = [
-    { field: "id", headerName: "#", width: 90 },
-    { field: "peerName", headerName: "Node Name", width: 200 },
-    { field: "ip", headerName: "IP Address", width: 150 },
-    { field: "location", headerName: "Country", width: 150 },
-    { field: "network", headerName: "Network", width: 150 },
-    { field: "networkDes", headerName: "Network Desc.", width: 150 },
-    { field: "applicationVersion", headerName: "Version", width: 150 },
-    { field: "p2pport", headerName: "P2P", width: 150 },
-    // {
-    //   field: "lastSeen",
-    //   headerName: "Last Seen",
-    //   width: 200,
-    //   valueGetter: (params) => new Date(params.row.lastSeen).toLocaleString(),
-    // },
-  ];
+  const handleSearch = (event) => {
+    dispatch(setSearchTerm(event.target.value));
+  };
 
   const rows = filteredNodes.map((node, index) => ({
     id: index + 1,
@@ -59,9 +57,15 @@ const Nodes = () => {
     networkDes: node.netDescription,
     applicationVersion: node.version,
     p2pport: node.port6868,
-    // node.p2pport === ":6868" || node.p2pport === ":6863" ? "open" : "-",
-    // lastSeen: node.lastSeen,
   }));
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
+  if (error) {
+    return <ErrorDisplay message={error} />;
+  }
 
   return (
     <div style={{ paddingTop: "15px", paddingBottom: "15%" }}>

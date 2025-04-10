@@ -1,87 +1,69 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Grid } from "@mui/material";
+import { fetchMarketData } from "../../store/slices/marketSlice";
+import { fetchNetworkData } from "../../store/slices/networkSlice";
 import {
-  Card,
-  CardActions,
-  CardContent,
-  Button,
-  Typography,
-  Grid,
-  useTheme,
-} from "@mui/material";
-import axios from "axios";
-import { BASE_URL, STATS, SCRIPT } from "../../services/config";
-import { getApy, getGenerators, getNodeNumber } from "../../services/index";
-import Loader from "../../components/global/Loader";
+  selectPrice,
+  selectMarketCap,
+  selectApy,
+  selectMarketLoading,
+  selectMarketError,
+} from "../../store/selectors/marketSelectors";
+import {
+  selectNodes,
+  selectGenerators,
+  selectBlockHeight,
+  selectNetworkLoading,
+  selectNetworkError,
+} from "../../store/selectors/networkSelectors";
+import LoadingSpinner from "../../components/global/LoadingSpinner";
+import ErrorDisplay from "../../components/global/ErrorDisplay";
+import StatCard from "../../components/global/StatCard";
+import { fetchTokenSupply } from "../../store/slices/tokenSupplySlice";
 
 const OverviewTop = () => {
-  const theme = useTheme();
   const navigate = useNavigate();
-  const [coinPrice, setCoinPrice] = useState(null);
-  const [nodes, setNodes] = useState(null);
-  const [apy, setApy] = useState(null);
-  const [generators, setGenerators] = useState([]);
-  const [burned, setBurned] = useState(0);
-  const [supply, setSupply] = useState(0);
-  const [blockHeight, setBlockHeight] = useState();
-  const [loading, setLoading] = useState(true);
-  const [marketCap, setMarketCap] = useState(null);
+  const dispatch = useDispatch();
+
+  const price = useSelector(selectPrice);
+  const marketCap = useSelector(selectMarketCap);
+  const apy = useSelector(selectApy);
+  const marketLoading = useSelector(selectMarketLoading);
+  const marketError = useSelector(selectMarketError);
+
+  const nodes = useSelector(selectNodes);
+  const generators = useSelector(selectGenerators);
+  const blockHeight = useSelector(selectBlockHeight);
+  const networkLoading = useSelector(selectNetworkLoading);
+  const networkError = useSelector(selectNetworkError);
+
+  const { burnedSupply, circulatingMainnet } = useSelector(
+    (state) => state.tokenSupply
+  );
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 3000);
-    return () => clearTimeout(timer);
-  }, []);
+    // Initial data fetch
+    dispatch(fetchMarketData());
+    dispatch(fetchNetworkData());
+    dispatch(fetchTokenSupply());
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const supplyResponse = await axios.get(
-          `${STATS}/stats/supply/circulating`
-        );
-        setSupply(supplyResponse.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+    // Set up market data refresh interval
+    const marketInterval = setInterval(() => {
+      dispatch(fetchMarketData());
+    }, 60000); // Refresh every minute
+
+    // Set up network data refresh interval
+    const networkInterval = setInterval(() => {
+      dispatch(fetchNetworkData());
+    }, 30000); // Refresh every 30 seconds
+
+    return () => {
+      clearInterval(marketInterval);
+      clearInterval(networkInterval);
     };
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setNodes(await getNodeNumber());
-        setGenerators((await getGenerators()).length);
-
-        const res = await axios.get(`${BASE_URL}supply`);
-        setBlockHeight(res.data.height);
-        setBurned(res.data.burned / 100000000);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const response = await axios.get(`${SCRIPT}/tools/market`);
-        //const marketData = response.data;
-
-        setCoinPrice(response.data.price.toFixed(3));
-        setMarketCap(response.data.marketCap);
-
-        const apyData = await getApy();
-        setApy(apyData.toFixed(3) + "%");
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    getData();
-    const intervalId = setInterval(getData, 10000);
-    return () => clearInterval(intervalId);
-  }, []);
+  }, [dispatch]);
 
   const handleClick = (action) => {
     if (action === "nodes") {
@@ -95,348 +77,96 @@ const OverviewTop = () => {
     }
   };
 
+  // Only show loading spinner on initial load
+  if ((marketLoading && !price) || (networkLoading && !nodes)) {
+    return <LoadingSpinner />;
+  }
+
+  if (marketError || networkError) {
+    return <ErrorDisplay message={marketError || networkError} />;
+  }
+
   return (
     <div>
-      {/* {loading && (
-        <div
-          style={{
-            position: "fixed",
-            width: "100%",
-            height: "100%",
-            background: "rgba(255, 255, 255, 0.8)",
-            zIndex: 9999,
-          }}
-        >
-          <Loader />
-        </div>
-      )} */}
-      <Grid container>
+      <Grid container spacing={2}>
         <Grid item xs={12} sm={6} md={6} lg={3}>
-          <Card
-            sx={{
-              minWidth: { xs: 150, sm: 250, md: 250 },
-              margin: 2,
-              background: "linear-gradient(to right, #c2c5f0, #d3e9f6)",
-              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)", //v,h,spread,color
-            }}
-          >
-            <CardContent>
-              <Typography
-                variant="h6"
-                sx={{
-                  fontSize: 18,
-                }}
-                color="primary.sec"
-                gutterBottom
-              >
-                Price
-              </Typography>
-              <Typography
-                style={{
-                  fontSize: "28px",
-                  fontWeight: 500,
-                }}
-                color="primary.sec"
-                component="div"
-              >
-                ${coinPrice ? coinPrice : "---"}
-              </Typography>
-              <Typography sx={{ mb: 1.5, mt: 2 }} color="primary.sec">
-                (Coingecko)
-              </Typography>
-            </CardContent>
-            {/* <CardActions>
-              <Button size="small">more</Button>
-            </CardActions> */}
-          </Card>
+          <StatCard
+            title="Price"
+            value={`$${price || "---"}`}
+            subtitle="(Coingecko)"
+            subtitleLink="https://www.coingecko.com/en/coins/lto-network"
+          />
         </Grid>
 
         <Grid item xs={12} sm={6} md={6} lg={3}>
-          <Card
-            sx={{
-              minWidth: { xs: 150, sm: 250, md: 250 },
-              margin: 2,
-              background: "linear-gradient(to right, #c2c5f0, #d3e9f6)",
-              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <CardContent>
-              <Typography
-                variant="h6"
-                sx={{
-                  fontSize: 18,
-                }}
-                color="primary.sec"
-                gutterBottom
-              >
-                Market Cap
-              </Typography>
-              <Typography
-                style={{
-                  fontSize: "28px",
-                  fontWeight: 500,
-                }}
-                color="primary.sec"
-                component="div"
-              >
-                ${marketCap ? Math.floor(marketCap).toLocaleString() : "---"}
-              </Typography>
-              <Typography sx={{ mb: 1.5, mt: 2 }} color="primary.sec">
-                (Coingecko)
-              </Typography>
-            </CardContent>
-            {/* <CardActions>
-              <Button size="small">more</Button>
-            </CardActions> */}
-          </Card>
+          <StatCard
+            title="Market Cap"
+            value={`$${
+              marketCap ? Math.floor(marketCap).toLocaleString() : "---"
+            }`}
+            subtitle="(Coingecko)"
+            subtitleLink="https://www.coingecko.com/en/coins/lto-network"
+          />
         </Grid>
 
         <Grid item xs={12} sm={6} md={6} lg={3}>
-          <Card
-            sx={{
-              minWidth: { xs: 150, sm: 250, md: 250 },
-              margin: 2,
-              background: "linear-gradient(to right, #c2c5f0, #d3e9f6)",
-              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <CardContent>
-              <Typography
-                variant="h6"
-                sx={{
-                  fontSize: 18,
-                }}
-                color="primary.sec"
-                gutterBottom
-              >
-                Estimated APY
-              </Typography>
-              <Typography
-                style={{
-                  fontSize: "28px",
-                  fontWeight: 500,
-                }}
-                color="primary.sec"
-                component="div"
-              >
-                {apy}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Link
-                to="https://blog.ltonetwork.com/tokenomics-update/"
-                target="_blank"
-              >
-                <Button size="small">more</Button>
-              </Link>
-            </CardActions>
-          </Card>
+          <StatCard
+            title="Estimated APY"
+            value={apy || "---"}
+            action="more"
+            onActionClick={() =>
+              window.open(
+                "https://blog.ltonetwork.com/tokenomics-update/",
+                "_blank"
+              )
+            }
+          />
         </Grid>
 
         <Grid item xs={12} sm={6} md={6} lg={3}>
-          <Card
-            sx={{
-              minWidth: { xs: 150, sm: 250, md: 250 },
-              margin: 2,
-              background: "linear-gradient(to right, #c2c5f0, #d3e9f6)",
-              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <CardContent>
-              <Typography
-                variant="h6"
-                sx={{
-                  fontSize: 18,
-                }}
-                color="primary.sec"
-                gutterBottom
-              >
-                Circulating Supply
-              </Typography>
-              <Typography
-                style={{
-                  fontSize: "28px",
-                  fontWeight: 500,
-                }}
-                color="primary.sec"
-                component="div"
-              >
-                {Math.floor(supply)} LTO
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button
-                size="small"
-                onClick={() => {
-                  handleClick("stats");
-                }}
-              >
-                more
-              </Button>
-            </CardActions>
-          </Card>
+          <StatCard
+            title="Nodes"
+            value={nodes || "---"}
+            action="more"
+            onActionClick={() => handleClick("nodes")}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={6} lg={3}>
+          <StatCard
+            title="Generators (last 30 days)"
+            value={generators || "---"}
+            action="more"
+            onActionClick={() => handleClick("generators")}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={6} lg={3}>
+          <StatCard
+            title="Current Block Height"
+            value={blockHeight || "---"}
+            action="more"
+            onActionClick={() => handleClick("blocks")}
+          />
         </Grid>
 
         {/* <Grid item xs={12} sm={6} md={6} lg={3}>
-          <Card
-            sx={{
-              minWidth: { xs: 150, sm: 250, md: 250 },
-              margin: 2,
-              background: "linear-gradient(to right, #c2c5f0, #d3e9f6)",
-              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <CardContent>
-              <Typography
-                variant="h6"
-                sx={{
-                  fontSize: 18,
-                }}
-                color="primary.sec"
-                gutterBottom
-              >
-                Burned Tokens
-              </Typography>
-              <Typography
-                style={{
-                  fontSize: "28px",
-                  fontWeight: 500,
-                }}
-                color="primary.sec"
-                component="div"
-              >
-                {Math.floor(burned)} LTO
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button
-                size="small"
-                onClick={() => {
-                  handleClick("stats");
-                }}
-              >
-                more
-              </Button>
-            </CardActions>
-          </Card>
+          <StatCard
+            title="Circulating Supply"
+            value={circulatingMainnet?.toLocaleString() || "---"}
+            icon="🔄"
+            description="LTO tokens in circulation on mainnet"
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={6} lg={3}>
+          <StatCard
+            title="Burned Supply"
+            value={burnedSupply?.toLocaleString() || "---"}
+            icon="🔥"
+            description="Total LTO tokens burned"
+          />
         </Grid> */}
-
-        <Grid item xs={12} sm={6} md={6} lg={3}>
-          <Card
-            sx={{
-              minWidth: { xs: 150, sm: 250, md: 250 },
-              margin: 2,
-              background: "linear-gradient(to right, #c2c5f0, #d3e9f6)",
-              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <CardContent>
-              <Typography
-                variant="h6"
-                sx={{
-                  fontSize: 18,
-                }}
-                color="primary.sec"
-                gutterBottom
-              >
-                Nodes
-              </Typography>
-              <Typography
-                style={{
-                  fontSize: "28px",
-                  fontWeight: 500,
-                }}
-                color="primary.sec"
-                component="div"
-              >
-                {nodes ? nodes : "---"}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button onClick={() => handleClick("nodes")} size="small">
-                more
-              </Button>
-            </CardActions>
-          </Card>
-        </Grid>
-
-        <Grid item xs={12} sm={6} md={6} lg={3}>
-          <Card
-            sx={{
-              minWidth: { xs: 150, sm: 250, md: 250 },
-              margin: 2,
-              background: "linear-gradient(to right, #c2c5f0, #d3e9f6)",
-              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <CardContent>
-              <Typography
-                variant="h6"
-                sx={{
-                  fontSize: 18,
-                }}
-                color="primary.sec"
-                gutterBottom
-              >
-                Generators (last 30 days)
-              </Typography>
-              <Typography
-                style={{
-                  fontSize: "28px",
-                  fontWeight: 500,
-                }}
-                color="primary.sec"
-                component="div"
-              >
-                {generators}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small" onClick={() => handleClick("generators")}>
-                more
-              </Button>
-            </CardActions>
-          </Card>
-        </Grid>
-
-        <Grid item xs={12} sm={6} md={6} lg={3}>
-          <Card
-            sx={{
-              minWidth: { xs: 150, sm: 250, md: 250 },
-              margin: 2,
-              background: "linear-gradient(to right, #c2c5f0, #d3e9f6)",
-              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <CardContent>
-              <Typography
-                variant="h6"
-                sx={{
-                  fontSize: 18,
-                }}
-                color="primary.sec"
-                gutterBottom
-              >
-                Current Block Height
-              </Typography>
-              <Typography
-                style={{
-                  fontSize: "28px",
-                  fontWeight: 500,
-                }}
-                color="primary.sec"
-                component="div"
-              >
-                {blockHeight}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small" onClick={() => handleClick("blocks")}>
-                more
-              </Button>
-            </CardActions>
-          </Card>
-        </Grid>
       </Grid>
     </div>
   );

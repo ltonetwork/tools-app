@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import axios from "axios";
 import {
   Card,
@@ -23,8 +23,9 @@ const Blocks = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedPeriod, setSelectedPeriod] = useState("daily");
   const [loading, setLoading] = useState(true);
-  const [loadingWeekly, setLoadingWeekly] = useState(false);
   const [dataLoaded, setDataLoaded] = useState(false);
+  const [error, setError] = useState(null);
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 5000);
@@ -34,46 +35,49 @@ const Blocks = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [dailyRes, weeklyRes, monthlyRes] = await Promise.all([
-          axios.get(`${SCRIPT}/tools/blocks-daily`),
-          axios.get(`${SCRIPT}/tools/blocks-weekly`),
-          //axios.get(`${SCRIPT}/blocks-monthly`),
-        ]);
-        setBlocksDaily(dailyRes.data);
-        setBlocksWeekly(weeklyRes.data);
-        //setBlocksMonthly(monthlyRes.data);
+        setLoading(true);
+        setError(null);
+        const response = await axios.get(`${SCRIPT}/tools/blocks-daily`);
+        setBlocksDaily(response.data);
         setDataLoaded(true);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        if (retryCount < 3) {
+          setRetryCount((prev) => prev + 1);
+          setTimeout(fetchData, 2000);
+        } else {
+          setError("Failed to load data. Please try again later.");
+        }
+      } finally {
+        setLoading(false);
       }
     };
 
     if (!dataLoaded) {
       fetchData();
     }
-  }, [dataLoaded]);
+  }, [dataLoaded, retryCount]);
 
   const handlePeriodClick = async (period) => {
     setSelectedPeriod(period);
     if (period === "weekly" && blocksWeekly.length === 0) {
-      setLoadingWeekly(true);
+      setLoading(true);
       try {
         const res = await axios.get(`${SCRIPT}/blocks-weekly`);
         setBlocksWeekly(res.data);
       } catch (error) {
         console.error("Error fetching weekly data:", error);
       } finally {
-        setLoadingWeekly(false);
+        setLoading(false);
       }
     } else if (period === "monthly" && blocksMonthly.length === 0) {
-      setLoadingMonthly(true);
+      setLoading(true);
       try {
         const res = await axios.get(`${SCRIPT}/blocks-monthly`);
         setBlocksMonthly(res.data);
       } catch (error) {
         console.error("Error fetching monthly data:", error);
       } finally {
-        setLoadingMonthly(false);
+        setLoading(false);
       }
     }
   };
@@ -150,12 +154,17 @@ const Blocks = () => {
     row.generator.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const memoizedColumns = useMemo(() => columns, []);
+  const memoizedRows = useMemo(() => searchedRows, [searchedRows]);
+
   return (
     <div style={{ paddingTop: "15px", paddingBottom: "15%" }}>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Typography sx={{ fontSize: "20px" }}>{"[Blocks]"}</Typography>
       </Box>
-      {loading && <Loader />} <LastUpdate />
+      {loading && <Loader />}
+      {error && <Typography color="error">{error}</Typography>}
+      <LastUpdate />
       <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
         <Button
           style={{
@@ -222,8 +231,8 @@ const Blocks = () => {
           </Box>
           <div style={{ height: 600 }}>
             <DataGrid
-              rows={searchedRows}
-              columns={columns}
+              rows={memoizedRows}
+              columns={memoizedColumns}
               pageSize={5}
               rowsPerPageOptions={[5]}
               checkboxSelection={false}
