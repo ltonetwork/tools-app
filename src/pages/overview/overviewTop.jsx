@@ -18,9 +18,9 @@ import {
   selectNetworkLoading,
   selectNetworkError,
 } from "../../store/selectors/networkSelectors";
-import Loader from "../../components/global/Loader";
 import ErrorDisplay from "../../components/global/ErrorDisplay";
 import StatCard from "../../components/global/StatCard";
+import SkeletonStatCard from "../../components/global/SkeletonStatCard";
 import { fetchTokenSupply } from "../../store/slices/tokenSupplySlice";
 
 const OverviewTop = () => {
@@ -77,96 +77,107 @@ const OverviewTop = () => {
     }
   };
 
-  // Only show loading spinner on initial load
-  if ((marketLoading && !price) || (networkLoading && !nodes)) {
-    return <Loader />;
-  }
-
   if (marketError || networkError) {
     return <ErrorDisplay message={marketError || networkError} />;
   }
 
+  const isLoading = marketLoading || networkLoading;
+
   return (
     <div>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} md={6} lg={3}>
-          <StatCard
-            title="Price"
-            value={`$${price || "---"}`}
-            subtitle="(Coingecko)"
-            subtitleLink="https://www.coingecko.com/en/coins/lto-network"
-          />
-        </Grid>
+        {isLoading ? (
+          // Show skeleton loaders
+          Array(6)
+            .fill(0)
+            .map((_, index) => (
+              <Grid key={index} item xs={12} sm={6} md={6} lg={3}>
+                <SkeletonStatCard />
+              </Grid>
+            ))
+        ) : (
+          // Show actual data
+          <>
+            <Grid item xs={12} sm={6} md={6} lg={3}>
+              <StatCard
+                title="Price"
+                value={`$${price || "---"}`}
+                subtitle="(Coingecko)"
+                subtitleLink="https://www.coingecko.com/en/coins/lto-network"
+              />
+            </Grid>
 
-        <Grid item xs={12} sm={6} md={6} lg={3}>
-          <StatCard
-            title="Market Cap"
-            value={`$${
-              marketCap ? Math.floor(marketCap).toLocaleString() : "---"
-            }`}
-            subtitle="(Coingecko)"
-            subtitleLink="https://www.coingecko.com/en/coins/lto-network"
-          />
-        </Grid>
+            <Grid item xs={12} sm={6} md={6} lg={3}>
+              <StatCard
+                title="Market Cap"
+                value={`$${
+                  marketCap ? Math.floor(marketCap).toLocaleString() : "---"
+                }`}
+                subtitle="(Coingecko)"
+                subtitleLink="https://www.coingecko.com/en/coins/lto-network"
+              />
+            </Grid>
 
-        <Grid item xs={12} sm={6} md={6} lg={3}>
-          <StatCard
-            title="Estimated APY"
-            value={apy || "---"}
-            action="more"
-            onActionClick={() =>
-              window.open(
-                "https://blog.ltonetwork.com/tokenomics-update/",
-                "_blank"
-              )
-            }
-          />
-        </Grid>
+            <Grid item xs={12} sm={6} md={6} lg={3}>
+              <StatCard
+                title="Estimated APY"
+                value={apy || "---"}
+                action="more"
+                onActionClick={() =>
+                  window.open(
+                    "https://blog.ltonetwork.com/tokenomics-update/",
+                    "_blank"
+                  )
+                }
+              />
+            </Grid>
 
-        <Grid item xs={12} sm={6} md={6} lg={3}>
-          <StatCard
-            title="Nodes"
-            value={nodes || "---"}
-            action="more"
-            onActionClick={() => handleClick("nodes")}
-          />
-        </Grid>
+            <Grid item xs={12} sm={6} md={6} lg={3}>
+              <StatCard
+                title="Nodes"
+                value={nodes || "---"}
+                action="more"
+                onActionClick={() => handleClick("nodes")}
+              />
+            </Grid>
 
-        <Grid item xs={12} sm={6} md={6} lg={3}>
-          <StatCard
-            title="Generators (last 30 days)"
-            value={generators || "---"}
-            action="more"
-            onActionClick={() => handleClick("generators")}
-          />
-        </Grid>
+            <Grid item xs={12} sm={6} md={6} lg={3}>
+              <StatCard
+                title="Generators (last 30 days)"
+                value={generators || "---"}
+                action="more"
+                onActionClick={() => handleClick("generators")}
+              />
+            </Grid>
 
-        <Grid item xs={12} sm={6} md={6} lg={3}>
-          <StatCard
-            title="Current Block Height"
-            value={blockHeight || "---"}
-            action="more"
-            onActionClick={() => handleClick("blocks")}
-          />
-        </Grid>
+            <Grid item xs={12} sm={6} md={6} lg={3}>
+              <StatCard
+                title="Current Block Height"
+                value={blockHeight || "---"}
+                action="more"
+                onActionClick={() => handleClick("blocks")}
+              />
+            </Grid>
 
-        {/* <Grid item xs={12} sm={6} md={6} lg={3}>
-          <StatCard
-            title="Circulating Supply"
-            value={circulatingMainnet?.toLocaleString() || "---"}
-            icon="🔄"
-            description="LTO tokens in circulation on mainnet"
-          />
-        </Grid>
+            {/* <Grid item xs={12} sm={6} md={6} lg={3}>
+              <StatCard
+                title="Circulating Supply"
+                value={circulatingMainnet?.toLocaleString() || "---"}
+                icon="🔄"
+                description="LTO tokens in circulation on mainnet"
+              />
+            </Grid>
 
-        <Grid item xs={12} sm={6} md={6} lg={3}>
-          <StatCard
-            title="Burned Supply"
-            value={burnedSupply?.toLocaleString() || "---"}
-            icon="🔥"
-            description="Total LTO tokens burned"
-          />
-        </Grid> */}
+            <Grid item xs={12} sm={6} md={6} lg={3}>
+              <StatCard
+                title="Burned Supply"
+                value={burnedSupply?.toLocaleString() || "---"}
+                icon="🔥"
+                description="Total LTO tokens burned"
+              />
+            </Grid> */}
+          </>
+        )}
       </Grid>
     </div>
   );
