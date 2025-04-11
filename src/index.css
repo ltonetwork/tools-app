@@ -40,15 +40,15 @@ a {
 
 a:hover,
 a:focus {
-  color: #8b00ee;
+  color: #9e6cc3;
 }
 
 a:active {
-  color: #e3d7f3;
+  color: #553e72;
 }
 
 a:visited {
-  color: #e3d7f3;
+  color: #512ab1;
 }
 
 ::-webkit-scrollbar {
