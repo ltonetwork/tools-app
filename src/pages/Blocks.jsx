@@ -237,6 +237,11 @@ const Blocks = () => {
               rowsPerPageOptions={[5]}
               checkboxSelection={false}
               disableSelectionOnClick
+              initialState={{
+                sorting: {
+                  sortModel: [{ field: "height", sort: "desc" }],
+                },
+              }}
             />
           </div>
         </CardContent>
